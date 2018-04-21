@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES6",
     "jsx": "react",
-    "noEmit": true
+    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "typeRoots": ["node_modules/@types", "typings"]
   }
 }
