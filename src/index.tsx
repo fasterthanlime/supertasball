@@ -3,11 +3,14 @@ import * as React from "react";
 import App from "./components/app";
 import store from "./store";
 import { Provider } from "react-redux";
+import { ThemeProvider, theme } from "./components/styles";
 
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Provider>,
     document.getElementById("app")
   );
