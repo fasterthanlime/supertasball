@@ -1,52 +1,51 @@
 import reducer from "./reducer";
-import { SimulationState, StatsState, Instruction } from "../types";
+import { SimulationState, OpCode, SimulationParams } from "../types";
 import { actions } from "../actions";
-import { defaultStats } from "./stats";
 import store from "../store";
 
-function freshSimulationState(stats: StatsState): SimulationState {
-  let instructions: Instruction[] = [];
-  let numCells = stats.numCols * stats.numRows;
-  instructions.length = numCells;
+function freshSimulationState(params: SimulationParams): SimulationState {
+  let code: OpCode[] = [];
+  code.length = params.codeSize;
 
   let boolValue = true;
-  for (let i = 0; i < numCells; i++) {
-    let ins: Instruction = {
-      type: "nop",
-    };
-    instructions[i] = ins;
+  for (let i = 0; i < params.codeSize; i++) {
+    code[i] = { type: "nop" };
   }
 
-  instructions[3] = {
+  code[3] = {
     type: "writeFlipper",
     name: "right",
     boolValue: true,
   };
-  instructions[12] = {
+  code[12] = {
     type: "writeFlipper",
     name: "right",
     boolValue: false,
   };
-  instructions[13] = {
+  code[13] = {
     type: "writeFlipper",
     name: "left",
     boolValue: true,
   };
 
   return {
-    currentStats: stats,
+    params: params,
     paused: true,
     ticks: 0,
     lastUpdateTicks: 0,
-    col: 0,
-    row: 0,
-    instructions,
+    pc: 0,
+    code,
   };
 }
 
-const initialState = freshSimulationState(defaultStats());
+const initialState = null;
 
 export default reducer<SimulationState>(initialState, on => {
+  on(actions.newSimulation, (state, action) => {
+    const { params } = action.payload;
+    return freshSimulationState(params);
+  });
+
   on(actions.setPaused, (state, action) => {
     return {
       ...state,
@@ -60,7 +59,7 @@ export default reducer<SimulationState>(initialState, on => {
       ticks: state.ticks + 1,
     };
 
-    let freqTicks = 60 / newState.currentStats.freq;
+    let freqTicks = 60 / newState.params.freq;
     let ticksDelta = newState.ticks - newState.lastUpdateTicks;
     if (ticksDelta > freqTicks) {
       newState = cpuStep(newState);
@@ -69,33 +68,24 @@ export default reducer<SimulationState>(initialState, on => {
   });
 
   on(actions.refresh, (state, action) => {
-    return freshSimulationState(state.currentStats);
+    return freshSimulationState(state.params);
   });
 });
 
-function cpuStep(state: SimulationState) {
-  let newState = { ...state };
-  const stats = newState.currentStats;
+function cpuStep(oldState: SimulationState) {
+  let state = { ...oldState };
 
-  if (newState.col >= stats.numCols - 1) {
-    newState.col = 0;
-    if (newState.row >= stats.numRows - 1) {
-      newState.row = 0;
-    } else {
-      newState.row++;
-    }
-  } else {
-    newState.col++;
+  state.pc++;
+  if (state.pc >= state.code.length) {
+    state.pc = 0;
   }
-  newState.lastUpdateTicks = newState.ticks;
+  state.lastUpdateTicks = state.ticks;
 
   setTimeout(() => {
     // ooh ahh don't do that in redux!
-    let instruction =
-      state.instructions[newState.col + newState.row * stats.numCols];
-
-    store.dispatch(actions.execute({ instruction }));
+    let op = state.code[state.pc];
+    store.dispatch(actions.execute({ op }));
   }, 0);
 
-  return newState;
+  return state;
 }

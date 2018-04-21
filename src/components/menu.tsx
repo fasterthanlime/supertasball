@@ -35,6 +35,6 @@ type DerivedProps = {
 export default connect<Props>(Menu, {
   actionCreators,
   state: (rs: RootState) => ({
-    page: rs.page,
+    page: rs.ui.page,
   }),
 });

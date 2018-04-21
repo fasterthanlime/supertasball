@@ -1,13 +1,26 @@
-import { ActionCreator, Dispatch, Action, Page, Instruction } from "./types";
+import {
+  ActionCreator,
+  Dispatch,
+  Action,
+  Page,
+  OpCode,
+  EditedCell,
+  SimulationParams,
+} from "./types";
 
 // actions
 
 export const actions = wireActions({
   setPage: action<{ page: Page }>(),
+
+  newSimulation: action<{ params: SimulationParams }>(),
+
   setPaused: action<{ paused: boolean }>(),
   tick: action<{}>(),
   refresh: action<{}>(),
-  execute: action<{ instruction: Instruction }>(),
+  execute: action<{ op: OpCode }>(),
+
+  editCell: action<{ editedCell: EditedCell }>(),
 });
 
 // utils

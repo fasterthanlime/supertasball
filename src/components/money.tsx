@@ -50,5 +50,5 @@ interface State {
 }
 
 export default connect<Props>(Money, {
-  state: (rs: RootState) => ({ money: rs.stats.money }),
+  state: (rs: RootState) => ({ money: rs.resources.money }),
 });

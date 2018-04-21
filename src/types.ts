@@ -1,32 +1,40 @@
 export interface RootState {
   ui: UIState;
-  stats: StatsState;
+  resources: ResourcesState;
   simulation: SimulationState;
 }
 
-export interface StatsState {
-  money: number;
+export interface ResourcesState {
   freq: number;
-  numCols: number;
-  numRows: number;
+  codeSize: number;
+  money: number;
 }
 
 export interface UIState {
   page: Page;
+  editedCell?: EditedCell;
 }
 
+export interface EditedCell {}
+
 export interface SimulationState {
-  currentStats: StatsState;
+  params: SimulationParams;
 
   paused: boolean;
   ticks: number;
   lastUpdateTicks: number;
-  col: number;
-  row: number;
-  instructions: Instruction[];
+
+  code: OpCode[];
+  pc: number;
 }
 
-export interface Instruction {
+export interface SimulationParams {
+  money: number;
+  freq: number;
+  codeSize: number;
+}
+
+export interface OpCode {
   type: "nop" | "writeFlipper";
   name?: string;
   boolValue?: boolean;

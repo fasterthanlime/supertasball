@@ -13,4 +13,11 @@ export default reducer<UIState>(initialState, on => {
       page: action.payload.page,
     };
   });
+
+  on(actions.editCell, (state, action) => {
+    return {
+      ...state,
+      editedCell: action.payload.editedCell,
+    };
+  });
 });

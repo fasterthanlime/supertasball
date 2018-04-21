@@ -43,6 +43,6 @@ type DerivedProps = {
 export default connect<Props>(App, {
   actionCreators,
   state: (rs: RootState) => ({
-    page: rs.page,
+    page: rs.ui.page,
   }),
 });
