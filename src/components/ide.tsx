@@ -15,12 +15,11 @@ const IDEDiv = styled.div`
     width: ${cellSide}px;
     height: ${cellSide}px;
     margin: 3px;
-    border: 2px solid #555;
-    border-radius: 4px;
-    opacity: 0.5;
+    border: 3px solid #555;
+    opacity: 0.4;
 
     &.active {
-      border-color: rgb(240, 130, 130);
+      border-color: rgb(250, 40, 40);
       opacity: 1;
     }
 

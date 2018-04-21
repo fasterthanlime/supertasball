@@ -4,13 +4,20 @@ import { actions } from "../actions";
 
 export function defaultStats(): StatsState {
   return {
-    money: 250000,
-    freq: 2,
+    money: 0,
+    freq: 4,
     numCols: 8,
-    numRows: 2,
+    numRows: 4,
   };
 }
 
 const initialState: StatsState = defaultStats();
 
-export default reducer<StatsState>(initialState, on => {});
+export default reducer<StatsState>(initialState, on => {
+  on(actions.execute, (state, action) => {
+    return {
+      ...state,
+      money: state.money + 5,
+    };
+  });
+});
