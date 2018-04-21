@@ -1,13 +1,22 @@
 import React = require("react");
 import { connect, Dispatchers, actionCreatorsList } from "./connect";
 import { RootState } from "../types";
+import Button from "./button";
+import styled from "./styles";
 
-class Game extends React.Component<Props & DerivedProps> {
+const Controls = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+class Game extends React.PureComponent<Props & DerivedProps> {
   render() {
     return (
-      <div>
-        Game! <button onClick={this.onMenu}>Back to menu</button>
-      </div>
+      <Controls>
+        <Button onClick={this.onMenu}>Back to menu</Button>
+        <Button icon="pause" />
+        <Button icon="play" />
+      </Controls>
     );
   }
 

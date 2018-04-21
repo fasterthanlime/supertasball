@@ -2,12 +2,20 @@ import React = require("react");
 import { connect, Dispatchers, actionCreatorsList } from "./connect";
 import { RootState } from "../types";
 
-class Menu extends React.Component<Props & DerivedProps> {
+import Button from "./button";
+import styled from "./styles";
+
+const MenuDiv = styled.div`
+  text-align: center;
+`;
+
+class Menu extends React.PureComponent<Props & DerivedProps> {
   render() {
     return (
-      <div>
-        Menu! <button onClick={this.onPlay}>Play now</button>
-      </div>
+      <MenuDiv>
+        <h2>Menu</h2>
+        <Button onClick={this.onPlay}>Play now</Button>
+      </MenuDiv>
     );
   }
 

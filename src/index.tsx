@@ -5,6 +5,8 @@ import store from "./store";
 import { Provider } from "react-redux";
 import { ThemeProvider, theme } from "./components/styles";
 
+import "./icomoon/style.css";
+
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
     <Provider store={store}>

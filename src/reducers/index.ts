@@ -4,7 +4,7 @@ import reducer from "./reducer";
 import { actions } from "../actions";
 
 const initialState: RootState = {
-  page: "menu"
+  page: "game"
 };
 
 export default reducer<RootState>(initialState, on => {

@@ -1,4 +1,9 @@
-const { FuseBox, WebIndexPlugin } = require("fuse-box");
+const {
+  FuseBox,
+  WebIndexPlugin,
+  CSSResourcePlugin,
+  CSSPlugin
+} = require("fuse-box");
 const fuse = FuseBox.init({
   homeDir: "src",
   target: "browser@es6",
@@ -6,7 +11,13 @@ const fuse = FuseBox.init({
   plugins: [
     WebIndexPlugin({
       template: "index.template.html"
-    })
+    }),
+    [
+      CSSResourcePlugin({
+        inline: true
+      }),
+      CSSPlugin()
+    ]
   ]
 });
 fuse.dev(); // launch http server

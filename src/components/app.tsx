@@ -15,10 +15,9 @@ const AppDiv = styled.div`
   background: white;
 
   font-size: ${props => props.theme.fontSizes.baseText};
-  font-family: "Comfortaa", cursive;
 `;
 
-class App extends React.Component<Props & DerivedProps> {
+class App extends React.PureComponent<Props & DerivedProps> {
   render() {
     return <AppDiv>{this.renderPage()}</AppDiv>;
   }
