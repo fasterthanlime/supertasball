@@ -1,9 +1,38 @@
 import reducer from "./reducer";
-import { SimulationState, StatsState } from "../types";
+import { SimulationState, StatsState, Instruction } from "../types";
 import { actions } from "../actions";
 import { defaultStats } from "./stats";
+import store from "../store";
 
 function freshSimulationState(stats: StatsState): SimulationState {
+  let instructions: Instruction[] = [];
+  let numCells = stats.numCols * stats.numRows;
+  instructions.length = numCells;
+
+  let boolValue = true;
+  for (let i = 0; i < numCells; i++) {
+    let ins: Instruction = {
+      type: "nop",
+    };
+    instructions[i] = ins;
+  }
+
+  instructions[3] = {
+    type: "writeFlipper",
+    name: "right",
+    boolValue: true,
+  };
+  instructions[12] = {
+    type: "writeFlipper",
+    name: "right",
+    boolValue: false,
+  };
+  instructions[13] = {
+    type: "writeFlipper",
+    name: "left",
+    boolValue: true,
+  };
+
   return {
     currentStats: stats,
     paused: true,
@@ -11,6 +40,7 @@ function freshSimulationState(stats: StatsState): SimulationState {
     lastUpdateTicks: 0,
     col: 0,
     row: 0,
+    instructions,
   };
 }
 
@@ -45,10 +75,11 @@ export default reducer<SimulationState>(initialState, on => {
 
 function cpuStep(state: SimulationState) {
   let newState = { ...state };
+  const stats = newState.currentStats;
 
-  if (newState.col >= newState.currentStats.numCols - 1) {
+  if (newState.col >= stats.numCols - 1) {
     newState.col = 0;
-    if (newState.row >= newState.currentStats.numRows - 1) {
+    if (newState.row >= stats.numRows - 1) {
       newState.row = 0;
     } else {
       newState.row++;
@@ -57,6 +88,14 @@ function cpuStep(state: SimulationState) {
     newState.col++;
   }
   newState.lastUpdateTicks = newState.ticks;
+
+  setTimeout(() => {
+    // ooh ahh don't do that in redux!
+    let instruction =
+      state.instructions[newState.col + newState.row * stats.numCols];
+
+    store.dispatch(actions.execute({ instruction }));
+  }, 0);
 
   return newState;
 }

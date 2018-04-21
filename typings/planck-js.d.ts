@@ -8,11 +8,14 @@ declare module "planck-js" {
   interface Fixture {
     getType(): FixtureType;
     getShape(): Shape;
+    getNext(): Fixture;
   }
 
   class Body {
     createFixture(def: FixtureDef, density: number): Fixture;
+    getFixtureList(): Fixture;
     getPosition(): T_Vec2;
+    getAngle(): number;
   }
 
   interface CreateBodyOpts {

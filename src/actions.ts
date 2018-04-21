@@ -1,4 +1,4 @@
-import { ActionCreator, Dispatch, Action, Page } from "./types";
+import { ActionCreator, Dispatch, Action, Page, Instruction } from "./types";
 
 // actions
 
@@ -7,6 +7,7 @@ export const actions = wireActions({
   setPaused: action<{ paused: boolean }>(),
   tick: action<{}>(),
   refresh: action<{}>(),
+  execute: action<{ instruction: Instruction }>(),
 });
 
 // utils

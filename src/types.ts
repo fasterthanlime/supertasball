@@ -23,6 +23,13 @@ export interface SimulationState {
   lastUpdateTicks: number;
   col: number;
   row: number;
+  instructions: Instruction[];
+}
+
+export interface Instruction {
+  type: "nop" | "writeFlipper";
+  name?: string;
+  boolValue?: boolean;
 }
 
 export type Page = "menu" | "game";

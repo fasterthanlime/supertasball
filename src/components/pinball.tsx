@@ -28,11 +28,32 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
   subscribe(w: Watcher) {
     w.on(actions.refresh, async (store, action) => {
+      this.left = false;
+      this.right = false;
       this.createWorld();
+    });
+
+    w.on(actions.execute, async (store, action) => {
+      let ins = action.payload.instruction;
+
+      if (ins.type == "writeFlipper") {
+        if (ins.name === "left") {
+          this.left = ins.boolValue;
+        } else if (ins.name === "right") {
+          this.right = ins.boolValue;
+        }
+      }
     });
   }
 
-  chain: planck.Fixture;
+  ground: planck.Body;
+  leftFlipper: planck.Body;
+  rightFlipper: planck.Body;
+  ball: planck.Body;
+
+  leftFlipperGfx: PIXI.Graphics;
+  rightFlipperGfx: PIXI.Graphics;
+  ballGfx: PIXI.Graphics;
 
   createWorld() {
     const pl = planck,
@@ -41,6 +62,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
     // Ground body
     const ground = world.createBody();
+    this.ground = ground;
     const chain = pl.Chain(
       [
         Vec2(0.0, 0.0),
@@ -57,14 +79,16 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       ],
       true,
     );
-    this.chain = ground.createFixture(chain, 0.0);
+    ground.createFixture(chain, 0.0);
 
     // Flippers
-    const pLeft = Vec2(-2.0, 0.0);
-    const pRight = Vec2(2.0, 0.0);
+    const pLeft = Vec2(-2.0, 3.0);
+    const pRight = Vec2(2.0, 3.0);
 
     const leftFlipper = world.createDynamicBody(pLeft);
+    this.leftFlipper = leftFlipper;
     const rightFlipper = world.createDynamicBody(pRight);
+    this.rightFlipper = rightFlipper;
 
     leftFlipper.createFixture(pl.Box(1.75, 0.1), 1.0);
     rightFlipper.createFixture(pl.Box(1.75, 0.1), 1.0);
@@ -99,7 +123,6 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     this.world = world;
   }
 
-  ball: planck.Body;
   leftJoint: planck.JointDef;
   rightJoint: planck.JointDef;
   left = false;
@@ -111,11 +134,13 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       this.props.tick({});
     }
 
+    console.log("right ", this.right, "left ", this.left);
     this.rightJoint.setMotorSpeed(this.right ? -20 : 10);
-    this.leftJoint.setMotorSpeed(this.left ? -20 : 10);
+    this.leftJoint.setMotorSpeed(this.left ? 20 : -10);
 
-    const ballPos = this.ball.getPosition();
-    this.ballGfx.position.set(ballPos.x, ballPos.y);
+    sync(this.ball, this.ballGfx);
+    sync(this.leftFlipper, this.leftFlipperGfx);
+    sync(this.rightFlipper, this.rightFlipperGfx);
 
     requestAnimationFrame(this.step);
   };
@@ -128,7 +153,6 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     requestAnimationFrame(this.step);
   }
 
-  ballGfx: PIXI.Graphics;
   onRef = (el: HTMLDivElement) => {
     if (!el) {
       return;
@@ -146,25 +170,20 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     app.stage.addChild(container);
     container.scale.set(scale, -scale);
 
-    const chainGfx = new PIXI.Graphics();
-    chainGfx.lineStyle(2 / scale, 0x888888, 1.0);
-    const vertices = this.chain.getShape().m_vertices;
-    for (let i = 0; i < vertices.length; i++) {
-      let v = vertices[i];
-      if (i == 0) {
-        chainGfx.moveTo(v.x, v.y);
-      } else {
-        chainGfx.lineTo(v.x, v.y);
-      }
-    }
-    container.addChild(chainGfx);
+    // ---------
+    container.addChild(drawBody(this.ground));
 
-    const gfx = new PIXI.Graphics();
-    gfx.lineStyle(2 / scale, 0x333333, 1.0);
-    gfx.drawCircle(0, 0, 0.2);
-    gfx.endFill();
-    container.addChild(gfx);
-    this.ballGfx = gfx;
+    this.leftFlipperGfx = drawBody(this.leftFlipper);
+    container.addChild(this.leftFlipperGfx);
+
+    this.rightFlipperGfx = drawBody(this.leftFlipper);
+    container.addChild(this.rightFlipperGfx);
+
+    // ---------
+    this.ballGfx = drawBody(this.ball);
+    container.addChild(this.ballGfx);
+
+    // ---------
 
     el.appendChild(app.view);
     app.start();
@@ -185,3 +204,43 @@ export default connect<Props>(Game, {
     paused: rs.simulation.paused,
   }),
 });
+
+//
+
+function drawBody(body: planck.Body): PIXI.Graphics {
+  const gfx = new PIXI.Graphics();
+  gfx.lineStyle(2 / scale, 0x333333, 1.0);
+
+  for (let f = body.getFixtureList(); f; f = f.getNext()) {
+    let shape = f.getShape();
+    let type = f.getType();
+    switch (type) {
+      case "circle": {
+        gfx.drawCircle(0, 0, shape.m_radius);
+        break;
+      }
+      case "chain":
+      case "polygon": {
+        const vertices = shape.m_vertices;
+        for (let i = 0; i < vertices.length; i++) {
+          let v = vertices[i];
+          if (i == 0) {
+            gfx.moveTo(v.x, v.y);
+          } else {
+            gfx.lineTo(v.x, v.y);
+          }
+        }
+        gfx.closePath();
+        break;
+      }
+    }
+  }
+
+  return gfx;
+}
+
+function sync(b: planck.Body, gfx: PIXI.Graphics) {
+  const pos = b.getPosition();
+  gfx.position.set(pos.x, pos.y);
+  gfx.rotation = b.getAngle();
+}
