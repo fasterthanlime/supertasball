@@ -3,7 +3,8 @@ import { ActionCreator, Dispatch, Action, Page } from "./types";
 // actions
 
 export const actions = wireActions({
-  setPage: action<{ page: Page }>()
+  setPage: action<{ page: Page }>(),
+  setPaused: action<{ paused: boolean }>(),
 });
 
 // utils
@@ -12,7 +13,7 @@ function action<PayloadType>(): ActionCreator<PayloadType> {
   const ret = (type: string) => (payload: PayloadType): Action<PayloadType> => {
     return {
       type,
-      payload
+      payload,
     };
   };
   // bending typing rules a bit, forgive me
@@ -21,7 +22,7 @@ function action<PayloadType>(): ActionCreator<PayloadType> {
 
 export function dispatcher<T, U>(
   dispatch: Dispatch,
-  actionCreator: (payload: T) => Action<U>
+  actionCreator: (payload: T) => Action<U>,
 ) {
   return (payload: T) => {
     const action = actionCreator(payload);

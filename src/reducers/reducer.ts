@@ -15,7 +15,7 @@ interface ActionReducers<State> {
 interface RegisterReducer<State> {
   <Payload>(
     actionCreator: ActionCreator<Payload>,
-    reducer: ActionReducer<State, Payload>
+    reducer: ActionReducer<State, Payload>,
   ): void;
 }
 
@@ -26,24 +26,24 @@ interface ActionHandlerCallback<State> {
 function reducer<State>(
   initialState: State,
   cb: ActionHandlerCallback<State>,
-  defaultReducer?: ActionReducer<State, any>
+  defaultReducer?: ActionReducer<State, any>,
 ): ActionReducer<State, State> {
   const actionReducers: ActionReducers<State> = {};
 
   cb(
     <Payload>(
       actionCreator: ActionCreator<Payload>,
-      reducer: ActionReducer<State, Payload>
+      reducer: ActionReducer<State, Payload>,
     ) => {
       const sampleAction = actionCreator({} as any);
       if (actionReducers[sampleAction.type]) {
         throw new Error(
-          `reducing same action type twice: ${sampleAction.type}`
+          `reducing same action type twice: ${sampleAction.type}`,
         );
       }
 
       actionReducers[sampleAction.type] = reducer;
-    }
+    },
   );
 
   return (rs: State, action: Action<any>) => {

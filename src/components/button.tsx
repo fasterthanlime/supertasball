@@ -12,6 +12,10 @@ const ButtonDiv = styled.div`
   box-shadow: 1px 1px 0 #777;
   border: 1px solid #444;
 
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+
   &:hover {
     background: #444;
     border-color: #333;
@@ -26,7 +30,7 @@ const ButtonDiv = styled.div`
 // like it's '99!
 const Spacer = styled.div`
   display: inline-block;
-  width: 4px;
+  width: 8px;
   height: 1px;
 `;
 

@@ -14,6 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <App />
       </ThemeProvider>
     </Provider>,
-    document.getElementById("app")
+    document.getElementById("app"),
   );
 });

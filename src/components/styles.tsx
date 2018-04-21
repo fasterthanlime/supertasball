@@ -20,7 +20,7 @@ export const baseColors = {
   heliotrope: "#c17dff",
 
   carnation: "#fa5c5c",
-  vividTangerine: "#ff8080"
+  vividTangerine: "#ff8080",
 };
 
 export const uiColors = {
@@ -31,7 +31,7 @@ export const uiColors = {
 
   // FIXME: no pure blacks
   textShadow: "#000000",
-  boxShadow: "#1b1919"
+  boxShadow: "#1b1919",
 };
 
 const breadBackground = darken(0.05, "#292727");
@@ -43,19 +43,19 @@ export const colors = {
 
   error: baseColors.flushMahogany,
   warning: baseColors.mintJulep,
-  success: baseColors.gossip
+  success: baseColors.gossip,
 };
 
 export const fontSizes = {
   baseText: "16px",
   larger: "20px",
-  enormous: "32px"
+  enormous: "32px",
 };
 
 export const theme = {
   ...colors,
   baseColors,
-  fontSizes
+  fontSizes,
 };
 
 export type Theme = typeof theme;
@@ -70,7 +70,7 @@ const {
   css,
   injectGlobal,
   keyframes,
-  ThemeProvider
+  ThemeProvider,
 } = (styledComponents as any) as ThemedStyledComponentsModule<Theme>;
 // this tiny workaround brought to you by
 // this line in the styled-components typings:

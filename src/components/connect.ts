@@ -38,9 +38,9 @@ export function actionCreatorsList<K extends keyof actionTypes>(
 }
 
 export function connect<TProps>(
-  component: React.PureComponentClass<any>,
-  opts: ConnectOpts = {}
-): React.PureComponentClass<TProps> {
+  component: React.ComponentClass<any>,
+  opts: ConnectOpts = {},
+): React.ComponentClass<TProps> {
   let { dispatch, actionCreators } = opts;
   if (actionCreators) {
     let oldDispatch = dispatch;
