@@ -11,7 +11,9 @@ const height = 28;
 
 const scale = 20;
 
-const PinballDiv = styled.div``;
+const PinballDiv = styled.div`
+  margin-right: 15px;
+`;
 
 class Game extends React.PureComponent<Props & DerivedProps> {
   world: any;
@@ -97,6 +99,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
   step = () => {
     if (!this.props.paused) {
       this.world.step(0.016);
+      this.props.tick({});
     }
 
     this.rightJoint.setMotorSpeed(this.right ? -20 : 10);
@@ -118,6 +121,10 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
   ballGfx: PIXI.Graphics;
   onRef = (el: HTMLDivElement) => {
+    if (!el) {
+      return;
+    }
+
     const app = new PIXI.Application({
       width: 10 + width * scale,
       height: 10 + height * scale,
@@ -157,7 +164,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
 interface Props {}
 
-const actionCreators = actionCreatorsList();
+const actionCreators = actionCreatorsList("tick");
 
 type DerivedProps = {
   paused: boolean;

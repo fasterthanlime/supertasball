@@ -5,6 +5,7 @@ import { ActionCreator, Dispatch, Action, Page } from "./types";
 export const actions = wireActions({
   setPage: action<{ page: Page }>(),
   setPaused: action<{ paused: boolean }>(),
+  tick: action<{}>(),
 });
 
 // utils

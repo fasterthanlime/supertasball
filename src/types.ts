@@ -3,8 +3,13 @@ export interface RootState {
   paused: boolean;
   money: number;
   freq: number;
-  numColumns: number;
+  numCols: number;
   numRows: number;
+  ticks: number;
+  lastUpdateTicks: number;
+
+  col: number;
+  row: number;
 }
 
 export type Page = "menu" | "game";

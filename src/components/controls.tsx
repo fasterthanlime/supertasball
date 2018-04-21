@@ -28,7 +28,7 @@ const Filler = styled.div`
 
 class Controls extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { money, freq, numColumns, numRows } = this.props;
+    const { money, freq, numColumns, numRows, ticks } = this.props;
 
     return (
       <ControlsDiv>
@@ -40,6 +40,9 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
         </Label>
         <Label>
           <Icon icon="maximize" /> {numColumns}x{numRows}
+        </Label>
+        <Label>
+          <Icon icon="clock" /> {ticks}
         </Label>
         <Filler />
         <Button icon="menu" onClick={this.onMenu}>
@@ -81,6 +84,7 @@ type DerivedProps = {
   numColumns: number;
   numRows: number;
   paused: number;
+  ticks: number;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(Controls, {
@@ -88,8 +92,9 @@ export default connect<Props>(Controls, {
   state: (rs: RootState) => ({
     money: rs.money,
     freq: rs.freq,
-    numColumns: rs.numColumns,
+    numColumns: rs.numCols,
     numRows: rs.numRows,
     paused: rs.paused,
+    ticks: rs.ticks,
   }),
 });
