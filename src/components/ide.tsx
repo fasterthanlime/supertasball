@@ -69,9 +69,9 @@ type DerivedProps = {
 export default connect<Props>(IDE, {
   actionCreators,
   state: (rs: RootState) => ({
-    numCols: rs.numCols,
-    numRows: rs.numRows,
-    col: rs.col,
-    row: rs.row,
+    numCols: rs.simulation.currentStats.numCols,
+    numRows: rs.simulation.currentStats.numRows,
+    col: rs.simulation.col,
+    row: rs.simulation.row,
   }),
 });

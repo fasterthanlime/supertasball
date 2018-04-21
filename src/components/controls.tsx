@@ -95,11 +95,12 @@ type DerivedProps = {
 export default connect<Props>(Controls, {
   actionCreators,
   state: (rs: RootState) => ({
-    money: rs.money,
-    freq: rs.freq,
-    numColumns: rs.numCols,
-    numRows: rs.numRows,
-    paused: rs.paused,
-    ticks: rs.ticks,
+    money: rs.stats.money,
+    freq: rs.stats.freq,
+    numColumns: rs.stats.numCols,
+    numRows: rs.stats.numRows,
+
+    paused: rs.simulation.paused,
+    ticks: rs.simulation.ticks,
   }),
 });

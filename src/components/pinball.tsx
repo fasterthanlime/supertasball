@@ -5,6 +5,8 @@ import Button from "./button";
 import styled from "./styles";
 import * as planck from "planck-js";
 import * as PIXI from "pixi.js";
+import watching, { Watcher } from "./watching";
+import { actions } from "../actions";
 
 const width = 16;
 const height = 28;
@@ -15,12 +17,19 @@ const PinballDiv = styled.div`
   margin-right: 15px;
 `;
 
+@watching
 class Game extends React.PureComponent<Props & DerivedProps> {
   world: any;
 
   constructor(props, context) {
     super(props, context);
     this.createWorld();
+  }
+
+  subscribe(w: Watcher) {
+    w.on(actions.refresh, async (store, action) => {
+      this.createWorld();
+    });
   }
 
   chain: planck.Fixture;
@@ -173,6 +182,6 @@ type DerivedProps = {
 export default connect<Props>(Game, {
   actionCreators,
   state: (rs: RootState) => ({
-    paused: rs.paused,
+    paused: rs.simulation.paused,
   }),
 });

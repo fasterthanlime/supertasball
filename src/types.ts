@@ -1,13 +1,26 @@
 export interface RootState {
-  page: Page;
-  paused: boolean;
+  ui: UIState;
+  stats: StatsState;
+  simulation: SimulationState;
+}
+
+export interface StatsState {
   money: number;
   freq: number;
   numCols: number;
   numRows: number;
+}
+
+export interface UIState {
+  page: Page;
+}
+
+export interface SimulationState {
+  currentStats: StatsState;
+
+  paused: boolean;
   ticks: number;
   lastUpdateTicks: number;
-
   col: number;
   row: number;
 }

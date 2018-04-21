@@ -9,7 +9,7 @@ import "./icomoon/style.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store as any}>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
