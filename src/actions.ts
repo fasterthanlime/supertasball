@@ -6,6 +6,7 @@ export const actions = wireActions({
   setPage: action<{ page: Page }>(),
   setPaused: action<{ paused: boolean }>(),
   tick: action<{}>(),
+  refresh: action<{}>(),
 });
 
 // utils

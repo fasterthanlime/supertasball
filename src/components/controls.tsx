@@ -48,10 +48,15 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
         <Button icon="menu" onClick={this.onMenu}>
           Menu
         </Button>
+        <Button icon="refresh-cw" onClick={this.onRefresh} />
         {this.renderPlayPause()}
       </ControlsDiv>
     );
   }
+
+  onRefresh = () => {
+    this.props.refresh({});
+  };
 
   renderPlayPause(): JSX.Element {
     if (this.props.paused) {
@@ -76,7 +81,7 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPage", "setPaused");
+const actionCreators = actionCreatorsList("setPage", "setPaused", "refresh");
 
 type DerivedProps = {
   money: number;
