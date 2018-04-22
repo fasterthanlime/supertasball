@@ -6,7 +6,9 @@ import styled from "./styles";
 import SimControls from "./sim-controls";
 import Op from "./op";
 
-const IDEDiv = styled.div``;
+const IDEDiv = styled.div`
+  width: 100%;
+`;
 
 const Ops = styled.div`
   display: flex;
@@ -25,7 +27,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
     return (
       <IDEDiv>
         <SimControls />
-        {showCode ? this.renderOps() : null}
+        {showCode ? this.renderOps() : <p>Code hidden</p>}
       </IDEDiv>
     );
   }

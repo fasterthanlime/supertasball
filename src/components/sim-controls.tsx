@@ -17,9 +17,9 @@ const SimControlsDiv = styled.div`
 const Label = styled.div`
   margin: 0 8px;
   font-weight: bold;
-  width: 120px;
+  width: 80px;
 
-  font-size: ${props => props.theme.fontSizes.larger};
+  font-size: ${props => props.theme.fontSizes.baseText};
 `;
 
 const Filler = styled.div`
@@ -30,29 +30,24 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
   render() {
     return (
       <SimControlsDiv>
-        <Button large icon="refresh" onClick={this.onReset}>
-          Reset
-        </Button>
-        <Button large icon="chevron-right" onClick={this.onStepForward} />
+        <Button icon="refresh-cw" onClick={this.onReset} />
+        <Button icon="chevron-right" onClick={this.onStepForward} />
         {this.renderPlayPause()}
         <Filler />
         <Label>
           <Icon icon="activity" /> {this.props.freq} Hz
         </Label>
         <Label>
-          <Icon icon="clock" /> 0x{this.props.pc.toString(16)}
+          <label>
+            <input
+              type="checkbox"
+              checked={this.props.showCode}
+              onClick={this.onToggleShowCode}
+            />{" "}
+            Code
+          </label>
         </Label>
-        <label>
-          <input
-            type="checkbox"
-            checked={this.props.showCode}
-            onClick={this.onToggleShowCode}
-          />{" "}
-          Show code
-        </label>
-        <Button large icon="log-out" onClick={this.onExitSimulation}>
-          Exit arcade
-        </Button>
+        <Button icon="x" onClick={this.onExitSimulation} />
       </SimControlsDiv>
     );
   }
@@ -77,9 +72,9 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
 
   renderPlayPause(): JSX.Element {
     if (this.props.paused) {
-      return <Button large icon="play" onClick={this.onPlay} />;
+      return <Button icon="play" onClick={this.onPlay} />;
     } else {
-      return <Button large icon="pause" onClick={this.onPause} />;
+      return <Button icon="pause" onClick={this.onPause} />;
     }
   }
 

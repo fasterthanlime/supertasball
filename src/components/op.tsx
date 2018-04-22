@@ -2,7 +2,7 @@ import * as React from "react";
 import { OpCode } from "../types";
 import styled from "./styles";
 
-let opSide = 60;
+let opSide = 64;
 
 const Filler = styled.div`
   flex-grow: 1;
@@ -35,13 +35,34 @@ const OpDiv = styled.div`
     &.icon-chevron-right {
       opacity: 0.4;
     }
+  }
 
-    &.top-left {
+  .top-left,
+  .top-right,
+  .bottom-left,
+  .bottom-right {
+    position: absolute;
+    font-size: 11px;
+    .icon {
       font-size: 18px;
-      position: absolute;
-      left: 2px;
-      top: 2px;
     }
+  }
+
+  .top-left {
+    left: 2px;
+    top: 2px;
+  }
+  .top-right {
+    right: 2px;
+    top: 2px;
+  }
+  .bottom-left {
+    left: 2px;
+    bottom: 2px;
+  }
+  .bottom-right {
+    right: 2px;
+    bottom: 2px;
   }
 `;
 
@@ -91,10 +112,33 @@ export default class Op extends React.PureComponent<Props> {
         <Filler />
         {label ? <span className={`icon icon-tag top-left`} /> : null}
         {icon ? <span className={`icon icon-${icon}`} /> : null}
+        {op.type == "freq" ? (
+          <span className="bottom-right">{op.numberValue} Hz</span>
+        ) : null}
+        {op.type == "goto" ? (
+          <span className="bottom-right">{op.name}</span>
+        ) : null}
+        {op.type == "flip" ? (
+          <>
+            <span className="top-right">{op.name}</span>
+            {renderBoolValue("bottom-left", op.boolValue)}
+          </>
+        ) : null}
+        {op.type == "note" ? (
+          <>
+            <span className="top-right">{op.name}</span>
+            <span className="bottom-right">{op.numberValue} Hz</span>
+            {renderBoolValue("bottom-left", op.boolValue)}
+          </>
+        ) : null}
         <Filler />
       </>
     );
   }
+}
+
+function renderBoolValue(pos: string, bv: boolean) {
+  return <span className={`${pos} icon icon-chevron-${bv ? "up" : "down"}`} />;
 }
 
 interface Props {

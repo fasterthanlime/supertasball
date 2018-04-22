@@ -7,7 +7,7 @@ let bg2 = "#77a";
 
 const ButtonDiv = styled.div`
   padding: 6px 8px;
-  margin: 4px 8px;
+  margin: 3px 5px;
   border-radius: 2px;
   background: ${bg};
   color: #eee;
