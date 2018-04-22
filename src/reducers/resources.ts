@@ -8,6 +8,13 @@ const initialState: ResourcesState = {
   freq: 1,
 };
 
+let cheat = true;
+if (cheat) {
+  initialState.freq = 8;
+  initialState.money = 10000;
+  initialState.codeSize = 50;
+}
+
 export default reducer<ResourcesState>(initialState, on => {
   on(actions.moneyDelta, (state, action) => {
     return {

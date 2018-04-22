@@ -2,7 +2,7 @@ import * as React from "react";
 import { OpCode } from "../types";
 import styled from "./styles";
 
-let opSide = 85;
+let opSide = 60;
 
 const Filler = styled.div`
   flex-grow: 1;
@@ -11,41 +11,25 @@ const Filler = styled.div`
 const OpDiv = styled.div`
   width: ${opSide}px;
   height: ${opSide}px;
-  margin: 3px;
-  border: 3px solid #555;
-  opacity: 0.4;
+  margin: 2px;
+  color: black;
+  background-color: white;
+  border: 1px solid #333;
 
   &.active {
-    border-color: rgb(250, 40, 40);
-    opacity: 1;
+    border-color: transparent;
+    background-color: #333;
+    color: white;
   }
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  color: #555;
+  flex-wrap: wrap;
 
   .icon {
     font-size: 24px;
-  }
-
-  i {
-    width: 100%;
-    font-style: normal;
-    background: black;
-    color: white;
-    padding: 4px;
-    text-align: center;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-
-    .icon {
-      font-size: 18px;
-    }
   }
 `;
 
@@ -54,43 +38,37 @@ export default class Op extends React.PureComponent<Props> {
     const { op, addr, pc } = this.props;
     const active = addr === pc;
     return (
-      <OpDiv className={`cell ${active && "active"}`} key={`addr-${addr}`}>
+      <OpDiv
+        className={`cell ${active && "active"}`}
+        data-addr={addr}
+        onClick={this.props.onClick}
+      >
         {this.renderOpIcon(op)}
       </OpDiv>
     );
   }
 
   renderOpIcon(op: OpCode): JSX.Element {
+    const { type, label } = op;
+
     let icon: string;
-    let showBoolValue = false;
-    let showName = false;
     switch (op.type) {
-      case "writeFlipper": {
-        showName = true;
-        showBoolValue = true;
+      case "flip": {
         icon = "navigation";
+        break;
+      }
+      case "goto": {
+        icon = "corner-right-down";
         break;
       }
     }
 
-    if (!icon) {
-      return null;
-    }
     return (
       <>
         <Filler />
-        <span className={`icon icon-${icon}`} />
+        {label ? <span className={`icon icon-tag`} /> : null}
+        {icon ? <span className={`icon icon-${icon}`} /> : null}
         <Filler />
-        <i>
-          {showName ? op.name + " " : null}
-          {showBoolValue ? (
-            op.boolValue ? (
-              <span className={`icon icon-arrow-up`} />
-            ) : (
-              <span className={`icon icon-arrow-down`} />
-            )
-          ) : null}
-        </i>
       </>
     );
   }
@@ -100,4 +78,5 @@ interface Props {
   addr: number;
   pc: number;
   op: OpCode;
+  onClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }

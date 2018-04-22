@@ -6,12 +6,13 @@ import { connect, actionCreatorsList, Dispatchers } from "./connect";
 
 const FloatyDiv = styled.div`
   position: fixed;
-  animation: ${animations.floatUp} 1s normal forwards ease-in-out;
+  animation: ${animations.floatUp} 2s normal forwards ease-in-out;
 
   color: rgb(220, 100, 100);
   text-shadow: 0 0 1px rgb(255, 255, 255);
   pointer-events: none;
   font-size: ${props => props.theme.fontSizes.larger};
+  white-space: pre;
 `;
 
 class FloatyComponent extends React.PureComponent<Props & DerivedProps> {
@@ -28,7 +29,7 @@ class FloatyComponent extends React.PureComponent<Props & DerivedProps> {
     // this is plain awful, don't read
     setTimeout(() => {
       this.props.floatyKill({ id: this.props.id });
-    }, 1000);
+    }, 2000);
   }
 }
 

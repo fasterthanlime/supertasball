@@ -38,5 +38,18 @@ function cpuStep(store: Store, oldState: SimulationState) {
   let op = state.code[state.pc];
   store.dispatch(actions.execute({ op }));
 
+  const { code } = state;
+  switch (op.type) {
+    case "goto": {
+      for (let i = 0; i < code.length; i++) {
+        if (code[i].label == op.name) {
+          state.pc = i;
+          break;
+        }
+      }
+      break;
+    }
+  }
+
   return state;
 }

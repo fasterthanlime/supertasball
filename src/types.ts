@@ -80,9 +80,10 @@ export interface Expense {
 }
 
 export interface OpCode {
-  type: "nop" | "writeFlipper";
+  type: "nop" | "flip" | "goto";
   name?: string;
   boolValue?: boolean;
+  label?: string;
 }
 
 export type Page = "menu" | "game";

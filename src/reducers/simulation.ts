@@ -12,43 +12,51 @@ function freshSimulationState(params: SimulationParams): SimulationState {
     code[i] = { type: "nop" };
   }
 
+  code[0] = {
+    type: "nop",
+    label: "crazy",
+  };
   code[1] = {
-    type: "writeFlipper",
+    type: "flip",
     name: "right",
     boolValue: true,
   };
   code[3] = {
-    type: "writeFlipper",
+    type: "flip",
     name: "right",
     boolValue: false,
   };
   code[6] = {
-    type: "writeFlipper",
+    type: "flip",
     name: "right",
     boolValue: true,
   };
   code[8] = {
-    type: "writeFlipper",
+    type: "flip",
     name: "right",
     boolValue: false,
   };
   code[10] = {
-    type: "writeFlipper",
+    type: "flip",
     name: "left",
     boolValue: true,
   };
+  code[11] = {
+    type: "goto",
+    name: "crazy",
+  };
   code[0xc] = {
-    type: "writeFlipper",
+    type: "flip",
     name: "right",
     boolValue: true,
   };
   code[0xe] = {
-    type: "writeFlipper",
+    type: "flip",
     name: "left",
     boolValue: false,
   };
   code[0x13] = {
-    type: "writeFlipper",
+    type: "flip",
     name: "left",
     boolValue: true,
   };
