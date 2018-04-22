@@ -27,7 +27,7 @@ for (let i = 0; i < 4; i++) {
 }
 
 export default function(w: Watcher) {
-  w.on(actions.tick, async (store, action) => {
+  w.on(actions.tick, (store, action) => {
     const oldState = store.getState().simulation;
     let state = {
       ...oldState,

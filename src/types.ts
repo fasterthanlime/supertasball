@@ -16,6 +16,7 @@ export interface UIState {
   page: Page;
   editedCell?: EditedCell;
   floaties: Floaties;
+  showCode: boolean;
 }
 
 export interface Floaties {

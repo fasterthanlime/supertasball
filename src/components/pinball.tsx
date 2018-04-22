@@ -28,13 +28,13 @@ class Game extends React.PureComponent<Props & DerivedProps> {
   }
 
   subscribe(w: Watcher) {
-    w.on(actions.reset, async (store, action) => {
+    w.on(actions.reset, (store, action) => {
       this.left = false;
       this.right = false;
       this.createWorld();
     });
 
-    w.on(actions.execute, async (store, action) => {
+    w.on(actions.execute, (store, action) => {
       const { op } = action.payload;
 
       if (op.type == "flip") {

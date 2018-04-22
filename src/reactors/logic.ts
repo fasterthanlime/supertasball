@@ -5,7 +5,7 @@ import { Store } from "../store";
 import { formatAmount } from "../format";
 
 export default function(w: Watcher) {
-  w.on(actions.doActivity, async (store, action) => {
+  w.on(actions.doActivity, (store, action) => {
     const { activity, clientX, clientY } = action.payload;
     let delta = activity.reward;
     if (activity.badRewardChance > 0) {
@@ -32,7 +32,7 @@ export default function(w: Watcher) {
     }
   });
 
-  w.on(actions.doExpense, async (store, action) => {
+  w.on(actions.doExpense, (store, action) => {
     const { expense, clientX, clientY } = action.payload;
     if (spend(store, expense.cost)) {
       if (expense.action) {
@@ -49,7 +49,7 @@ export default function(w: Watcher) {
     }
   });
 
-  w.on(actions.playPinball, async (store, action) => {
+  w.on(actions.playPinball, (store, action) => {
     const resources = store.getState().resources;
     const params: SimulationParams = {
       codeSize: resources.codeSize,

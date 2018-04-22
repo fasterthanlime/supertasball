@@ -4,6 +4,7 @@ import { actions } from "../actions";
 
 const initialState: UIState = {
   page: "game",
+  showCode: true,
   floaties: {},
 };
 
@@ -42,6 +43,13 @@ export default reducer<UIState>(initialState, on => {
     return {
       ...state,
       floaties,
+    };
+  });
+
+  on(actions.setShowCode, (state, action) => {
+    return {
+      ...state,
+      showCode: action.payload.showCode,
     };
   });
 });

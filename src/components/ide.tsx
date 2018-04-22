@@ -21,23 +21,33 @@ const Filler = styled.div`
 
 class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
+    const { showCode } = this.props;
+    return (
+      <IDEDiv>
+        <SimControls />
+        {showCode ? this.renderOps() : null}
+      </IDEDiv>
+    );
+  }
+
+  renderOps(): JSX.Element {
     const { pc, code } = this.props;
     let ops = [];
     for (let addr = 0; addr < this.props.code.length; addr++) {
       const op = code[addr];
       let active = addr == pc;
       ops.push(
-        <Op key={addr} op={op} addr={addr} pc={pc} onClick={this.onOpClick} />,
+        <Op
+          key={addr}
+          op={op}
+          addr={addr}
+          active={addr == pc}
+          onClick={this.onOpClick}
+        />,
       );
     }
     ops.push(<Filler key="filler" />);
-
-    return (
-      <IDEDiv>
-        <SimControls />
-        <Ops>{ops}</Ops>
-      </IDEDiv>
-    );
+    return <Ops>{ops}</Ops>;
   }
 
   onOpClick = (ev: React.MouseEvent<HTMLElement>) => {
@@ -60,6 +70,7 @@ const actionCreators = actionCreatorsList("setPage", "floaty");
 type DerivedProps = {
   pc: number;
   code: OpCode[];
+  showCode: boolean;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(IDE, {
@@ -67,5 +78,6 @@ export default connect<Props>(IDE, {
   state: (rs: RootState) => ({
     pc: rs.simulation.pc,
     code: rs.simulation.code,
+    showCode: rs.ui.showCode,
   }),
 });

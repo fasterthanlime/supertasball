@@ -11,29 +11,19 @@ function err(e: Error, action: Action<any>) {
 }
 
 function route(watcher: Watcher, store: Store, action: Action<any>): void {
-  setTimeout(() => {
-    (async () => {
-      let promises = [];
+  for (const r of watcher.reactors[action.type] || emptyArr) {
+    r(store, action);
+  }
 
-      for (const r of watcher.reactors[action.type] || emptyArr) {
-        promises.push(r(store, action));
-      }
+  for (const sub of watcher.subs) {
+    if (!sub) {
+      continue;
+    }
 
-      for (const sub of watcher.subs) {
-        if (!sub) {
-          continue;
-        }
-
-        for (const r of sub.reactors[action.type] || emptyArr) {
-          promises.push(r(store, action));
-        }
-      }
-      await Promise.all(promises);
-    })().catch(e => {
-      err(e, action);
-    });
-  }, 0);
-  return;
+    for (const r of sub.reactors[action.type] || emptyArr) {
+      r(store, action);
+    }
+  }
 }
 
 export default route;

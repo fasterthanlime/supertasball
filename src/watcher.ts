@@ -4,8 +4,8 @@ import { Store } from "./store";
 import { Action, RootState } from "./types";
 import { actions } from "./actions";
 
-interface IReactor<T> {
-  (store: Store, action: Action<T>): Promise<void>;
+interface Reactor<T> {
+  (store: Store, action: Action<T>): void;
 }
 
 interface Schedule {
@@ -20,7 +20,7 @@ type SelectorMaker = (store: Store, schedule: Schedule) => Selector;
  */
 export class Watcher {
   reactors: {
-    [key: string]: IReactor<any>[];
+    [key: string]: Reactor<any>[];
   };
 
   subs: Watcher[];
@@ -35,7 +35,7 @@ export class Watcher {
    */
   on<T>(
     actionCreator: (payload: T) => Action<T>,
-    reactor: (store: Store, action: Action<T>) => Promise<void>,
+    reactor: (store: Store, action: Action<T>) => void,
   ) {
     // create a dummy action to get the type
     const type = actionCreator(({} as any) as T).type;
@@ -61,7 +61,7 @@ export class Watcher {
     }
   }
 
-  protected addWatcher(type: string, reactor: IReactor<any>) {
+  protected addWatcher(type: string, reactor: Reactor<any>) {
     if (!this.reactors[type]) {
       this.reactors[type] = [];
     }

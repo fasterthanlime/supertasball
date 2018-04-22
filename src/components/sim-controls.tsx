@@ -30,7 +30,7 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
   render() {
     return (
       <SimControlsDiv>
-        <Button large icon="skip-back" onClick={this.onReset}>
+        <Button large icon="refresh" onClick={this.onReset}>
           Reset
         </Button>
         <Button large icon="chevron-right" onClick={this.onStepForward} />
@@ -42,12 +42,24 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
         <Label>
           <Icon icon="clock" /> 0x{this.props.pc.toString(16)}
         </Label>
+        <label>
+          <input
+            type="checkbox"
+            checked={this.props.showCode}
+            onClick={this.onToggleShowCode}
+          />{" "}
+          Show code
+        </label>
         <Button large icon="log-out" onClick={this.onExitSimulation}>
           Exit arcade
         </Button>
       </SimControlsDiv>
     );
   }
+
+  onToggleShowCode = () => {
+    this.props.setShowCode({ showCode: !this.props.showCode });
+  };
 
   onExitSimulation = () => {
     if (window.confirm("Are you sure you want to exit the arcade?")) {
@@ -87,12 +99,14 @@ const actionCreators = actionCreatorsList(
   "setPaused",
   "reset",
   "stepForward",
+  "setShowCode",
 );
 
 type DerivedProps = {
   paused: number;
   pc: number;
   freq: number;
+  showCode: boolean;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(SimControls, {
@@ -101,5 +115,6 @@ export default connect<Props>(SimControls, {
     paused: rs.simulation.paused,
     pc: rs.simulation.pc,
     freq: rs.simulation.freq,
+    showCode: rs.ui.showCode,
   }),
 });

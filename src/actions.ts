@@ -22,6 +22,8 @@ export const actions = wireActions({
   cpuUpgrade: action<{ freqDelta: number }>(),
   romUpgrade: action<{ sizeDelta: number }>(),
 
+  setShowCode: action<{ showCode: boolean }>(),
+
   playPinball: action<{}>(),
   moneyDelta: action<{ delta: number }>(),
   doExpense: action<{ expense: Expense; clientX: number; clientY: number }>(),

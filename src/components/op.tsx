@@ -47,8 +47,7 @@ const OpDiv = styled.div`
 
 export default class Op extends React.PureComponent<Props> {
   render() {
-    const { op, addr, pc } = this.props;
-    const active = addr === pc;
+    const { op, addr, active } = this.props;
     return (
       <OpDiv
         className={`cell ${active && "active"}`}
@@ -100,7 +99,7 @@ export default class Op extends React.PureComponent<Props> {
 
 interface Props {
   addr: number;
-  pc: number;
+  active: boolean;
   op: OpCode;
   onClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }
