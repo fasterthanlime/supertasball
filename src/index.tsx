@@ -7,13 +7,11 @@ import { ThemeProvider, theme } from "./components/styles";
 
 import "./icomoon/style.css";
 
-document.addEventListener("DOMContentLoaded", () => {
-  ReactDOM.render(
-    <Provider store={store as any}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </Provider>,
-    document.getElementById("app"),
-  );
-});
+ReactDOM.render(
+  <Provider store={store as any}>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </Provider>,
+  document.getElementById("app"),
+);

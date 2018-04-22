@@ -14,15 +14,27 @@ const CellEditorDiv = styled.div`
   border: 4px solid #444;
 `;
 
-class CellEditor extends React.PureComponent<Props & DerivedProps> {
+const TitleDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Filler = styled.div`
+  flex-grow: 1;
+`;
+
+class CellEditor extends React.Component<Props & DerivedProps> {
   render() {
     const { addr, code } = this.props;
     const op = code[addr];
     return (
       <CellEditorDiv>
-        <h3>
-          Edit cell @ {addr} <Button icon="x" onClick={this.onClose} />
-        </h3>
+        <TitleDiv>
+          Edit cell @ {addr}
+          <Filler />
+          <Button icon="x" onClick={this.onClose} />
+        </TitleDiv>
         <p>An editor lurks here</p>
         <pre>{JSON.stringify(op, null, 2)}</pre>
       </CellEditorDiv>
