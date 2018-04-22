@@ -90,10 +90,16 @@ class CellEditor extends React.Component<Props & DerivedProps> {
           {fields.name ? (
             fields.name.choices ? (
               <select value={op.name} onChange={this.onNameChange}>
-                <option value="">(pick one)</option>
+                <option key="<none>" value="">
+                  (pick one)
+                </option>
                 {Object.keys(fields.name.choices).map(k => {
                   const ch = fields.name.choices[k];
-                  return <option value={ch.value}>{ch.label}</option>;
+                  return (
+                    <option key={ch.value} value={ch.value}>
+                      {ch.label}
+                    </option>
+                  );
                 })}
               </select>
             ) : (

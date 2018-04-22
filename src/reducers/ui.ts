@@ -6,6 +6,7 @@ const initialState: UIState = {
   page: "game",
   showCode: true,
   floaties: {},
+  cellSelection: { start: 0, size: 0 },
 };
 
 let floatySeed = 0;
@@ -65,5 +66,9 @@ export default reducer<UIState>(initialState, on => {
     const newState = { ...state };
     delete newState.editedCell;
     return newState;
+  });
+
+  on(actions.setCellSelection, (state, action) => {
+    return { ...state, cellSelection: action.payload };
   });
 });

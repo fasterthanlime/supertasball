@@ -12,9 +12,15 @@ export interface ResourcesState {
   money: number;
 }
 
+export interface CellSelection {
+  start: number;
+  size: number;
+}
+
 export interface UIState {
   page: Page;
   editedCell?: EditedCell;
+  cellSelection: CellSelection;
   floaties: Floaties;
   showCode: boolean;
 }

@@ -11,16 +11,22 @@ const Filler = styled.div`
 const OpDiv = styled.div`
   width: ${opSide}px;
   height: ${opSide}px;
-  margin: 2px;
   color: black;
   background-color: white;
-  border: 1px solid #333;
   position: relative;
+  margin: 4px;
+  border: 1px solid #777;
+  user-select: none;
+  transition: transform 0.2s;
 
   &.active {
-    border-color: transparent;
     background-color: #333;
     color: white;
+  }
+
+  &.selected {
+    box-shadow: 0 0 8px #333;
+    transform: rotateZ(5deg);
   }
 
   &.edited {
@@ -74,12 +80,14 @@ const OpDiv = styled.div`
 
 export default class Op extends React.PureComponent<Props> {
   render() {
-    const { op, addr, active, edited } = this.props;
+    const { op, addr, active, edited, selected } = this.props;
     return (
       <OpDiv
-        className={`cell ${active && "active"} ${edited && "edited"}`}
+        className={`cell ${active && "active"} ${edited &&
+          "edited"} ${selected && "selected"}`}
         data-addr={addr}
         onClick={this.props.onClick}
+        onDoubleClick={this.props.onDoubleClick}
       >
         {this.renderOpIcon(op)}
       </OpDiv>
@@ -151,6 +159,8 @@ interface Props {
   addr: number;
   active?: boolean;
   edited?: boolean;
+  selected?: boolean;
   op: OpCode;
   onClick: (ev: React.MouseEvent<HTMLElement>) => void;
+  onDoubleClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }
