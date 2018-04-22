@@ -83,47 +83,69 @@ export interface Expense {
   action?: () => Action<any>;
 }
 
+interface Choice {
+  label: string;
+  value: string;
+}
+
 interface OpCodeDef {
   label: string;
   relevantFields: {
-    name?: string;
+    name?: {
+      choices?: Choice[];
+      freeInput?: string;
+    };
     boolValue?: string;
     numberValue?: string;
   };
 }
 
+const op = (def: OpCodeDef) => def;
+
 export const OpCodeTypes = {
-  nop: <OpCodeDef>{
+  nop: op({
     label: "NOP: Do nothing",
     relevantFields: {},
-  },
-  flip: <OpCodeDef>{
+  }),
+  flip: op({
     label: "FLIP: Set flipper state",
     relevantFields: {
-      name: `"left" or "right" flipper`,
+      name: {
+        choices: [
+          { label: "Left flipper", value: "left" },
+          { label: "Right flipper", value: "right" },
+        ],
+      },
       boolValue: `enabled`,
     },
-  },
-  goto: <OpCodeDef>{
+  }),
+  goto: op({
     label: "GOTO: Unconditional jump",
     relevantFields: {
-      name: `label to jump to`,
+      name: { freeInput: `label to jump to` },
     },
-  },
-  freq: <OpCodeDef>{
+  }),
+  freq: op({
     label: "FREQ: Set frequency",
     relevantFields: {
       numberValue: `new cpu frequency in Hz`,
     },
-  },
-  note: <OpCodeDef>{
+  }),
+  note: op({
     label: "NOTE: Write to note channel",
     relevantFields: {
-      name: `note channel (0, 1, 2, or 3)`,
+      name: {
+        choices: [
+          { label: "channel 1", value: "0" },
+          { label: "channel 2", value: "1" },
+          { label: "channel 3", value: "2" },
+          { label: "channel 4", value: "3" },
+        ],
+      },
       numberValue: `note frequency in Hz`,
       boolValue: `playing`,
     },
-  },
+  }),
 };
 export type OpCodeType = keyof typeof OpCodeTypes;
 

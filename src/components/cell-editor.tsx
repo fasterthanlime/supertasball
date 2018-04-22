@@ -3,6 +3,7 @@ import React = require("react");
 import { RootState, OpCode, OpCodeTypes } from "../types";
 import styled from "./styles";
 import Button from "./button";
+import Icon from "./icon";
 
 const CellEditorDiv = styled.div`
   position: absolute;
@@ -17,6 +18,13 @@ const CellEditorDiv = styled.div`
   input,
   select {
     font-size: ${props => props.theme.fontSizes.baseText};
+  }
+
+  hr {
+    height: 1px;
+    width: 100%;
+    background-color: #999;
+    border: none;
   }
 `;
 
@@ -57,10 +65,16 @@ class CellEditor extends React.Component<Props & DerivedProps> {
     const { addr, code } = this.props;
     const op = code[addr];
     const def = OpCodeTypes[op.type];
+    const fields = def.relevantFields;
+
     return (
       <CellEditorDiv>
         <TitleDiv>
-          <select value={op.type} onChange={this.onTypeChange}>
+          <select
+            value={op.type}
+            onChange={this.onTypeChange}
+            ref={this.onTypeEl}
+          >
             {Object.keys(OpCodeTypes).map(k => {
               return (
                 <option key={k} value={k}>
@@ -73,19 +87,29 @@ class CellEditor extends React.Component<Props & DerivedProps> {
           <Button icon="x" onClick={this.onClose} />
         </TitleDiv>
         <Fields>
-          <label>
-            <i>label</i>{" "}
-            <input type="text" value={op.label} onChange={this.onLabelChange} />
-          </label>
-          {def.relevantFields.name ? (
-            <label>
-              <i>{def.relevantFields.name}</i>{" "}
-              <input type="text" value={op.name} onChange={this.onNameChange} />
-            </label>
+          {fields.name ? (
+            fields.name.choices ? (
+              <select value={op.name} onChange={this.onNameChange}>
+                <option value="">(pick one)</option>
+                {Object.keys(fields.name.choices).map(k => {
+                  const ch = fields.name.choices[k];
+                  return <option value={ch.value}>{ch.label}</option>;
+                })}
+              </select>
+            ) : (
+              <label>
+                <i>{fields.name.freeInput}</i>{" "}
+                <input
+                  type="text"
+                  value={op.name}
+                  onChange={this.onNameChange}
+                />
+              </label>
+            )
           ) : null}
-          {def.relevantFields.boolValue ? (
+          {fields.boolValue ? (
             <label>
-              <i className="inline">{def.relevantFields.boolValue}</i>
+              <i className="inline">{fields.boolValue}</i>
               <input
                 type="checkbox"
                 checked={op.boolValue}
@@ -93,9 +117,9 @@ class CellEditor extends React.Component<Props & DerivedProps> {
               />
             </label>
           ) : null}
-          {def.relevantFields.numberValue ? (
+          {fields.numberValue ? (
             <label>
-              <i>{def.relevantFields.numberValue}</i>{" "}
+              <i>{fields.numberValue}</i>{" "}
               <input
                 type="number"
                 value={op.numberValue}
@@ -103,14 +127,29 @@ class CellEditor extends React.Component<Props & DerivedProps> {
               />
             </label>
           ) : null}
+          <hr />
+          <label>
+            <Icon icon="tag" />{" "}
+            <input
+              type="text"
+              value={op.label}
+              onChange={this.onLabelChange}
+              placeholder="label"
+            />
+          </label>
         </Fields>
       </CellEditorDiv>
     );
   }
 
+  onTypeEl = (typeEl: HTMLElement) => {
+    if (typeEl) {
+      typeEl.focus();
+    }
+  };
+
   onTypeChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(`type => ${ev.currentTarget.value}`);
-    this.merge({ type: ev.currentTarget.value as any });
+    this.set({ type: ev.currentTarget.value as any });
   };
   onLabelChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     this.merge({ label: ev.currentTarget.value });
@@ -121,7 +160,9 @@ class CellEditor extends React.Component<Props & DerivedProps> {
   onNumberValueChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     this.merge({ numberValue: parseInt(ev.currentTarget.value, 10) });
   };
-  onNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+  onNameChange = (
+    ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     this.merge({ name: ev.currentTarget.value });
   };
 
@@ -135,6 +176,12 @@ class CellEditor extends React.Component<Props & DerivedProps> {
       ...code[addr],
       ...pop,
     };
+    this.props.commitCell({ addr, op });
+  }
+
+  set(pop: Partial<OpCode>) {
+    let { addr, code } = this.props;
+    let op = { type: pop.type, ...pop };
     this.props.commitCell({ addr, op });
   }
 }

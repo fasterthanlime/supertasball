@@ -2,7 +2,7 @@ import * as React from "react";
 import { OpCode } from "../types";
 import styled from "./styles";
 
-let opSide = 64;
+let opSide = 80;
 
 const Filler = styled.div`
   flex-grow: 1;
@@ -36,7 +36,7 @@ const OpDiv = styled.div`
   flex-wrap: wrap;
 
   .icon {
-    font-size: 24px;
+    font-size: 28px;
 
     &.icon-chevron-right {
       opacity: 0.4;
