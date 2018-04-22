@@ -28,11 +28,13 @@ class Money extends React.PureComponent<Props & DerivedProps, State> {
     }
 
     let diff = Math.abs(this.state.money - this.props.money);
-    let money = this.props.money;
-    if (diff > 1) {
-      money = this.state.money * 0.7 + this.props.money * 0.3;
+    if (diff > 0.01) {
+      let money = this.props.money;
+      if (diff > 1) {
+        money = this.state.money * 0.7 + this.props.money * 0.3;
+      }
+      this.setState({ money });
     }
-    this.setState({ money });
     requestAnimationFrame(this.onFrame);
   };
 
