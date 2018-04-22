@@ -113,8 +113,8 @@ export const OpCodeTypes = {
     label: "NOP: Do nothing",
     relevantFields: {},
   }),
-  flip: op({
-    label: "FLIP: Set flipper state",
+  motor: op({
+    label: "MOTOR: Enable/disable flipper motor",
     relevantFields: {
       name: {
         choices: [
@@ -153,6 +153,7 @@ export const OpCodeTypes = {
     },
   }),
 };
+
 export type OpCodeType = keyof typeof OpCodeTypes;
 
 export interface OpCode {

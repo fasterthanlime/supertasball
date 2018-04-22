@@ -6,9 +6,9 @@ import Button from "./button";
 import Icon from "./icon";
 
 const CellEditorDiv = styled.div`
-  position: absolute;
-  top: 20px;
-  left: 20px;
+  position: fixed;
+  top: 0px;
+  left: 50%;
   padding: 8px;
 
   background: white;
@@ -30,7 +30,7 @@ const CellEditorDiv = styled.div`
 
 const Fields = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   label {
     i {
@@ -130,6 +130,7 @@ class CellEditor extends React.Component<Props & DerivedProps> {
                 type="number"
                 value={op.numberValue}
                 onChange={this.onNumberValueChange}
+                step="any"
               />
             </label>
           ) : null}

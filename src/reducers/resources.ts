@@ -8,9 +8,9 @@ const initialState: ResourcesState = {
   freq: 1,
 };
 
-let cheat = false;
+let cheat = true;
 if (cheat) {
-  initialState.freq = 60;
+  initialState.freq = 16;
   initialState.money = 10000;
   initialState.codeSize = 50;
 }

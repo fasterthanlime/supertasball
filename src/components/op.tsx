@@ -1,7 +1,7 @@
 import * as React from "react";
 import { OpCode } from "../types";
 import styled from "./styles";
-
+import { actionCreatorsList, Dispatchers, connect } from "./connect";
 let opSide = 80;
 
 const Filler = styled.div`
@@ -14,8 +14,7 @@ const OpDiv = styled.div`
   color: black;
   background-color: white;
   position: relative;
-  margin: 4px;
-  border: 1px solid #777;
+  border-bottom: 8px solid #777;
   user-select: none;
   transition: transform 0.2s;
 
@@ -24,15 +23,8 @@ const OpDiv = styled.div`
     color: white;
   }
 
-  &.selected {
-    box-shadow: 0 0 8px #333;
-    transform: rotateZ(5deg);
-  }
-
   &.edited {
-    border-color: transparent;
-    background-color: rgb(240, 180, 180);
-    color: white;
+    border-color: rgb(240, 180, 180);
   }
 
   display: flex;
@@ -42,11 +34,7 @@ const OpDiv = styled.div`
   flex-wrap: wrap;
 
   .icon {
-    font-size: 28px;
-
-    &.icon-chevron-right {
-      opacity: 0.4;
-    }
+    font-size: 18px;
   }
 
   .top-left,
@@ -54,9 +42,11 @@ const OpDiv = styled.div`
   .bottom-left,
   .bottom-right {
     position: absolute;
-    font-size: 11px;
+    font-size: 15px;
+
+    &.icon,
     .icon {
-      font-size: 18px;
+      font-size: 24px;
     }
   }
 
@@ -78,7 +68,7 @@ const OpDiv = styled.div`
   }
 `;
 
-export default class Op extends React.PureComponent<Props> {
+class Op extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { op, addr, active, edited, selected } = this.props;
     return (
@@ -87,7 +77,6 @@ export default class Op extends React.PureComponent<Props> {
           "edited"} ${selected && "selected"}`}
         data-addr={addr}
         onClick={this.props.onClick}
-        onDoubleClick={this.props.onDoubleClick}
       >
         {this.renderOpIcon(op)}
       </OpDiv>
@@ -99,8 +88,8 @@ export default class Op extends React.PureComponent<Props> {
 
     let icon: string;
     switch (op.type) {
-      case "flip": {
-        icon = "navigation";
+      case "motor": {
+        icon = "settings";
         break;
       }
       case "goto": {
@@ -125,34 +114,55 @@ export default class Op extends React.PureComponent<Props> {
       <>
         <Filler />
         {label ? <span className={`icon icon-tag top-left`} /> : null}
-        {icon ? <span className={`icon icon-${icon}`} /> : null}
+        <span className={`icon icon-${icon}`} onClick={this.onEdit} />
         {op.type == "freq" ? (
           <span className="bottom-right">{op.numberValue} Hz</span>
         ) : null}
         {op.type == "goto" ? (
           <span className="bottom-right">{op.name}</span>
         ) : null}
-        {op.type == "flip" ? (
+        {op.type == "motor" ? (
           <>
             <span className="top-right">{op.name}</span>
-            {renderBoolValue("bottom-left", op.boolValue)}
+            {this.renderBoolValue("bottom-left", op.boolValue)}
           </>
         ) : null}
         {op.type == "note" ? (
           <>
             <span className="top-right">{op.name}</span>
             <span className="bottom-right">{op.numberValue} Hz</span>
-            {renderBoolValue("bottom-left", op.boolValue)}
+            {this.renderBoolValue("bottom-left", op.boolValue)}
           </>
         ) : null}
         <Filler />
       </>
     );
   }
-}
 
-function renderBoolValue(pos: string, bv: boolean) {
-  return <span className={`${pos} icon icon-chevron-${bv ? "up" : "down"}`} />;
+  renderBoolValue(pos: string, bv: boolean) {
+    return (
+      <span
+        className={`${pos} icon icon-${bv ? "check" : "x"}`}
+        onClick={this.onFlipBool}
+      />
+    );
+  }
+
+  onEdit = (ev: React.MouseEvent<HTMLElement>) => {
+    const { addr } = this.props;
+    this.props.editCellStart({ addr });
+  };
+
+  onFlipBool = (ev: React.MouseEvent<any>) => {
+    const { addr, op } = this.props;
+    this.props.commitCell({
+      addr,
+      op: {
+        ...op,
+        boolValue: !op.boolValue,
+      },
+    });
+  };
 }
 
 interface Props {
@@ -164,3 +174,11 @@ interface Props {
   onClick: (ev: React.MouseEvent<HTMLElement>) => void;
   onDoubleClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }
+
+const actionCreators = actionCreatorsList("commitCell", "editCellStart");
+
+type DerivedProps = {} & Dispatchers<typeof actionCreators>;
+
+export default connect<Props>(Op, {
+  actionCreators,
+});

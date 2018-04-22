@@ -37,7 +37,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     w.on(actions.execute, (store, action) => {
       const { op } = action.payload;
 
-      if (op.type == "flip") {
+      if (op.type == "motor") {
         if (op.name === "left") {
           this.left = op.boolValue;
         } else if (op.name === "right") {

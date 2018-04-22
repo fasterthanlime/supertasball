@@ -9,6 +9,7 @@ import {
   Expense,
   Activity,
   SimulationState,
+  OpCodeType,
 } from "./types";
 
 // actions
@@ -34,6 +35,8 @@ export const actions = wireActions({
   cellCut: action<{}>(),
   cellCopy: action<{}>(),
   cellPaste: action<{}>(),
+  cellDuplicate: action<{}>(),
+  cellSetType: action<{ type: OpCodeType }>(),
 
   playPinball: action<{}>(),
   moneyDelta: action<{ delta: number }>(),

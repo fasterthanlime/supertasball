@@ -7,12 +7,20 @@ import SimControls from "./sim-controls";
 import Op from "./op";
 import CellEditor from "./cell-editor";
 
+const glowColor = "rgb(140, 240, 140)";
+
 const IDEDiv = styled.div`
   width: 100%;
   position: relative;
 
   &:focus {
     outline: none;
+
+    .cell {
+      &.selected {
+        border-color: ${glowColor};
+      }
+    }
   }
 `;
 
@@ -31,12 +39,23 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { showCode, editedCell } = this.props;
     return (
-      <IDEDiv tabIndex={0} onKeyDown={this.onKeyDown}>
+      <IDEDiv tabIndex={0} onKeyDown={this.onKeyDown} innerRef={this.onDiv}>
         <SimControls />
         {showCode ? this.renderOps() : <p>Code hidden</p>}
         {editedCell ? <CellEditor addr={editedCell.addr} /> : null}
       </IDEDiv>
     );
+  }
+
+  divEl: HTMLElement;
+  onDiv = (divEl: HTMLElement) => {
+    this.divEl = divEl;
+  };
+
+  focus() {
+    if (this.divEl) {
+      this.divEl.focus();
+    }
   }
 
   renderOps(): JSX.Element {
@@ -98,10 +117,17 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   };
 
   onKeyDown = (ev: React.KeyboardEvent<HTMLElement>) => {
+    if (this.props.editedCell) {
+      if (ev.key == "Escape") {
+        this.props.editCellStop({});
+        this.focus();
+      }
+      return;
+    }
+
     const cs = this.props.cellSelection;
-    if (ev.key == "Escape") {
-      this.props.editCellStop({});
-    } else if (ev.key == "Delete") {
+    let preventDefault = true;
+    if (ev.key == "Delete") {
       this.props.cellYank({});
     } else if (ev.key == "Backspace") {
       this.props.cellClear({});
@@ -117,16 +143,33 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       if (ev.ctrlKey) {
         this.props.cellPaste({});
       }
+    } else if (ev.key == "d") {
+      if (ev.ctrlKey) {
+        this.props.cellDuplicate({});
+      }
     } else if (ev.key == "h" || ev.key == "ArrowLeft") {
       this.props.setCellSelection({ start: cs.start - 1, size: 1 });
     } else if (ev.key == "l" || ev.key == "ArrowRight") {
       this.props.setCellSelection({ start: cs.start + 1, size: 1 });
+    } else if (ev.key == "G") {
+      this.props.cellSetType({ type: "goto" });
+    } else if (ev.key == "N") {
+      this.props.cellSetType({ type: "note" });
+    } else if (ev.key == "M") {
+      this.props.cellSetType({ type: "motor" });
+    } else if (ev.key == "F") {
+      this.props.cellSetType({ type: "freq" });
     } else if (ev.key == "Enter") {
       if (cs.size > 0) {
         this.props.editCellStart({ addr: cs.start });
       }
     } else {
+      preventDefault = false;
       console.log(`key = ${ev.key}`);
+    }
+
+    if (preventDefault) {
+      ev.preventDefault();
     }
   };
 }
@@ -144,6 +187,9 @@ const actionCreators = actionCreatorsList(
   "cellCut",
   "cellCopy",
   "cellPaste",
+  "cellDuplicate",
+  "commitCell",
+  "cellSetType",
 );
 
 type DerivedProps = {
