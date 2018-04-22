@@ -1,13 +1,15 @@
 import React = require("react");
 import { connect, Dispatchers, actionCreatorsList } from "./connect";
-import { RootState, OpCode } from "../types";
+import { RootState, OpCode, EditedCell } from "../types";
 import styled from "./styles";
 
 import SimControls from "./sim-controls";
 import Op from "./op";
+import CellEditor from "./cell-editor";
 
 const IDEDiv = styled.div`
   width: 100%;
+  position: relative;
 `;
 
 const Ops = styled.div`
@@ -23,11 +25,12 @@ const Filler = styled.div`
 
 class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { showCode } = this.props;
+    const { showCode, editedCell } = this.props;
     return (
       <IDEDiv>
         <SimControls />
         {showCode ? this.renderOps() : <p>Code hidden</p>}
+        {editedCell ? <CellEditor addr={editedCell.addr} /> : null}
       </IDEDiv>
     );
   }
@@ -53,26 +56,22 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   }
 
   onOpClick = (ev: React.MouseEvent<HTMLElement>) => {
-    const { clientX, clientY, currentTarget } = ev;
-    const { code } = this.props;
-    const addr = currentTarget.dataset.addr;
-    const op = code[addr];
-    let text = `no op! (addr = ${addr})`;
-    if (op) {
-      text = JSON.stringify({ addr, op }, null, 2);
+    const addr = ev.currentTarget.dataset.addr;
+    if (addr) {
+      this.props.editCellStart({ addr: parseInt(addr, 10) });
     }
-    this.props.floaty({ clientX, clientY, text });
   };
 }
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPage", "floaty");
+const actionCreators = actionCreatorsList("setPage", "floaty", "editCellStart");
 
 type DerivedProps = {
   pc: number;
   code: OpCode[];
   showCode: boolean;
+  editedCell: EditedCell;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(IDE, {
@@ -81,5 +80,6 @@ export default connect<Props>(IDE, {
     pc: rs.simulation.pc,
     code: rs.simulation.code,
     showCode: rs.ui.showCode,
+    editedCell: rs.ui.editedCell,
   }),
 });

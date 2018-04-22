@@ -24,6 +24,9 @@ export const actions = wireActions({
 
   setShowCode: action<{ showCode: boolean }>(),
 
+  editCellStart: action<{ addr: number }>(),
+  editCellStop: action<{}>(),
+
   playPinball: action<{}>(),
   moneyDelta: action<{ delta: number }>(),
   doExpense: action<{ expense: Expense; clientX: number; clientY: number }>(),

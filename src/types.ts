@@ -29,7 +29,9 @@ export interface Floaty {
   text: string;
 }
 
-export interface EditedCell {}
+export interface EditedCell {
+  addr: number;
+}
 
 export interface SimulationState {
   params: SimulationParams;

@@ -42,7 +42,7 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
             <input
               type="checkbox"
               checked={this.props.showCode}
-              onClick={this.onToggleShowCode}
+              onChange={this.onToggleShowCode}
             />{" "}
             Code
           </label>
