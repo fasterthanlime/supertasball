@@ -11,7 +11,7 @@ export default function(w: Watcher) {
       ticks: oldState.ticks + 1,
     };
 
-    let freqTicks = 60 / state.params.freq;
+    let freqTicks = 60 / state.freq;
     let ticksDelta = state.ticks - state.lastUpdateTicks;
     if (ticksDelta > freqTicks) {
       state = cpuStep(store, state);
@@ -28,26 +28,35 @@ export default function(w: Watcher) {
 function cpuStep(store: Store, oldState: SimulationState) {
   let state = { ...oldState };
 
-  state.pc++;
-  if (state.pc >= state.code.length) {
-    state.pc = 0;
-  }
-  state.lastUpdateTicks = state.ticks;
-
-  // ooh ahh don't do that in redux!
-  let op = state.code[state.pc];
-  store.dispatch(actions.execute({ op }));
-
   const { code } = state;
+  const op = code[state.pc];
+  let nextPc = state.pc + 1;
+
   switch (op.type) {
     case "goto": {
       for (let i = 0; i < code.length; i++) {
         if (code[i].label == op.name) {
-          state.pc = i;
+          nextPc = i;
           break;
         }
       }
       break;
+    }
+  }
+  store.dispatch(actions.execute({ op }));
+
+  state.lastUpdateTicks = state.ticks;
+  state.pc = nextPc % code.length;
+
+  {
+    let op = code[state.pc];
+    switch (op.type) {
+      case "freq": {
+        if (op.numberValue > 0 && op.numberValue <= state.params.freq) {
+          state.freq = op.numberValue;
+        }
+        break;
+      }
     }
   }
 

@@ -35,7 +35,9 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
         <Label>
           <Icon icon="dollar-sign" /> <Money />
         </Label>
-        <Label title={`The CPU executes ${freq} operations per second`}>
+        <Label
+          title={`The CPU can execute up to ${freq} operations per second`}
+        >
           <Icon icon="activity" /> {freq} Hz
         </Label>
         <Label

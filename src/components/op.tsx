@@ -15,6 +15,7 @@ const OpDiv = styled.div`
   color: black;
   background-color: white;
   border: 1px solid #333;
+  position: relative;
 
   &.active {
     border-color: transparent;
@@ -30,6 +31,17 @@ const OpDiv = styled.div`
 
   .icon {
     font-size: 24px;
+
+    &.icon-chevron-right {
+      opacity: 0.4;
+    }
+
+    &.top-left {
+      font-size: 18px;
+      position: absolute;
+      left: 2px;
+      top: 2px;
+    }
   }
 `;
 
@@ -61,12 +73,20 @@ export default class Op extends React.PureComponent<Props> {
         icon = "corner-right-down";
         break;
       }
+      case "freq": {
+        icon = "activity";
+        break;
+      }
+      default: {
+        icon = "chevron-right";
+        break;
+      }
     }
 
     return (
       <>
         <Filler />
-        {label ? <span className={`icon icon-tag`} /> : null}
+        {label ? <span className={`icon icon-tag top-left`} /> : null}
         {icon ? <span className={`icon icon-${icon}`} /> : null}
         <Filler />
       </>

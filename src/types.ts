@@ -38,6 +38,7 @@ export interface SimulationState {
   ticks: number;
   lastUpdateTicks: number;
 
+  freq: number;
   code: OpCode[];
   pc: number;
 }
@@ -80,9 +81,10 @@ export interface Expense {
 }
 
 export interface OpCode {
-  type: "nop" | "flip" | "goto";
+  type: "nop" | "flip" | "goto" | "freq";
   name?: string;
   boolValue?: boolean;
+  numberValue?: number;
   label?: string;
 }
 

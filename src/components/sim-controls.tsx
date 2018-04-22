@@ -37,6 +37,9 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
         {this.renderPlayPause()}
         <Filler />
         <Label>
+          <Icon icon="activity" /> {this.props.freq} Hz
+        </Label>
+        <Label>
           <Icon icon="clock" /> 0x{this.props.pc.toString(16)}
         </Label>
         <Button large icon="log-out" onClick={this.onExitSimulation}>
@@ -89,6 +92,7 @@ const actionCreators = actionCreatorsList(
 type DerivedProps = {
   paused: number;
   pc: number;
+  freq: number;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(SimControls, {
@@ -96,5 +100,6 @@ export default connect<Props>(SimControls, {
   state: (rs: RootState) => ({
     paused: rs.simulation.paused,
     pc: rs.simulation.pc,
+    freq: rs.simulation.freq,
   }),
 });

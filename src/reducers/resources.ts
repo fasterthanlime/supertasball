@@ -10,7 +10,7 @@ const initialState: ResourcesState = {
 
 let cheat = true;
 if (cheat) {
-  initialState.freq = 8;
+  initialState.freq = 60;
   initialState.money = 10000;
   initialState.codeSize = 50;
 }

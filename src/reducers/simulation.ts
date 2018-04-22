@@ -13,7 +13,8 @@ function freshSimulationState(params: SimulationParams): SimulationState {
   }
 
   code[0] = {
-    type: "nop",
+    type: "freq",
+    numberValue: 16,
     label: "crazy",
   };
   code[1] = {
@@ -36,29 +37,17 @@ function freshSimulationState(params: SimulationParams): SimulationState {
     name: "right",
     boolValue: false,
   };
+  code[9] = {
+    type: "freq",
+    numberValue: 1,
+  };
   code[10] = {
-    type: "flip",
-    name: "left",
-    boolValue: true,
+    type: "freq",
+    numberValue: 16,
   };
   code[11] = {
     type: "goto",
     name: "crazy",
-  };
-  code[0xc] = {
-    type: "flip",
-    name: "right",
-    boolValue: true,
-  };
-  code[0xe] = {
-    type: "flip",
-    name: "left",
-    boolValue: false,
-  };
-  code[0x13] = {
-    type: "flip",
-    name: "left",
-    boolValue: true,
   };
 
   return {
@@ -69,6 +58,7 @@ function freshSimulationState(params: SimulationParams): SimulationState {
     pc: 0,
     stepping: false,
     code,
+    freq: params.freq,
   };
 }
 

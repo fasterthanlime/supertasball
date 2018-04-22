@@ -135,7 +135,6 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       this.props.tick({});
     }
 
-    console.log("right ", this.right, "left ", this.left);
     this.rightJoint.setMotorSpeed(this.right ? -20 : 10);
     this.leftJoint.setMotorSpeed(this.left ? 20 : -10);
 
