@@ -1,6 +1,7 @@
 import React = require("react");
 import { connect } from "./connect";
 import { RootState } from "../types";
+import { formatAmount } from "../format";
 
 class Money extends React.PureComponent<Props & DerivedProps, State> {
   running: boolean;
@@ -36,7 +37,7 @@ class Money extends React.PureComponent<Props & DerivedProps, State> {
   };
 
   render() {
-    return <>{Math.floor(this.state.money).toLocaleString()}</>;
+    return <>{formatAmount(this.state.money)}</>;
   }
 }
 

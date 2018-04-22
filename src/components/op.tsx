@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { OpCode } from "../types";
 import styled from "./styles";
 

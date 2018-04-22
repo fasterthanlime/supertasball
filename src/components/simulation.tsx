@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import styled from "./styles";
 import { actionCreatorsList, Dispatchers } from "./connect";
 import { SimulationState } from "../types";
@@ -13,10 +13,6 @@ const SimulationDiv = styled.div`
 
 class Simulation extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { simulation } = this.props;
-    if (!simulation) {
-    }
-
     return (
       <SimulationDiv>
         <Pinball />

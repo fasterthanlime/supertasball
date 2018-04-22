@@ -4,6 +4,7 @@ import { RootState } from "../types";
 
 import Menu from "./menu";
 import Game from "./game";
+import FloatiesContainer from "./floaties-container";
 import styled from "./styles";
 
 const AppDiv = styled.div`
@@ -19,7 +20,12 @@ const AppDiv = styled.div`
 
 class App extends React.PureComponent<Props & DerivedProps> {
   render() {
-    return <AppDiv>{this.renderPage()}</AppDiv>;
+    return (
+      <AppDiv>
+        {this.renderPage()}
+        <FloatiesContainer />
+      </AppDiv>
+    );
   }
 
   renderPage(): JSX.Element {

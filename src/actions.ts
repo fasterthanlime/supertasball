@@ -6,12 +6,29 @@ import {
   OpCode,
   EditedCell,
   SimulationParams,
+  Expense,
+  Activity,
 } from "./types";
 
 // actions
 
 export const actions = wireActions({
   setPage: action<{ page: Page }>(),
+
+  floaty: action<{ clientX: number; clientY: number; text: string }>(),
+  floatyKill: action<{ id: string }>(),
+
+  cpuUpgrade: action<{ freqDelta: number }>(),
+  romUpgrade: action<{ sizeDelta: number }>(),
+
+  playPinball: action<{}>(),
+  moneyDelta: action<{ delta: number }>(),
+  doExpense: action<{ expense: Expense; clientX: number; clientY: number }>(),
+  doActivity: action<{
+    activity: Activity;
+    clientX: number;
+    clientY: number;
+  }>(),
 
   newSimulation: action<{ params: SimulationParams }>(),
 

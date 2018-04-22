@@ -38,9 +38,7 @@ function freshSimulationState(params: SimulationParams): SimulationState {
   };
 }
 
-const initialState = null;
-
-export default reducer<SimulationState>(initialState, on => {
+export default reducer<SimulationState>(null, on => {
   on(actions.newSimulation, (state, action) => {
     const { params } = action.payload;
     return freshSimulationState(params);

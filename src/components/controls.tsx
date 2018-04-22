@@ -28,7 +28,7 @@ const Filler = styled.div`
 
 class Controls extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { money, freq, numColumns, numRows } = this.props;
+    const { money, freq, codeSize } = this.props;
 
     return (
       <ControlsDiv>
@@ -39,37 +39,15 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
           <Icon icon="activity" /> {freq} Hz
         </Label>
         <Label>
-          <Icon icon="maximize" /> {numColumns}x{numRows}
+          <Icon icon="maximize" /> {codeSize} ops
         </Label>
         <Filler />
         <Button icon="menu" onClick={this.onMenu}>
           Menu
         </Button>
-        <Button icon="refresh-cw" onClick={this.onRefresh} />
-        {this.renderPlayPause()}
       </ControlsDiv>
     );
   }
-
-  onRefresh = () => {
-    this.props.refresh({});
-  };
-
-  renderPlayPause(): JSX.Element {
-    if (this.props.paused) {
-      return <Button icon="play" onClick={this.onPlay} />;
-    } else {
-      return <Button icon="pause" onClick={this.onPause} />;
-    }
-  }
-
-  onPlay = () => {
-    this.props.setPaused({ paused: false });
-  };
-
-  onPause = () => {
-    this.props.setPaused({ paused: true });
-  };
 
   onMenu = () => {
     this.props.setPage({ page: "menu" });
@@ -78,15 +56,12 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPage", "setPaused", "refresh");
+const actionCreators = actionCreatorsList("setPage");
 
 type DerivedProps = {
   money: number;
   freq: number;
-  numColumns: number;
-  numRows: number;
-  paused: number;
-  ticks: number;
+  codeSize: number;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(Controls, {
@@ -95,7 +70,5 @@ export default connect<Props>(Controls, {
     money: rs.resources.money,
     freq: rs.resources.freq,
     codeSize: rs.resources.codeSize,
-
-    paused: rs.simulation.paused,
   }),
 });

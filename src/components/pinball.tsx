@@ -34,13 +34,13 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     });
 
     w.on(actions.execute, async (store, action) => {
-      let ins = action.payload.instruction;
+      const { op } = action.payload;
 
-      if (ins.type == "writeFlipper") {
-        if (ins.name === "left") {
-          this.left = ins.boolValue;
-        } else if (ins.name === "right") {
-          this.right = ins.boolValue;
+      if (op.type == "writeFlipper") {
+        if (op.name === "left") {
+          this.left = op.boolValue;
+        } else if (op.name === "right") {
+          this.right = op.boolValue;
         }
       }
     });

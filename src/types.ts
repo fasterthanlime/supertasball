@@ -1,3 +1,5 @@
+import { Store } from "./store";
+
 export interface RootState {
   ui: UIState;
   resources: ResourcesState;
@@ -13,6 +15,17 @@ export interface ResourcesState {
 export interface UIState {
   page: Page;
   editedCell?: EditedCell;
+  floaties: Floaties;
+}
+
+export interface Floaties {
+  [key: string]: Floaty;
+}
+
+export interface Floaty {
+  clientX: number;
+  clientY: number;
+  text: string;
 }
 
 export interface EditedCell {}
@@ -29,9 +42,40 @@ export interface SimulationState {
 }
 
 export interface SimulationParams {
-  money: number;
   freq: number;
   codeSize: number;
+}
+
+export interface Activity {
+  // e.g. "Play dice"
+  label: string;
+
+  // in $
+  reward: number;
+
+  // also in $
+  badReward?: number;
+  // can be 0/undefined, in [0,1]
+  badRewardChance?: number;
+
+  // milliseconds, can be 0
+  delay?: number;
+
+  action?: () => Action<any>;
+}
+
+import { expenses } from "./expenses";
+
+export interface Expense {
+  prereq?: string;
+
+  // e.g. "Play dice"
+  label: string;
+
+  // in $
+  cost: number;
+
+  action?: () => Action<any>;
 }
 
 export interface OpCode {

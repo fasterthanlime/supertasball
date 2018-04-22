@@ -3,13 +3,15 @@ import reducer from "./reducers/index";
 import { RootState, Action } from "./types";
 import { Watcher } from "./watcher";
 import route from "./route";
+import getWatcher from "./reactors";
 
 export interface Store {
   watcher: Watcher;
   dispatch: (action: Action<any>) => void;
+  getState: () => RootState;
 }
 
-const watcher = new Watcher();
+const watcher = getWatcher();
 
 const store = createStore<RootState, Action<any>, any, any>(reducer) as Store;
 

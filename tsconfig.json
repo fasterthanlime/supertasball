@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "lib": ["dom", "es2015"],
     "target": "ES6",
     "jsx": "react",
     "importHelpers": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types", "typings"]
   }
 }

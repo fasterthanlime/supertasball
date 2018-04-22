@@ -1,25 +1,42 @@
 import styled from "./styles";
 import React = require("react");
+import classNames = require("classnames");
+
+let bg = "#333";
+let bg2 = "#77a";
 
 const ButtonDiv = styled.div`
-  display: inline-block;
   padding: 6px 8px;
-  margin: 4px;
-  background: white;
+  margin: 4px 8px;
   border-radius: 2px;
-  background: #333;
+  background: ${bg};
   color: #eee;
   box-shadow: 1px 1px 0 #777;
   border: 1px solid #444;
 
   display: flex;
   flex-direction: row;
-  align-content: center;
+  align-items: center;
 
-  &:hover {
+  font-size: ${props => props.theme.fontSizes.larger};
+
+  user-select: none;
+
+  &:not(.disabled):not(.progressing):hover {
     background: #444;
     border-color: #333;
-    cursor: pointer;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    filter: grayscale(100%) brightness(60%);
+  }
+
+  &.progressing {
+    border-color: ${bg2};
+    &:hover {
+      cursor: progress;
+    }
   }
 
   .icon {
@@ -36,10 +53,20 @@ const Spacer = styled.div`
 
 export default class Button extends React.PureComponent<Props> {
   render() {
-    const { icon, children, ...rest } = this.props;
+    const { icon, children, progress, disabled, ...rest } = this.props;
+
+    let style: React.CSSProperties = {};
+    if (progress > 0) {
+      let perc = progress * 100;
+      style.backgroundImage = `linear-gradient(to right, ${bg2} 0%, ${bg2} ${perc}%, ${bg} ${perc}%)`;
+    }
 
     return (
-      <ButtonDiv {...rest}>
+      <ButtonDiv
+        style={style}
+        {...rest}
+        className={classNames({ disabled, progressing: progress > 0 })}
+      >
         {icon ? (
           <>
             <span className={`icon icon-${icon}`} />
@@ -56,4 +83,6 @@ interface Props {
   icon?: string;
   children?: any;
   onClick?: (e: React.MouseEvent<any>) => void;
+  progress?: number;
+  disabled?: boolean;
 }
