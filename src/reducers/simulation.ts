@@ -19,7 +19,7 @@ function freshSimulationState(params: SimulationParams): SimulationState {
   };
   code[1] = {
     type: "flip",
-    name: "right",
+    name: "left",
     boolValue: true,
   };
   code[2] = {
@@ -30,7 +30,7 @@ function freshSimulationState(params: SimulationParams): SimulationState {
   };
   code[3] = {
     type: "flip",
-    name: "right",
+    name: "left",
     boolValue: false,
   };
   code[4] = {
@@ -60,14 +60,20 @@ function freshSimulationState(params: SimulationParams): SimulationState {
     boolValue: false,
   };
   code[9] = {
-    type: "freq",
-    numberValue: 1,
+    type: "goto",
+    name: "sleep",
   };
-  code[10] = {
+
+  code[26] = {
+    type: "freq",
+    numberValue: 4,
+    label: "sleep",
+  };
+  code[27] = {
     type: "freq",
     numberValue: 32,
   };
-  code[11] = {
+  code[28] = {
     type: "goto",
     name: "crazy",
   };

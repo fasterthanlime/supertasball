@@ -46,6 +46,22 @@ export default function(w: Watcher) {
 
     store.dispatch(actions.commitSimulationState({ state: state }));
   });
+
+  w.on(actions.reset, (state, action) => {
+    killSound();
+  });
+
+  w.on(actions.setPaused, (state, action) => {
+    if (action.payload.paused) {
+      killSound();
+    }
+  });
+}
+
+function killSound() {
+  for (const osc of oscillators) {
+    osc.volume.value = -Infinity;
+  }
 }
 
 function cpuStep(store: Store, oldState: SimulationState) {
