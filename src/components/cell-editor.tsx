@@ -30,7 +30,7 @@ const CellEditorDiv = styled.div`
 
 const Fields = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   label {
     i {

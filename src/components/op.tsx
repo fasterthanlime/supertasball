@@ -1,5 +1,5 @@
 import * as React from "react";
-import { OpCode } from "../types";
+import { OpCode, OpCodeTypes } from "../types";
 import styled from "./styles";
 import { actionCreatorsList, Dispatchers, connect } from "./connect";
 let opSide = 80;
@@ -34,7 +34,7 @@ const OpDiv = styled.div`
   flex-wrap: wrap;
 
   .icon {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .top-left,
@@ -85,73 +85,43 @@ class Op extends React.PureComponent<Props & DerivedProps> {
 
   renderOpIcon(op: OpCode): JSX.Element {
     const { type, label } = op;
-
-    let icon: string;
-    switch (op.type) {
-      case "motor": {
-        icon = "settings";
-        break;
-      }
-      case "goto": {
-        icon = "corner-right-down";
-        break;
-      }
-      case "freq": {
-        icon = "activity";
-        break;
-      }
-      case "note": {
-        icon = "music";
-        break;
-      }
-      default: {
-        icon = "chevron-right";
-        break;
-      }
-    }
+    const def = OpCodeTypes[type];
+    const fields = def.relevantFields;
 
     return (
       <>
         <Filler />
         {label ? <span className={`icon icon-tag top-left`} /> : null}
-        <span className={`icon icon-${icon}`} onClick={this.onEdit} />
-        {op.type == "freq" ? (
-          <span className="bottom-right">{op.numberValue} Hz</span>
+        <span className={`icon icon-${def.icon}`} data-rh={def.label} />
+
+        {fields.numberValue ? (
+          <span className="top-right" data-rh={fields.numberValue.label}>
+            {op.numberValue} {fields.numberValue.unit}
+          </span>
         ) : null}
-        {op.type == "goto" ? (
-          <span className="bottom-right">{op.name}</span>
+        {fields.name ? (
+          <span className="bottom-right" data-rh={fields.name.label}>
+            {op.name || "∅"}
+          </span>
         ) : null}
-        {op.type == "motor" ? (
-          <>
-            <span className="top-right">{op.name}</span>
-            {this.renderBoolValue("bottom-left", op.boolValue)}
-          </>
-        ) : null}
-        {op.type == "note" ? (
-          <>
-            <span className="top-right">{op.name}</span>
-            <span className="bottom-right">{op.numberValue} Hz</span>
-            {this.renderBoolValue("bottom-left", op.boolValue)}
-          </>
-        ) : null}
+        {fields.boolValue
+          ? this.renderBoolValue("bottom-left", op.boolValue, fields.boolValue)
+          : null}
         <Filler />
       </>
     );
   }
 
-  renderBoolValue(pos: string, bv: boolean) {
+  renderBoolValue(pos: string, bv: boolean, title: string) {
     return (
       <span
+        data-rh={title}
+        style={{ color: bv ? "#5cbf5c" : "#de9494" }}
         className={`${pos} icon icon-${bv ? "check" : "x"}`}
         onClick={this.onFlipBool}
       />
     );
   }
-
-  onEdit = (ev: React.MouseEvent<HTMLElement>) => {
-    const { addr } = this.props;
-    this.props.editCellStart({ addr });
-  };
 
   onFlipBool = (ev: React.MouseEvent<any>) => {
     const { addr, op } = this.props;

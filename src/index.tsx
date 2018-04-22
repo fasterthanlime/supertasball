@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { ThemeProvider, theme } from "./components/styles";
 
 import "./icomoon/style.css";
+import "react-hint/css/index.css";
 
 ReactDOM.render(
   <Provider store={store as any}>

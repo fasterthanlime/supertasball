@@ -1,6 +1,6 @@
 import React = require("react");
 import { connect, Dispatchers, actionCreatorsList } from "./connect";
-import { RootState, OpCode, EditedCell, CellSelection } from "../types";
+import { RootState, OpCode, CellSelection } from "../types";
 import styled from "./styles";
 
 import SimControls from "./sim-controls";
@@ -37,12 +37,11 @@ const Filler = styled.div`
 
 class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { showCode, editedCell } = this.props;
+    const { showCode } = this.props;
     return (
       <IDEDiv tabIndex={0} onKeyDown={this.onKeyDown} innerRef={this.onDiv}>
         <SimControls />
         {showCode ? this.renderOps() : <p>Code hidden</p>}
-        {editedCell ? <CellEditor addr={editedCell.addr} /> : null}
       </IDEDiv>
     );
   }
@@ -59,7 +58,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   }
 
   renderOps(): JSX.Element {
-    const { pc, code, editedCell, cellSelection } = this.props;
+    const { pc, code, cellSelection } = this.props;
     let ops = [];
     for (let addr = 0; addr < this.props.code.length; addr++) {
       const op = code[addr];
@@ -74,7 +73,6 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
           addr={addr}
           active={active}
           selected={selected}
-          edited={editedCell && addr == editedCell.addr}
           onClick={this.onOpClick}
           onDoubleClick={this.onOpDoubleClick}
         />,

@@ -2,6 +2,9 @@ import * as React from "react";
 import { connect, actionCreatorsList, Dispatchers } from "./connect";
 import { RootState } from "../types";
 
+import ReactHintFactory = require("react-hint");
+const ReactHint = ReactHintFactory(React);
+
 import Menu from "./menu";
 import Game from "./game";
 import FloatiesContainer from "./floaties-container";
@@ -24,6 +27,7 @@ class App extends React.PureComponent<Props & DerivedProps> {
       <AppDiv>
         {this.renderPage()}
         <FloatiesContainer />
+        <ReactHint events />
       </AppDiv>
     );
   }

@@ -19,7 +19,6 @@ export interface CellSelection {
 
 export interface UIState {
   page: Page;
-  editedCell?: EditedCell;
   cellSelection: CellSelection;
   floaties: Floaties;
   showCode: boolean;
@@ -33,10 +32,6 @@ export interface Floaty {
   clientX: number;
   clientY: number;
   text: string;
-}
-
-export interface EditedCell {
-  addr: number;
 }
 
 export interface SimulationState {
@@ -96,13 +91,18 @@ interface Choice {
 
 interface OpCodeDef {
   label: string;
+  icon: string;
   relevantFields: {
     name?: {
+      label: string;
       choices?: Choice[];
-      freeInput?: string;
     };
     boolValue?: string;
-    numberValue?: string;
+    numberValue?: {
+      label: string;
+      unit: string;
+      defaultValue: number;
+    };
   };
 }
 
@@ -110,46 +110,61 @@ const op = (def: OpCodeDef) => def;
 
 export const OpCodeTypes = {
   nop: op({
-    label: "NOP: Do nothing",
+    label: "N[o]p: do nothing",
+    icon: "chevron-right",
     relevantFields: {},
   }),
   motor: op({
-    label: "MOTOR: Enable/disable flipper motor",
+    label: "Flipper [m]otor control",
+    icon: "settings",
     relevantFields: {
       name: {
+        label: "Which flipper to activate",
         choices: [
-          { label: "Left flipper", value: "left" },
-          { label: "Right flipper", value: "right" },
+          { label: "Left", value: "left" },
+          { label: "Right", value: "right" },
         ],
       },
-      boolValue: `enabled`,
+      boolValue: `Enable/disable flipper motor`,
     },
   }),
   goto: op({
-    label: "GOTO: Unconditional jump",
+    label: "[G]oto",
+    icon: "corner-right-down",
     relevantFields: {
-      name: { freeInput: `label to jump to` },
+      name: { label: "Which label to jump to" },
     },
   }),
   freq: op({
-    label: "FREQ: Set frequency",
+    label: "Set [f]requency",
+    icon: "activity",
     relevantFields: {
-      numberValue: `new cpu frequency in Hz`,
+      numberValue: {
+        label: "CPU frequency",
+        unit: "Hz",
+        defaultValue: 4,
+      },
     },
   }),
   note: op({
-    label: "NOTE: Write to note channel",
+    label: "Configure [n]ote channel",
+    icon: "music",
     relevantFields: {
       name: {
+        label: "Channel to use",
         choices: [
-          { label: "channel 1", value: "0" },
-          { label: "channel 2", value: "1" },
-          { label: "channel 3", value: "2" },
-          { label: "channel 4", value: "3" },
+          { label: "0", value: "0" },
+          { label: "1", value: "1" },
+          { label: "2", value: "2" },
+          { label: "3", value: "3" },
         ],
       },
-      numberValue: `note frequency in Hz`,
-      boolValue: `playing`,
+      numberValue: {
+        label: "Note frequency",
+        unit: "Hz",
+        defaultValue: 440,
+      },
+      boolValue: `Play or mute sound channel`,
     },
   }),
 };

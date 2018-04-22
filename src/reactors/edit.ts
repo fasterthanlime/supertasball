@@ -1,6 +1,6 @@
 import { Watcher } from "../components/watching";
 import { actions } from "../actions";
-import { OpCode } from "../types";
+import { OpCode, OpCodeTypes } from "../types";
 
 export default function(w: Watcher) {
   w.on(actions.cellClear, (store, action) => {
@@ -38,11 +38,23 @@ export default function(w: Watcher) {
   w.on(actions.cellSetType, (store, action) => {
     const { type } = action.payload;
     const cs = store.getState().ui.cellSelection;
+    let model: OpCode = { type: type };
+    const def = OpCodeTypes[type];
+    if (def.relevantFields.name && def.relevantFields.name.choices) {
+      model.name = def.relevantFields.name.choices[0].value;
+    }
+    if (def.relevantFields.numberValue) {
+      model.numberValue = def.relevantFields.numberValue.defaultValue;
+    }
+    if (def.relevantFields.boolValue) {
+      model.boolValue = true;
+    }
+
     for (let i = 0; i < cs.size; i++) {
       store.dispatch(
         actions.commitCell({
           addr: cs.start + i,
-          op: { type: type },
+          op: { ...model },
         }),
       );
     }
