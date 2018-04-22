@@ -77,6 +77,10 @@ export default class Op extends React.PureComponent<Props> {
         icon = "activity";
         break;
       }
+      case "note": {
+        icon = "music";
+        break;
+      }
       default: {
         icon = "chevron-right";
         break;

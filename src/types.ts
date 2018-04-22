@@ -81,7 +81,7 @@ export interface Expense {
 }
 
 export interface OpCode {
-  type: "nop" | "flip" | "goto" | "freq";
+  type: "nop" | "flip" | "goto" | "freq" | "note";
   name?: string;
   boolValue?: boolean;
   numberValue?: number;
