@@ -2,28 +2,44 @@ const {
   FuseBox,
   WebIndexPlugin,
   CSSResourcePlugin,
-  CSSPlugin
+  CSSPlugin,
+  QuantumPlugin,
 } = require("fuse-box");
+
+let isProduction = false;
+if (process.env.NODE_ENV === "production") {
+  isProduction = true;
+}
+
 const fuse = FuseBox.init({
   homeDir: "src",
   target: "browser@es6",
   output: "dist/$name.js",
   plugins: [
     WebIndexPlugin({
-      template: "index.template.html"
+      template: "index.template.html",
     }),
     [
       CSSResourcePlugin({
-        inline: true
+        inline: true,
       }),
-      CSSPlugin()
-    ]
-  ]
+      CSSPlugin(),
+    ],
+    isProduction &&
+      QuantumPlugin({
+        uglify: true,
+        treeshake: true,
+        bakeApiIntoBundle: "app",
+      }),
+  ],
 });
-fuse.dev(); // launch http server
-fuse
-  .bundle("app")
-  .instructions(" > index.tsx")
-  .hmr()
-  .watch();
+
+if (!isProduction) {
+  fuse.dev(); // launch http server
+}
+
+const bundle = fuse.bundle("app").instructions(" > index.tsx");
+if (!isProduction) {
+  bundle.hmr().watch();
+}
 fuse.run();
