@@ -83,8 +83,52 @@ export interface Expense {
   action?: () => Action<any>;
 }
 
+interface OpCodeDef {
+  label: string;
+  relevantFields: {
+    name?: string;
+    boolValue?: string;
+    numberValue?: string;
+  };
+}
+
+export const OpCodeTypes = {
+  nop: <OpCodeDef>{
+    label: "NOP: Do nothing",
+    relevantFields: {},
+  },
+  flip: <OpCodeDef>{
+    label: "FLIP: Set flipper state",
+    relevantFields: {
+      name: `"left" or "right" flipper`,
+      boolValue: `enabled`,
+    },
+  },
+  goto: <OpCodeDef>{
+    label: "GOTO: Unconditional jump",
+    relevantFields: {
+      name: `label to jump to`,
+    },
+  },
+  freq: <OpCodeDef>{
+    label: "FREQ: Set frequency",
+    relevantFields: {
+      numberValue: `new cpu frequency in Hz`,
+    },
+  },
+  note: <OpCodeDef>{
+    label: "NOTE: Write to note channel",
+    relevantFields: {
+      name: `note channel (0, 1, 2, or 3)`,
+      numberValue: `note frequency in Hz`,
+      boolValue: `playing`,
+    },
+  },
+};
+export type OpCodeType = keyof typeof OpCodeTypes;
+
 export interface OpCode {
-  type: "nop" | "flip" | "goto" | "freq" | "note";
+  type: OpCodeType;
   name?: string;
   boolValue?: boolean;
   numberValue?: number;

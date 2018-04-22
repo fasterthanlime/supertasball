@@ -23,6 +23,12 @@ const OpDiv = styled.div`
     color: white;
   }
 
+  &.edited {
+    border-color: transparent;
+    background-color: rgb(240, 180, 180);
+    color: white;
+  }
+
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -68,10 +74,10 @@ const OpDiv = styled.div`
 
 export default class Op extends React.PureComponent<Props> {
   render() {
-    const { op, addr, active } = this.props;
+    const { op, addr, active, edited } = this.props;
     return (
       <OpDiv
-        className={`cell ${active && "active"}`}
+        className={`cell ${active && "active"} ${edited && "edited"}`}
         data-addr={addr}
         onClick={this.props.onClick}
       >
@@ -143,7 +149,8 @@ function renderBoolValue(pos: string, bv: boolean) {
 
 interface Props {
   addr: number;
-  active: boolean;
+  active?: boolean;
+  edited?: boolean;
   op: OpCode;
   onClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }

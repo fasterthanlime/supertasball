@@ -10,6 +10,10 @@ import CellEditor from "./cell-editor";
 const IDEDiv = styled.div`
   width: 100%;
   position: relative;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Ops = styled.div`
@@ -27,7 +31,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { showCode, editedCell } = this.props;
     return (
-      <IDEDiv>
+      <IDEDiv tabIndex={0} onKeyDown={this.onKeyDown}>
         <SimControls />
         {showCode ? this.renderOps() : <p>Code hidden</p>}
         {editedCell ? <CellEditor addr={editedCell.addr} /> : null}
@@ -36,7 +40,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   }
 
   renderOps(): JSX.Element {
-    const { pc, code } = this.props;
+    const { pc, code, editedCell } = this.props;
     let ops = [];
     for (let addr = 0; addr < this.props.code.length; addr++) {
       const op = code[addr];
@@ -47,6 +51,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
           op={op}
           addr={addr}
           active={addr == pc}
+          edited={editedCell && addr == editedCell.addr}
           onClick={this.onOpClick}
         />,
       );
@@ -61,11 +66,22 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       this.props.editCellStart({ addr: parseInt(addr, 10) });
     }
   };
+
+  onKeyDown = (ev: React.KeyboardEvent<HTMLElement>) => {
+    if (ev.key == "Escape") {
+      this.props.editCellStop({});
+    }
+  };
 }
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPage", "floaty", "editCellStart");
+const actionCreators = actionCreatorsList(
+  "setPage",
+  "floaty",
+  "editCellStart",
+  "editCellStop",
+);
 
 type DerivedProps = {
   pc: number;

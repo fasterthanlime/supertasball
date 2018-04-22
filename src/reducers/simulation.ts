@@ -136,4 +136,15 @@ export default reducer<SimulationState>(null, on => {
       stepping: true,
     };
   });
+
+  on(actions.commitCell, (state, action) => {
+    let { addr, op } = action.payload;
+    let code = [...state.code];
+    code[addr] = op;
+
+    return {
+      ...state,
+      code,
+    };
+  });
 });

@@ -26,6 +26,7 @@ export const actions = wireActions({
 
   editCellStart: action<{ addr: number }>(),
   editCellStop: action<{}>(),
+  commitCell: action<{ addr: number; op: OpCode }>(),
 
   playPinball: action<{}>(),
   moneyDelta: action<{ delta: number }>(),

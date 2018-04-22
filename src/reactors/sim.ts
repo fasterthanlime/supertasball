@@ -90,7 +90,7 @@ function cpuStep(store: Store, oldState: SimulationState) {
     case "note": {
       let osc = oscillators[op.name];
       if (osc) {
-        osc.volume.value = op.boolValue ? 0.2 : -Infinity;
+        osc.volume.value = op.boolValue ? -20 : -Infinity;
         if (typeof op.numberValue !== "undefined") {
           osc.frequency.value = op.numberValue;
         }
