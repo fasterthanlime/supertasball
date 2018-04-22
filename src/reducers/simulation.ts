@@ -12,17 +12,42 @@ function freshSimulationState(params: SimulationParams): SimulationState {
     code[i] = { type: "nop" };
   }
 
-  code[3] = {
+  code[1] = {
     type: "writeFlipper",
     name: "right",
     boolValue: true,
   };
-  code[12] = {
+  code[3] = {
     type: "writeFlipper",
     name: "right",
     boolValue: false,
   };
-  code[13] = {
+  code[6] = {
+    type: "writeFlipper",
+    name: "right",
+    boolValue: true,
+  };
+  code[8] = {
+    type: "writeFlipper",
+    name: "right",
+    boolValue: false,
+  };
+  code[10] = {
+    type: "writeFlipper",
+    name: "left",
+    boolValue: true,
+  };
+  code[0xc] = {
+    type: "writeFlipper",
+    name: "right",
+    boolValue: true,
+  };
+  code[0xe] = {
+    type: "writeFlipper",
+    name: "left",
+    boolValue: false,
+  };
+  code[0x13] = {
     type: "writeFlipper",
     name: "left",
     boolValue: true,
@@ -34,6 +59,7 @@ function freshSimulationState(params: SimulationParams): SimulationState {
     ticks: 0,
     lastUpdateTicks: 0,
     pc: 0,
+    stepping: false,
     code,
   };
 }
@@ -51,39 +77,23 @@ export default reducer<SimulationState>(null, on => {
     };
   });
 
-  on(actions.tick, (state, action) => {
-    let newState = {
-      ...state,
-      ticks: state.ticks + 1,
-    };
-
-    let freqTicks = 60 / newState.params.freq;
-    let ticksDelta = newState.ticks - newState.lastUpdateTicks;
-    if (ticksDelta > freqTicks) {
-      newState = cpuStep(newState);
-    }
-    return newState;
+  on(actions.commitSimulationState, (state, action) => {
+    return action.payload.state;
   });
 
-  on(actions.refresh, (state, action) => {
+  on(actions.exitSimulation, (state, action) => {
+    return null;
+  });
+
+  on(actions.reset, (state, action) => {
     return freshSimulationState(state.params);
   });
+
+  on(actions.stepForward, (state, action) => {
+    return {
+      ...state,
+      paused: false,
+      stepping: true,
+    };
+  });
 });
-
-function cpuStep(oldState: SimulationState) {
-  let state = { ...oldState };
-
-  state.pc++;
-  if (state.pc >= state.code.length) {
-    state.pc = 0;
-  }
-  state.lastUpdateTicks = state.ticks;
-
-  setTimeout(() => {
-    // ooh ahh don't do that in redux!
-    let op = state.code[state.pc];
-    store.dispatch(actions.execute({ op }));
-  }, 0);
-
-  return state;
-}

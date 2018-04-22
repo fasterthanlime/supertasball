@@ -1,7 +1,7 @@
 import { Watcher } from "../watcher";
 export { Watcher } from "../watcher";
 
-import PropTypes from "prop-types";
+import * as PropTypes from "prop-types";
 
 /**
  * watching is an ES2017 decorator that lets components subscribe

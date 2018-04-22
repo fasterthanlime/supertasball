@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "./styles";
-import { actionCreatorsList, Dispatchers } from "./connect";
+import { actionCreatorsList, Dispatchers, connect } from "./connect";
 import { SimulationState } from "../types";
 
 import Pinball from "./pinball";
@@ -27,3 +27,5 @@ const actionCreators = actionCreatorsList();
 type DerivedProps = Dispatchers<typeof actionCreators> & {
   simulation: SimulationState;
 };
+
+export default connect<Props>(Simulation, { actionCreators });

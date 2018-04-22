@@ -3,9 +3,21 @@ import { connect, Dispatchers, actionCreatorsList } from "./connect";
 import { RootState, OpCode } from "../types";
 import styled from "./styles";
 
+import SimControls from "./sim-controls";
 import Op from "./op";
 
 const IDEDiv = styled.div``;
+
+const Ops = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: start;
+`;
+
+const Filler = styled.div`
+  flex-grow: 1;
+`;
 
 class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
@@ -14,10 +26,16 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
     for (let addr = 0; addr < this.props.code.length; addr++) {
       const op = code[addr];
       let active = addr == pc;
-      ops.push(<Op op={op} addr={addr} pc={pc} />);
+      ops.push(<Op key={addr} op={op} addr={addr} pc={pc} />);
     }
+    ops.push(<Filler key="filler" />);
 
-    return <IDEDiv>{ops}</IDEDiv>;
+    return (
+      <IDEDiv>
+        <SimControls />
+        <Ops>{ops}</Ops>
+      </IDEDiv>
+    );
   }
 }
 

@@ -14,7 +14,7 @@ const ControlsDiv = styled.div`
   margin-bottom: 10px;
 `;
 
-const Label = styled.div`
+export const Label = styled.div`
   margin: 0 8px;
   font-weight: bold;
   width: 120px;
@@ -35,10 +35,12 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
         <Label>
           <Icon icon="dollar-sign" /> <Money />
         </Label>
-        <Label>
+        <Label title={`The CPU executes ${freq} operations per second`}>
           <Icon icon="activity" /> {freq} Hz
         </Label>
-        <Label>
+        <Label
+          title={`Your programs can contain at most ${codeSize} operations`}
+        >
           <Icon icon="maximize" /> {codeSize} ops
         </Label>
         <Filler />

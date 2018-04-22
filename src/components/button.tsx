@@ -42,6 +42,10 @@ const ButtonDiv = styled.div`
   .icon {
     font-size: 20px;
   }
+
+  &.large .icon {
+    font-size: 30px;
+  }
 `;
 
 // like it's '99!
@@ -53,7 +57,7 @@ const Spacer = styled.div`
 
 export default class Button extends React.PureComponent<Props> {
   render() {
-    const { icon, children, progress, disabled, ...rest } = this.props;
+    const { icon, children, progress, disabled, large, ...rest } = this.props;
 
     let style: React.CSSProperties = {};
     if (progress > 0) {
@@ -65,7 +69,7 @@ export default class Button extends React.PureComponent<Props> {
       <ButtonDiv
         style={style}
         {...rest}
-        className={classNames({ disabled, progressing: progress > 0 })}
+        className={classNames({ disabled, progressing: progress > 0, large })}
       >
         {icon ? (
           <>
@@ -85,4 +89,5 @@ interface Props {
   onClick?: (e: React.MouseEvent<any>) => void;
   progress?: number;
   disabled?: boolean;
+  large?: boolean;
 }

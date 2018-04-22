@@ -3,7 +3,7 @@ import { ResourcesState } from "../types";
 import { actions } from "../actions";
 
 const initialState: ResourcesState = {
-  money: 2,
+  money: 5,
   codeSize: 20,
   freq: 1,
 };

@@ -5,6 +5,7 @@ import Button from "./button";
 import styled from "./styles";
 import * as planck from "planck-js";
 import * as PIXI from "pixi.js";
+import "pixi-pause";
 import watching, { Watcher } from "./watching";
 import { actions } from "../actions";
 
@@ -27,7 +28,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
   }
 
   subscribe(w: Watcher) {
-    w.on(actions.refresh, async (store, action) => {
+    w.on(actions.reset, async (store, action) => {
       this.left = false;
       this.right = false;
       this.createWorld();

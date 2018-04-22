@@ -54,9 +54,9 @@ export default class Op extends React.PureComponent<Props> {
     const { op, addr, pc } = this.props;
     const active = addr === pc;
     return (
-      <div className={`cell ${active && "active"}`} key={`addr-${addr}`}>
+      <OpDiv className={`cell ${active && "active"}`} key={`addr-${addr}`}>
         {this.renderOpIcon(op)}
-      </div>
+      </OpDiv>
     );
   }
 

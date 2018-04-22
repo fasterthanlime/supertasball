@@ -4,7 +4,7 @@ import { RootState, SimulationState } from "../types";
 
 import Button from "./button";
 import Controls from "./controls";
-import Simulation from "./controls";
+import Simulation from "./simulation";
 import Clicker from "./clicker";
 import styled from "./styles";
 

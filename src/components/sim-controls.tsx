@@ -30,21 +30,41 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
   render() {
     return (
       <SimControlsDiv>
-        <Button icon="refresh-cw" onClick={this.onRefresh} />
+        <Button large icon="skip-back" onClick={this.onReset}>
+          Reset
+        </Button>
+        <Button large icon="chevron-right" onClick={this.onStepForward} />
         {this.renderPlayPause()}
+        <Filler />
+        <Label>
+          <Icon icon="clock" /> 0x{this.props.pc.toString(16)}
+        </Label>
+        <Button large icon="log-out" onClick={this.onExitSimulation}>
+          Exit arcade
+        </Button>
       </SimControlsDiv>
     );
   }
 
-  onRefresh = () => {
-    this.props.refresh({});
+  onExitSimulation = () => {
+    if (window.confirm("Are you sure you want to exit the arcade?")) {
+      this.props.exitSimulation({});
+    }
+  };
+
+  onReset = () => {
+    this.props.reset({});
+  };
+
+  onStepForward = () => {
+    this.props.stepForward({});
   };
 
   renderPlayPause(): JSX.Element {
     if (this.props.paused) {
-      return <Button icon="play" onClick={this.onPlay} />;
+      return <Button large icon="play" onClick={this.onPlay} />;
     } else {
-      return <Button icon="pause" onClick={this.onPause} />;
+      return <Button large icon="pause" onClick={this.onPause} />;
     }
   }
 
@@ -59,15 +79,22 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPaused", "refresh");
+const actionCreators = actionCreatorsList(
+  "exitSimulation",
+  "setPaused",
+  "reset",
+  "stepForward",
+);
 
 type DerivedProps = {
   paused: number;
+  pc: number;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(SimControls, {
   actionCreators,
   state: (rs: RootState) => ({
     paused: rs.simulation.paused,
+    pc: rs.simulation.pc,
   }),
 });

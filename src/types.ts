@@ -34,6 +34,7 @@ export interface SimulationState {
   params: SimulationParams;
 
   paused: boolean;
+  stepping: boolean;
   ticks: number;
   lastUpdateTicks: number;
 

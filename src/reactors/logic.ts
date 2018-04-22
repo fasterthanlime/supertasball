@@ -55,6 +55,7 @@ export default function(w: Watcher) {
       codeSize: resources.codeSize,
       freq: resources.freq,
     };
+    store.dispatch(actions.newSimulation({ params }));
   });
 }
 

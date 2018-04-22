@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
+    "pixi-pause": "^1.0.3",
     "pixi.js": "^4.7.3",
     "planck-js": "^0.1.44",
     "polished": "^1.9.2",

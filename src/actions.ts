@@ -8,6 +8,7 @@ import {
   SimulationParams,
   Expense,
   Activity,
+  SimulationState,
 } from "./types";
 
 // actions
@@ -34,8 +35,11 @@ export const actions = wireActions({
 
   setPaused: action<{ paused: boolean }>(),
   tick: action<{}>(),
-  refresh: action<{}>(),
+  reset: action<{}>(),
+  stepForward: action<{}>(),
   execute: action<{ op: OpCode }>(),
+  commitSimulationState: action<{ state: SimulationState }>(),
+  exitSimulation: action<{}>(),
 
   editCell: action<{ editedCell: EditedCell }>(),
 });
