@@ -97,23 +97,52 @@ class Game extends React.PureComponent<Props & DerivedProps> {
         let pos = Vec2(0, 0);
 
         if (tags.indexOf("#flipper") !== -1) {
-          let totalX = 0.0,
-            totalY = 0.0;
+          let left = tags.indexOf("#left") !== -1;
+          let right = !left;
+
+          let totalX = 0.0;
+          let totalY = 0.0;
+          let minX = Infinity;
+          let maxX = -Infinity;
+          let minY = Infinity;
+          let maxY = -Infinity;
           for (const p of points) {
+            if (p.x < minX) {
+              minX = p.x;
+            }
+            if (p.x > maxX) {
+              maxX = p.x;
+            }
+            if (p.y < minY) {
+              minY = p.y;
+            }
+            if (p.y > maxY) {
+              maxY = p.y;
+            }
             totalX += p.x;
             totalY += p.y;
           }
+
           totalX /= points.length;
           totalY /= points.length;
           pos.x = totalX;
           pos.y = totalY;
-          offsetX = -totalX;
-          offsetY = -totalY;
+
+          let width = maxX - minX;
+          let height = maxY - minY;
+          if (left) {
+            pos.x -= width * 0.4;
+          } else {
+            pos.x += width * 0.4;
+          }
+
+          offsetX = -pos.x;
+          offsetY = -pos.y;
           body = world.createDynamicBody(pos);
 
           jd = {
             enableMotor: true,
-            maxMotorTorque: 10000000.0,
+            maxMotorTorque: 80000000.0,
             enableLimit: true,
             motorSpeed: 0.0,
           };
@@ -148,7 +177,6 @@ class Game extends React.PureComponent<Props & DerivedProps> {
         for (const p of points) {
           vecs.push(Vec2(p.x + offsetX, p.y + offsetY));
         }
-        console.log(`vecs = `, vecs);
 
         if (isStatic) {
           const chain = pl.Chain(vecs, false);
@@ -339,9 +367,6 @@ function sync(b: planck.Body, gfx: PIXI.Graphics) {
   const pos = b.getPosition();
   gfx.position.set(pos.x, pos.y);
   gfx.rotation = b.getAngle();
-  // if (b.tags && b.tags.indexOf("#flipper") !== -1) {
-  //   console.log("flipper angle = ", b.getAngle());
-  // }
 }
 
 function toRadians(degrees: number): number {
