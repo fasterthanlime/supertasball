@@ -183,6 +183,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     const app = new PIXI.Application({
       width,
       height,
+      antialias: true,
     });
     app.renderer.backgroundColor = 0xffffff;
 
@@ -230,7 +231,7 @@ export default connect<Props>(Game, {
 
 function drawBody(body: planck.Body): PIXI.Graphics {
   const gfx = new PIXI.Graphics();
-  let lineWidth = 3;
+  let lineWidth = 1;
   let lineColor = 0x333333;
 
   for (let f = body.getFixtureList(); f; f = f.getNext()) {
