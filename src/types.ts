@@ -22,6 +22,11 @@ export interface UIState {
   cellSelection: CellSelection;
   floaties: Floaties;
   showCode: boolean;
+  clipboard: Clipboard;
+}
+
+export interface Clipboard {
+  ops: OpCode[];
 }
 
 export interface Floaties {

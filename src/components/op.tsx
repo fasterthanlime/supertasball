@@ -16,7 +16,7 @@ const OpDiv = styled.div`
   color: black;
   background-color: white;
   position: relative;
-  border-bottom: 14px solid #777;
+  border-bottom: 6px solid #777;
   user-select: none;
   transition: transform 0.2s;
   margin: 2px;
@@ -88,7 +88,10 @@ class Op extends React.PureComponent<Props & DerivedProps> {
     return (
       <ContextMenuTrigger
         id="cell-type-menu"
-        collect={props => ({ ...props, addr, op })}
+        collect={props => {
+          this.props.setCellSelection({ start: addr, size: 1 });
+          return { ...props, addr, op };
+        }}
       >
         <OpDiv
           className={`cell ${active && "active"} ${edited &&
@@ -235,6 +238,7 @@ const actionCreators = actionCreatorsList(
   "commitCell",
   "cellSetName",
   "cellSetNumberValue",
+  "setCellSelection",
 );
 
 type DerivedProps = {} & Dispatchers<typeof actionCreators>;

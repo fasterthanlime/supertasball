@@ -1,9 +1,15 @@
 import React = require("react");
 
-import { ContextMenu, MenuItem } from "react-contextmenu";
+import { ContextMenu, MenuItem, SubMenu } from "react-contextmenu";
 const { connectMenu } = require("react-contextmenu"); // smh
 
-import { OpCodeTypes, OpCode } from "../../types";
+import {
+  OpCodeTypes,
+  OpCode,
+  RootState,
+  CellSelection,
+  Clipboard,
+} from "../../types";
 import { Dispatchers, actionCreatorsList, connect } from "../connect";
 import Icon from "../icon";
 
@@ -19,6 +25,7 @@ class CellTypeMenu extends React.Component<Props & DerivedProps> {
     }
 
     const { op, addr } = this.props.trigger;
+    const cb = this.props.clipboard;
 
     return (
       <>
@@ -53,7 +60,19 @@ class CellTypeMenu extends React.Component<Props & DerivedProps> {
           <MenuItem
             onClick={() => this.props.cellSetLabel({ addr, label: null })}
           >
-            Clear label
+            <Icon icon="delete" /> Clear label
+          </MenuItem>
+        ) : null}
+        {cb.ops.length > 1 ? (
+          <MenuItem onClick={() => this.props.cellPasteInsert({})}>
+            <Icon icon="corner-left-down" /> Insert {cb.ops.length} copied items
+            before
+          </MenuItem>
+        ) : null}
+        {cb.ops.length > 1 ? (
+          <MenuItem onClick={() => this.props.cellPaste({})}>
+            <Icon icon="corner-down-right" /> Paste {cb.ops.length} copied items
+            by replacing
           </MenuItem>
         ) : null}
       </>
@@ -67,11 +86,24 @@ interface Props {
     addr: number;
     op: OpCode;
   };
+  cellSelection: CellSelection;
+  clipboard: Clipboard;
 }
 
-const actionCreators = actionCreatorsList("cellSetType", "cellSetLabel");
+const actionCreators = actionCreatorsList(
+  "cellSetType",
+  "cellSetLabel",
+  "cellPaste",
+  "cellPasteInsert",
+);
 type DerivedProps = Dispatchers<typeof actionCreators>;
 
 export default connectMenu("cell-type-menu")(
-  connect<Props>(CellTypeMenu, { actionCreators }),
+  connect<Props>(CellTypeMenu, {
+    actionCreators,
+    state: (rs: RootState) => ({
+      cellSelection: rs.ui.cellSelection,
+      clipboard: rs.ui.clipboard,
+    }),
+  }),
 );

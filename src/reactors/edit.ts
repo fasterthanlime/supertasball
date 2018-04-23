@@ -85,4 +85,89 @@ export default function(w: Watcher) {
     const op = code[addr];
     store.dispatch(actions.commitCell({ addr, op: { ...op, numberValue } }));
   });
+
+  w.on(actions.cellYank, (store, action) => {
+    const rs = store.getState();
+    const { code } = rs.simulation;
+    const cs = rs.ui.cellSelection;
+    let ops: OpCode[] = [];
+    for (let i = 0; i < cs.size; i++) {
+      let addr = i + cs.start;
+      let op = code[addr];
+      ops.push({ ...op });
+    }
+    store.dispatch(actions.clipboardPut({ ops }));
+
+    const nop: OpCode = { type: "nop" };
+    for (let i = cs.start; i < code.length; i++) {
+      let addr = i;
+      let op = code[i + cs.size];
+      store.dispatch(actions.commitCell({ addr, op: { ...(op || nop) } }));
+    }
+  });
+
+  w.on(actions.cellCut, (store, action) => {
+    const rs = store.getState();
+    const { code } = rs.simulation;
+    const cs = rs.ui.cellSelection;
+    let ops: OpCode[] = [];
+    for (let i = 0; i < cs.size; i++) {
+      let addr = i + cs.start;
+      let op = code[addr];
+      ops.push({ ...op });
+      store.dispatch(actions.commitCell({ addr, op: { type: "nop" } }));
+    }
+    store.dispatch(actions.clipboardPut({ ops }));
+  });
+
+  w.on(actions.cellCopy, (store, action) => {
+    const rs = store.getState();
+    const { code } = rs.simulation;
+    const cs = rs.ui.cellSelection;
+    let ops: OpCode[] = [];
+    for (let i = 0; i < cs.size; i++) {
+      let addr = i + cs.start;
+      let op = code[addr];
+      ops.push({ ...op });
+    }
+    store.dispatch(actions.clipboardPut({ ops }));
+  });
+
+  w.on(actions.cellPaste, (store, action) => {
+    const rs = store.getState();
+    const { code } = rs.simulation;
+    const cs = rs.ui.cellSelection;
+    const cb = rs.ui.clipboard;
+
+    for (let i = 0; i < cb.ops.length; i++) {
+      let addr = cs.start + i;
+      let op = cb.ops[i];
+      store.dispatch(actions.commitCell({ addr, op: { ...op } }));
+    }
+    store.dispatch(
+      actions.setCellSelection({ start: cs.start + cb.ops.length, size: 1 }),
+    );
+  });
+
+  w.on(actions.cellPasteInsert, (store, action) => {
+    const rs = store.getState();
+    const { code } = rs.simulation;
+    const cs = rs.ui.cellSelection;
+    const cb = rs.ui.clipboard;
+
+    const nop: OpCode = { type: "nop" };
+    for (let i = cs.start + cb.ops.length; i < code.length; i++) {
+      let addr = i;
+      let op = code[i - cb.ops.length];
+      store.dispatch(actions.commitCell({ addr, op: { ...(op || nop) } }));
+    }
+    for (let i = 0; i < cb.ops.length; i++) {
+      let addr = cs.start + i;
+      let op = cb.ops[i];
+      store.dispatch(actions.commitCell({ addr, op: { ...op } }));
+    }
+    store.dispatch(
+      actions.setCellSelection({ start: cs.start + cb.ops.length, size: 1 }),
+    );
+  });
 }

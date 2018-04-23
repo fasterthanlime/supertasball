@@ -27,11 +27,14 @@ export const actions = wireActions({
   setCellSelection: action<{ start: number; size: number }>(),
   commitCell: action<{ addr: number; op: OpCode }>(),
 
+  clipboardPut: action<{ ops: OpCode[] }>(),
+
   cellYank: action<{}>(),
   cellClear: action<{}>(),
   cellCut: action<{}>(),
   cellCopy: action<{}>(),
   cellPaste: action<{}>(),
+  cellPasteInsert: action<{}>(),
   cellDuplicate: action<{}>(),
   cellSetType: action<{ addr?: number; type: OpCodeType }>(),
   cellSetName: action<{ addr?: number; name: string }>(),

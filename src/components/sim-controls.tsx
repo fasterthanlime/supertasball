@@ -33,6 +33,8 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
         <Button icon="refresh-cw" onClick={this.onReset} />
         <Button icon="chevron-right" onClick={this.onStepForward} />
         {this.renderPlayPause()}
+        <span>{" | "}</span>
+        <Button icon="copy" onClick={this.onCopy} />
         <Filler />
         <Label>
           <Icon icon="activity" /> {this.props.freq} Hz
@@ -85,6 +87,10 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
   onPause = () => {
     this.props.setPaused({ paused: true });
   };
+
+  onCopy = () => {
+    this.props.cellCopy({});
+  };
 }
 
 interface Props {}
@@ -95,6 +101,7 @@ const actionCreators = actionCreatorsList(
   "reset",
   "stepForward",
   "setShowCode",
+  "cellCopy",
 );
 
 type DerivedProps = {

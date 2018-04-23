@@ -7,6 +7,7 @@ const initialState: UIState = {
   showCode: true,
   floaties: {},
   cellSelection: { start: 0, size: 0 },
+  clipboard: { ops: [] },
 };
 
 let floatySeed = 0;
@@ -49,5 +50,9 @@ export default reducer<UIState>(initialState, on => {
 
   on(actions.setCellSelection, (state, action) => {
     return { ...state, cellSelection: action.payload };
+  });
+
+  on(actions.clipboardPut, (state, action) => {
+    return { ...state, clipboard: action.payload };
   });
 });

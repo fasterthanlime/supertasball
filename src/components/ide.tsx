@@ -144,6 +144,12 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       if (ev.ctrlKey) {
         this.props.cellPaste({});
       }
+    } else if (ev.key == "V") {
+      if (ev.ctrlKey) {
+        this.props.cellPasteInsert({});
+      }
+    } else if (ev.key == "Insert") {
+      this.props.cellPasteInsert({});
     } else if (ev.key == "d") {
       if (ev.ctrlKey) {
         this.props.cellDuplicate({});
@@ -182,6 +188,7 @@ const actionCreators = actionCreatorsList(
   "cellCut",
   "cellCopy",
   "cellPaste",
+  "cellPasteInsert",
   "cellDuplicate",
   "commitCell",
   "cellSetType",
