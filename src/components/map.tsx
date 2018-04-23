@@ -2,19 +2,18 @@ import {
   Joint,
   World,
   Vec2,
-  DetailedFixtureDef,
   Box,
   Body,
   RevoluteJointOpts,
   T_Vec2,
   Circle,
-  ShapeDef,
   FixtureDef,
   Chain,
   Polygon,
   RevoluteJoint,
   BodyType,
   Tags,
+  BodyDef,
 } from "planck-js";
 const tinycolor = require("tinycolor2");
 import { parseSVG, makeAbsolute } from "svg-path-parser";
@@ -37,7 +36,10 @@ export function loadMap(xmlString: string): Map {
   };
 
   const fixed = m.world.createBody();
-  fixed.createFixture(Box(0, 0), 0.0);
+  fixed.createFixture({
+    shape: Box(0, 0),
+    density: 0.0,
+  });
 
   const doc = new DOMParser().parseFromString(xmlString, "text/xml");
 
@@ -54,9 +56,14 @@ export function loadMap(xmlString: string): Map {
       let offsetX = 0;
       let offsetY = 0;
 
-      let isStatic = true;
-      if (tags.type == "flipper") {
-        isStatic = false;
+      const def: FixtureDef = {
+        density: 0.1,
+        shape: null,
+        filterGroupIndex: -1,
+      };
+
+      if (tags.type == "goal") {
+        def.isSensor = true;
       }
 
       let jd: RevoluteJointOpts;
@@ -65,7 +72,6 @@ export function loadMap(xmlString: string): Map {
       let pos = Vec2(0, 0);
 
       if (tags.type == "flipper") {
-        console.log("flipper points = ", points);
         let left = tags.side === "left";
         let right = !left;
 
@@ -148,17 +154,13 @@ export function loadMap(xmlString: string): Map {
         vecs.push(Vec2(p.x + offsetX, p.y + offsetY));
       }
 
-      const shapeDef: ShapeDef = {
-        density: isStatic ? 0.0 : 0.1,
-        filterGroupIndex,
-      };
-      let fixtureDef: FixtureDef;
-      if (isStatic) {
-        fixtureDef = Chain(vecs, false);
+      if (tags.type === "flipper" || tags.type === "goal") {
+        def.shape = Polygon(vecs);
       } else {
-        fixtureDef = Polygon(vecs);
+        def.shape = Chain(vecs, false);
+        def.density = 0.0;
       }
-      body.createFixture(fixtureDef, shapeDef);
+      body.createFixture(def);
 
       if (jd) {
         const joint = RevoluteJoint(jd, fixed, body, pos);
@@ -179,23 +181,29 @@ export function loadMap(xmlString: string): Map {
       );
       const radius = +(ellipse.attributes["r"] || ellipse.attributes["rx"])
         .nodeValue;
-      let density = 0.02;
+
+      const bdef: BodyDef = {
+        type: "dynamic",
+      };
+
+      const def: FixtureDef = {
+        shape: null,
+        density: 0.02,
+      };
+
       let type: BodyType = "dynamic";
       let bullet = true;
-      let isSensor = false;
-      let restitution: number = null;
-      let filterGroupIndex: number = null;
 
       if (tags.type === "collect") {
         type = "static";
-        density = 0.0;
-        bullet = false;
-        isSensor = true;
+        def.density = 0.0;
+        def.isSensor = true;
+        bdef.bullet = false;
       } else if (tags.type === "bumper") {
         type = "static";
-        density = 0.0;
-        restitution = 1;
-        filterGroupIndex = -1;
+        def.density = 0.0;
+        def.restitution = 1;
+        def.filterGroupIndex = -1;
       }
 
       const body = m.world.createBody({
@@ -205,19 +213,8 @@ export function loadMap(xmlString: string): Map {
       });
       body.tags = tags;
       parseStyle(ellipse, body);
-      const ddef: DetailedFixtureDef = {
-        shape: Circle(radius),
-      };
-      if (isSensor) {
-        ddef.isSensor = true;
-      }
-      if (restitution !== null) {
-        ddef.restitution = restitution;
-      }
-      body.createFixture(ddef, {
-        density: 0.02,
-        filterGroupIndex,
-      });
+      def.shape = Circle(radius);
+      body.createFixture(def);
     }
   }
 

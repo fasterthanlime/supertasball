@@ -14,22 +14,24 @@ declare module "planck-js" {
   interface Fixture {
     getType(): FixtureType;
     getShape(): Shape;
+    getBody(): Body;
 
     // for lists
     getNext(): Fixture;
   }
 
-  interface DetailedFixtureDef {
-    shape: FixtureDef;
+  interface FixtureDef {
+    shape: Shape;
+    density: number;
     restitution?: number;
     isSensor?: boolean;
+    filterCategoryBits?: number;
+    filterMaskBits?: number;
+    filterGroupIndex?: number;
   }
 
   class Body {
-    createFixture(
-      def: FixtureDef | DetailedFixtureDef,
-      densityOrShapeDef: number | ShapeDef,
-    ): Fixture;
+    createFixture(fixtureDef: FixtureDef): Fixture;
     getFixtureList(): Fixture;
     getPosition(): T_Vec2;
     getAngle(): number;
@@ -54,7 +56,7 @@ declare module "planck-js" {
 
   export type BodyType = "dynamic" | "static";
 
-  interface CreateBodyOpts {
+  interface BodyDef {
     position?: T_Vec2;
     type?: BodyType;
     bullet?: boolean;
@@ -62,7 +64,7 @@ declare module "planck-js" {
 
   class World {
     constructor(v: T_Vec2);
-    createBody(opts?: CreateBodyOpts): Body;
+    createBody(opts?: BodyDef): Body;
     createDynamicBody(pos: T_Vec2): Body;
     createJoint(def: Joint);
     getBodyList(): Body;
@@ -75,8 +77,8 @@ declare module "planck-js" {
   interface Contact {
     getManifold(): Manifold;
     getWorldManifold(): Manifold;
-    getFixtureA(): FixtureDef;
-    getFixtureB(): FixtureDef;
+    getFixtureA(): Fixture;
+    getFixtureB(): Fixture;
   }
 
   interface Manifold {
@@ -95,21 +97,10 @@ declare module "planck-js" {
     m_vertices: T_Vec2[];
   }
 
-  interface FixtureDef {
-    getBody(): Body;
-  }
-
-  interface ShapeDef {
-    density: number;
-    filterCategoryBits?: number;
-    filterMaskBits?: number;
-    filterGroupIndex?: number;
-  }
-
-  function Chain(vecs: T_Vec2[], loop: boolean): FixtureDef;
-  function Polygon(vecs: T_Vec2[]): FixtureDef;
-  function Box(width: number, height: number): FixtureDef;
-  function Circle(radius: number): FixtureDef;
+  function Chain(vecs: T_Vec2[], loop: boolean): Shape;
+  function Polygon(vecs: T_Vec2[]): Shape;
+  function Box(width: number, height: number): Shape;
+  function Circle(radius: number): Shape;
 
   interface Joint {
     setMotorSpeed(speed: number);

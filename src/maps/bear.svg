@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="123.29377"
-     inkscape:cy="460.12782"
+     inkscape:zoom="1.4"
+     inkscape:cx="22.253428"
+     inkscape:cy="195.01971"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -318,6 +318,14 @@ side=left</desc>
       <desc
          id="desc5910-6-6-4">#flipper
 side=left</desc>
+    </path>
+    <path
+       style="fill:#ff00ff;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 102.5,515.71428 102.5,0 0,38.57143 -102.5,0 z"
+       id="rect6100"
+       inkscape:connector-curvature="0">
+      <desc
+         id="desc6105">#goal</desc>
     </path>
   </g>
 </svg>
