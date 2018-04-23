@@ -89,7 +89,7 @@ interface Choice {
   value: string;
 }
 
-interface OpCodeDef {
+export interface OpCodeDef {
   label: string;
   icon: string;
   relevantFields: {
@@ -110,12 +110,12 @@ const op = (def: OpCodeDef) => def;
 
 export const OpCodeTypes = {
   nop: op({
-    label: "N[o]p: do nothing",
+    label: "Nop",
     icon: "chevron-right",
     relevantFields: {},
   }),
   motor: op({
-    label: "Flipper [m]otor control",
+    label: "Motor control",
     icon: "settings",
     relevantFields: {
       name: {
@@ -129,14 +129,14 @@ export const OpCodeTypes = {
     },
   }),
   goto: op({
-    label: "[G]oto",
+    label: "Goto",
     icon: "corner-right-down",
     relevantFields: {
       name: { label: "Which label to jump to" },
     },
   }),
   freq: op({
-    label: "Set [f]requency",
+    label: "Set frequency",
     icon: "activity",
     relevantFields: {
       numberValue: {
@@ -147,16 +147,16 @@ export const OpCodeTypes = {
     },
   }),
   note: op({
-    label: "Configure [n]ote channel",
+    label: "Play/pause note",
     icon: "music",
     relevantFields: {
       name: {
         label: "Channel to use",
         choices: [
-          { label: "0", value: "0" },
-          { label: "1", value: "1" },
-          { label: "2", value: "2" },
-          { label: "3", value: "3" },
+          { label: "Ch 0", value: "0" },
+          { label: "Ch 1", value: "1" },
+          { label: "Ch 2", value: "2" },
+          { label: "Ch 3", value: "3" },
         ],
       },
       numberValue: {

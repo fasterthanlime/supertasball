@@ -19,13 +19,6 @@ export default reducer<UIState>(initialState, on => {
     };
   });
 
-  on(actions.editCell, (state, action) => {
-    return {
-      ...state,
-      editedCell: action.payload.editedCell,
-    };
-  });
-
   on(actions.floaty, (state, action) => {
     return {
       ...state,
@@ -52,20 +45,6 @@ export default reducer<UIState>(initialState, on => {
       ...state,
       showCode: action.payload.showCode,
     };
-  });
-
-  on(actions.editCellStart, (state, action) => {
-    const { addr } = action.payload;
-    return {
-      ...state,
-      editedCell: { addr },
-    };
-  });
-
-  on(actions.editCellStop, (state, action) => {
-    const newState = { ...state };
-    delete newState.editedCell;
-    return newState;
   });
 
   on(actions.setCellSelection, (state, action) => {

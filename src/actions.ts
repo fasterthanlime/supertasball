@@ -24,8 +24,6 @@ export const actions = wireActions({
 
   setShowCode: action<{ showCode: boolean }>(),
 
-  editCellStart: action<{ addr: number }>(),
-  editCellStop: action<{}>(),
   setCellSelection: action<{ start: number; size: number }>(),
   commitCell: action<{ addr: number; op: OpCode }>(),
 
@@ -36,6 +34,9 @@ export const actions = wireActions({
   cellPaste: action<{}>(),
   cellDuplicate: action<{}>(),
   cellSetType: action<{ addr?: number; type: OpCodeType }>(),
+  cellSetName: action<{ addr?: number; name: string }>(),
+  cellSetLabel: action<{ addr?: number; label: string }>(),
+  cellSetNumberValue: action<{ addr?: number; numberValue: number }>(),
 
   playPinball: action<{}>(),
   moneyDelta: action<{ delta: number }>(),
@@ -55,8 +56,6 @@ export const actions = wireActions({
   execute: action<{ op: OpCode }>(),
   commitSimulationState: action<{ state: SimulationState }>(),
   exitSimulation: action<{}>(),
-
-  editCell: action<{ editedCell: EditedCell }>(),
 });
 
 // utils

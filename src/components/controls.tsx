@@ -12,6 +12,13 @@ const ControlsDiv = styled.div`
 
   align-items: center;
   margin-bottom: 10px;
+
+  a,
+  a:visited {
+    color: rgb(120, 120, 240);
+    font-size: 120%;
+    text-decoration: none;
+  }
 `;
 
 export const Label = styled.div`
@@ -46,9 +53,9 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
           <Icon icon="maximize" /> {codeSize} ops
         </Label>
         <Filler />
-        <Button icon="menu" onClick={this.onMenu}>
-          Menu
-        </Button>
+        <a href="https://twitter.com/fasterthanlime" target="_blank">
+          <Icon icon="twitter" />
+        </a>
       </ControlsDiv>
     );
   }

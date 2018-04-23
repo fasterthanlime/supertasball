@@ -64,4 +64,25 @@ export default function(w: Watcher) {
       );
     }
   });
+
+  w.on(actions.cellSetName, (store, action) => {
+    const { code } = store.getState().simulation;
+    const { addr, name } = action.payload;
+    const op = code[addr];
+    store.dispatch(actions.commitCell({ addr, op: { ...op, name } }));
+  });
+
+  w.on(actions.cellSetLabel, (store, action) => {
+    const { code } = store.getState().simulation;
+    const { addr, label } = action.payload;
+    const op = code[addr];
+    store.dispatch(actions.commitCell({ addr, op: { ...op, label } }));
+  });
+
+  w.on(actions.cellSetNumberValue, (store, action) => {
+    const { code } = store.getState().simulation;
+    const { addr, numberValue } = action.payload;
+    const op = code[addr];
+    store.dispatch(actions.commitCell({ addr, op: { ...op, numberValue } }));
+  });
 }

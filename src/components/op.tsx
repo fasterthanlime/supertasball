@@ -4,7 +4,7 @@ import styled from "./styles";
 import { actionCreatorsList, Dispatchers, connect } from "./connect";
 let opSide = 80;
 
-import { ContextMenuTrigger } from "react-contextmenu";
+import { ContextMenuTrigger, ContextMenu } from "react-contextmenu";
 
 const Filler = styled.div`
   flex-grow: 1;
@@ -16,7 +16,7 @@ const OpDiv = styled.div`
   color: black;
   background-color: white;
   position: relative;
-  border-bottom: 12px solid #777;
+  border-bottom: 14px solid #777;
   user-select: none;
   transition: transform 0.2s;
   margin: 2px;
@@ -49,12 +49,19 @@ const OpDiv = styled.div`
   .bottom-left,
   .bottom-right {
     position: absolute;
-    font-size: 15px;
+    font-size: 14px;
 
     &.icon,
     .icon {
       font-size: 24px;
     }
+  }
+
+  .label {
+    position: absolute;
+    bottom: -14px;
+    left: 0;
+    right: 0;
   }
 
   .top-left {
@@ -79,14 +86,19 @@ class Op extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { op, addr, active, edited, selected } = this.props;
     return (
-      <OpDiv
-        className={`cell ${active && "active"} ${edited &&
-          "edited"} ${selected && "selected"}`}
-        data-addr={addr}
-        onClick={this.props.onClick}
+      <ContextMenuTrigger
+        id="cell-type-menu"
+        collect={props => ({ ...props, addr, op })}
       >
-        {this.renderOpIcon(op)}
-      </OpDiv>
+        <OpDiv
+          className={`cell ${active && "active"} ${edited &&
+            "edited"} ${selected && "selected"}`}
+          data-addr={addr}
+          onClick={this.props.onClick}
+        >
+          {this.renderOpIcon(op)}
+        </OpDiv>
+      </ContextMenuTrigger>
     );
   }
 
@@ -99,28 +111,16 @@ class Op extends React.PureComponent<Props & DerivedProps> {
     return (
       <>
         <Filler />
-        <span
-          className={`icon icon-tag top-left`}
-          style={{ opacity: label ? 1 : 0.1 }}
-        />
+        {label ? <span className="top-left">{label}</span> : null}
 
-        <ContextMenuTrigger
-          id="cell-type"
-          collect={props => ({ ...props, addr })}
-        >
-          <span className={`icon icon-${def.icon}`} data-rh={def.label} />
-        </ContextMenuTrigger>
+        <span className={`icon icon-${def.icon}`} data-rh={def.label} />
 
         {fields.numberValue ? (
           <span className="top-right" data-rh={fields.numberValue.label}>
             {op.numberValue} {fields.numberValue.unit}
           </span>
         ) : null}
-        {fields.name ? (
-          <span className="bottom-right" data-rh={fields.name.label}>
-            {op.name || "∅"}
-          </span>
-        ) : null}
+        {this.renderName(op)}
         {fields.boolValue
           ? this.renderBoolValue("bottom-left", op.boolValue, fields.boolValue)
           : null}
@@ -129,18 +129,71 @@ class Op extends React.PureComponent<Props & DerivedProps> {
     );
   }
 
+  renderName(op: OpCode): JSX.Element {
+    const { addr } = this.props;
+    const { type } = op;
+    const def = OpCodeTypes[type];
+    const fields = def.relevantFields;
+    if (!fields.name) {
+      return null;
+    }
+
+    let label = op.name;
+    if (fields.name.choices) {
+      for (const ch of fields.name.choices) {
+        if (ch.value == op.name) {
+          label = ch.label;
+        }
+      }
+    }
+
+    let inner = (
+      <span className="bottom-right" data-rh={fields.name.label}>
+        {label || "∅"}
+      </span>
+    );
+
+    if (fields.name.choices) {
+      return (
+        <ContextMenuTrigger
+          id="name-menu"
+          collect={props => ({ ...props, def, addr })}
+        >
+          {inner}
+        </ContextMenuTrigger>
+      );
+    } else {
+      return (
+        <span
+          onContextMenu={ev => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            let name = window.prompt(fields.name.label, op.name);
+            if (name) {
+              this.props.cellSetName({ addr, name });
+            }
+          }}
+        >
+          {inner}
+        </span>
+      );
+    }
+  }
+
   renderBoolValue(pos: string, bv: boolean, title: string) {
     return (
       <span
         data-rh={title}
         style={{ color: bv ? "#5cbf5c" : "#de9494" }}
         className={`${pos} icon icon-${bv ? "check" : "x"}`}
-        onClick={this.onFlipBool}
+        onContextMenu={this.onFlipBool}
       />
     );
   }
 
   onFlipBool = (ev: React.MouseEvent<any>) => {
+    ev.preventDefault();
+    ev.stopPropagation();
     const { addr, op } = this.props;
     this.props.commitCell({
       addr,
@@ -159,10 +212,9 @@ interface Props {
   selected?: boolean;
   op: OpCode;
   onClick: (ev: React.MouseEvent<HTMLElement>) => void;
-  onDoubleClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
-const actionCreators = actionCreatorsList("commitCell", "editCellStart");
+const actionCreators = actionCreatorsList("commitCell", "cellSetName");
 
 type DerivedProps = {} & Dispatchers<typeof actionCreators>;
 

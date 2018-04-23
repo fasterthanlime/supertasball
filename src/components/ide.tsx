@@ -7,9 +7,9 @@ import { ContextMenu, MenuItem } from "react-contextmenu";
 
 import SimControls from "./sim-controls";
 import Op from "./op";
-import CellEditor from "./cell-editor";
 
 import CellTypeMenu from "./menus/cell-type-menu";
+import NameMenu from "./menus/name-menu";
 
 const glowColor = "rgb(140, 240, 140)";
 
@@ -43,13 +43,23 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { showCode } = this.props;
     return (
-      <IDEDiv tabIndex={0} onKeyDown={this.onKeyDown} innerRef={this.onDiv}>
+      <IDEDiv
+        tabIndex={0}
+        onKeyDown={this.onKeyDown}
+        innerRef={this.onDiv}
+        onContextMenu={this.onContextMenu}
+      >
         <SimControls />
         {showCode ? this.renderOps() : <p>Code hidden</p>}
         <CellTypeMenu />
+        <NameMenu />
       </IDEDiv>
     );
   }
+
+  onContextMenu = (ev: React.MouseEvent<any>) => {
+    ev.preventDefault();
+  };
 
   divEl: HTMLElement;
   onDiv = (divEl: HTMLElement) => {
@@ -79,7 +89,6 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
           active={active}
           selected={selected}
           onClick={this.onOpClick}
-          onDoubleClick={this.onOpDoubleClick}
         />,
       );
     }
@@ -109,13 +118,6 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
         }
       }
       this.props.setCellSelection({ start, size });
-    }
-  };
-
-  onOpDoubleClick = (ev: React.MouseEvent<HTMLElement>) => {
-    const addr = ev.currentTarget.dataset.addr;
-    if (addr) {
-      this.props.editCellStart({ addr: parseInt(addr, 10) });
     }
   };
 
@@ -154,10 +156,6 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       this.props.cellSetType({ type: "motor" });
     } else if (ev.key == "F") {
       this.props.cellSetType({ type: "freq" });
-    } else if (ev.key == "Enter") {
-      if (cs.size > 0) {
-        this.props.editCellStart({ addr: cs.start });
-      }
     } else {
       preventDefault = false;
       console.log(`key = ${ev.key}`);
@@ -174,8 +172,6 @@ interface Props {}
 const actionCreators = actionCreatorsList(
   "setPage",
   "floaty",
-  "editCellStart",
-  "editCellStop",
   "setCellSelection",
   "cellYank",
   "cellClear",
