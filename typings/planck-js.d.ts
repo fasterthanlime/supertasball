@@ -56,6 +56,7 @@ declare module "planck-js" {
     on(ev: "pre-solve", f: (contact: Contact, oldManifold: Manifold) => void);
     on(ev: "begin-contact", f: (contact: Contact) => void);
     on(ev: "end-contact", f: (contact: Contact) => void);
+    step(dt: number);
   }
 
   interface Contact {
