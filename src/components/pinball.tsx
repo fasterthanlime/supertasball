@@ -88,6 +88,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
         const path = paths[i];
         const desc = path.querySelector("desc");
         const tags: string[] = desc ? desc.textContent.split("\n") : [];
+        let filterGroupIndex = -1;
 
         const points = parseSVG(path.attributes["d"].nodeValue);
         makeAbsolute(points);
@@ -95,7 +96,10 @@ class Game extends React.PureComponent<Props & DerivedProps> {
         let offsetX = 0;
         let offsetY = 0;
 
-        let isStatic = tags.indexOf("#flipper") === -1;
+        let isStatic = true;
+        if (tags.indexOf("#flipper") !== -1) {
+          isStatic = false;
+        }
 
         let jd: planck.RevoluteJointOpts;
         let jointList: planck.Joint[];
@@ -190,7 +194,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
         const shapeDef: planck.ShapeDef = {
           density: isStatic ? 0.0 : 0.1,
-          filterGroupIndex: -1,
+          filterGroupIndex,
         };
         let fixtureDef: planck.FixtureDef;
         if (isStatic) {
@@ -218,17 +222,45 @@ class Game extends React.PureComponent<Props & DerivedProps> {
           +ellipse.attributes["cy"].nodeValue,
         );
         const radius = +ellipse.attributes["rx"].nodeValue;
+        let density = 0.02;
+        let type: planck.BodyType = "dynamic";
+        let bullet = true;
+        let isSensor = false;
+
+        if (tags.indexOf("#collect") !== -1) {
+          type = "static";
+          density = 0.0;
+          bullet = false;
+          isSensor = true;
+        }
+
         const body = world.createBody({
           position,
-          type: "dynamic",
-          bullet: true,
+          type,
+          bullet,
         });
         body.tags = tags;
-        body.createFixture(pl.Circle(radius), {
+        const ddef: planck.DetailedFixtureDef = {
+          shape: pl.Circle(radius),
+        };
+        if (isSensor) {
+          ddef.isSensor = true;
+        }
+        body.createFixture(ddef, {
           density: 0.02,
         });
       }
     }
+
+    world.on("begin-contact", function(contact) {
+      let bodyA = contact.getFixtureA().getBody();
+      let bodyB = contact.getFixtureB().getBody();
+      console.log(
+        JSON.stringify(bodyA.tags),
+        `has contact with`,
+        JSON.stringify(bodyB.tags),
+      );
+    });
 
     // now create graphics
     this.createGraphics();
@@ -346,10 +378,15 @@ function drawBody(body: planck.Body): PIXI.Graphics {
     let type = f.getType();
     switch (type) {
       case "circle": {
-        // gfx.lineStyle(lineWidth, lineColor, 1.0);
-        gfx.beginFill(lineColor, 1.0);
+        if (body.fill) {
+          gfx.beginFill(body.fillColor, 1.0);
+        } else {
+          gfx.lineStyle(lineWidth, lineColor, 1.0);
+        }
         gfx.drawCircle(0, 0, shape.m_radius);
-        gfx.endFill();
+        if (body.fill) {
+          gfx.endFill();
+        }
         break;
       }
       case "chain":

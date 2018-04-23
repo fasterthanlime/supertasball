@@ -13,9 +13,14 @@ declare module "planck-js" {
     getNext(): Fixture;
   }
 
+  interface DetailedFixtureDef {
+    shape: FixtureDef;
+    isSensor?: boolean;
+  }
+
   class Body {
     createFixture(
-      def: FixtureDef,
+      def: FixtureDef | DetailedFixtureDef,
       densityOrShapeDef: number | ShapeDef,
     ): Fixture;
     getFixtureList(): Fixture;
@@ -34,9 +39,11 @@ declare module "planck-js" {
     fillColor?: number;
   }
 
+  export type BodyType = "dynamic" | "static";
+
   interface CreateBodyOpts {
     position?: T_Vec2;
-    type?: "dynamic";
+    type?: BodyType;
     bullet?: boolean;
   }
 
@@ -46,6 +53,20 @@ declare module "planck-js" {
     createDynamicBody(pos: T_Vec2): Body;
     createJoint(def: Joint);
     getBodyList(): Body;
+    on(ev: "pre-solve", f: (contact: Contact, oldManifold: Manifold) => void);
+    on(ev: "begin-contact", f: (contact: Contact) => void);
+    on(ev: "end-contact", f: (contact: Contact) => void);
+  }
+
+  interface Contact {
+    getManifold(): Manifold;
+    getWorldManifold(): Manifold;
+    getFixtureA(): FixtureDef;
+    getFixtureB(): FixtureDef;
+  }
+
+  interface Manifold {
+    pointCount: number;
   }
 
   type FixtureType = "circle" | "edge" | "polygon" | "chain";
@@ -60,7 +81,9 @@ declare module "planck-js" {
     m_vertices: T_Vec2[];
   }
 
-  interface FixtureDef {}
+  interface FixtureDef {
+    getBody(): Body;
+  }
 
   interface ShapeDef {
     density: number;

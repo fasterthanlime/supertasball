@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="249.50698"
-     inkscape:cy="351.48612"
+     inkscape:zoom="7.919596"
+     inkscape:cx="88.57733"
+     inkscape:cy="494.08418"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -63,16 +63,6 @@
          id="desc3363">#ground
 #static</desc>
     </path>
-    <ellipse
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="path3355-7"
-       cx="197.79857"
-       cy="433.19308"
-       rx="2.9526057"
-       ry="2.9526052">
-      <desc
-         id="desc3371-5">#ball</desc>
-    </ellipse>
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 182.99948,480.21863 29.82498,-6.15852 10.09799,3.59917 2.04256,7.41318 -2.57227,6.58299 -9.46374,2.44607 -31.48935,-1.87781 -7.95139,-6.03712 0.31378,-3.71546 z"
@@ -149,5 +139,59 @@
        id="path4986-3-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccc" />
+    <ellipse
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#fcd400;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3355-7-9-2"
+       cx="33.035713"
+       cy="93.035713"
+       rx="8.7561779"
+       ry="8.7561769">
+      <desc
+         id="desc3371-5-2-8">#collect
+group=leftear</desc>
+    </ellipse>
+    <ellipse
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#fcd400;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3355-7-9-2-9"
+       cx="39.821426"
+       cy="60.714291"
+       rx="8.7561779"
+       ry="8.7561769">
+      <desc
+         id="desc3371-5-2-8-7">#collect
+group=leftear</desc>
+    </ellipse>
+    <ellipse
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#fcd400;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3355-7-9-2-9-3"
+       cx="68.214287"
+       cy="48.035717"
+       rx="8.7561779"
+       ry="8.7561769">
+      <desc
+         id="desc3371-5-2-8-7-6">#collect
+group=leftear</desc>
+    </ellipse>
+    <ellipse
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#fcd400;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3355-7-9-2-9-3-1"
+       cx="96.785721"
+       cy="60.535717"
+       rx="8.7561779"
+       ry="8.7561769">
+      <desc
+         id="desc3371-5-2-8-7-6-2">#collect
+group=leftear</desc>
+    </ellipse>
+    <ellipse
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3355-7"
+       cx="67.17514"
+       cy="31.185146"
+       rx="2.9526057"
+       ry="2.9526052">
+      <desc
+         id="desc3371-5">#ball</desc>
+    </ellipse>
   </g>
 </svg>
