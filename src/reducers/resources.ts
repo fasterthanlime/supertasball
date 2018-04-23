@@ -3,6 +3,7 @@ import { ResourcesState } from "../types";
 import { actions } from "../actions";
 import { getCashReward } from "../score-utils";
 import { unlocks } from "../unlocks";
+import { isCheating } from "../is-cheating";
 
 const initialState: ResourcesState = {
   money: 5,
@@ -11,8 +12,7 @@ const initialState: ResourcesState = {
   unlocked: {},
 };
 
-let cheat = document.location.search.startsWith("?cheat");
-if (cheat) {
+if (isCheating()) {
   initialState.money = 30000;
 }
 

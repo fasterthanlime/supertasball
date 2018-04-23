@@ -8,6 +8,8 @@ import IDE from "./ide";
 import Icon from "./icon";
 import Button from "./button";
 import { mapDefs, orderedMaps } from "../map-defs";
+import { isCheating } from "../is-cheating";
+import Dropzone = require("react-dropzone");
 
 const MapPickerDiv = styled.div`
   h3 {
@@ -48,6 +50,10 @@ class MapPicker extends React.PureComponent<Props & DerivedProps> {
       <MapPickerDiv>
         <h3>Pick a map</h3>
         {orderedMaps.map(key => {
+          if (key === "custom") {
+            return;
+          }
+
           const mapDef = mapDefs[key];
           return (
             <section key={key}>
@@ -62,6 +68,7 @@ class MapPicker extends React.PureComponent<Props & DerivedProps> {
             </section>
           );
         })}
+        {this.renderDropZone()}
         <ButtonsDiv>
           <Button icon="x" onClick={this.onCancel}>
             Nevermind
@@ -70,6 +77,29 @@ class MapPicker extends React.PureComponent<Props & DerivedProps> {
       </MapPickerDiv>
     );
   }
+
+  renderDropZone(): JSX.Element {
+    if (!isCheating()) {
+      return null;
+    }
+
+    return <Dropzone onDrop={this.onDrop}>Drop .svg files here!</Dropzone>;
+  }
+
+  onDrop = (acceptedFiles, rejectedFiles) => {
+    for (const file of acceptedFiles) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const text = reader.result;
+        mapDefs.custom.svg = text;
+        this.props.startPlayingPinball({ mapName: "custom" });
+      };
+      reader.onabort = () => console.log("file reading was aborted");
+      reader.onerror = () => console.log("file reading has failed");
+
+      reader.readAsText(file);
+    }
+  };
 
   onCancel = () => {
     this.props.cancelPlayingPinball({});

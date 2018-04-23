@@ -20,6 +20,10 @@ export const mapDefs: MapDefs = {
     name: "Ssss...",
     svg: require("./maps/ssss.svg"),
   },
+  custom: {
+    name: "Custom map",
+    svg: null,
+  },
 };
 
 export type MapName = keyof typeof mapDefs;
