@@ -5,13 +5,14 @@ import {
   Page,
   OpCode,
   SimulationParams,
-  Expense,
   Activity,
   SimulationState,
   OpCodeType,
   Results,
 } from "./types";
 import { MapName } from "./map-defs";
+import { UnlockName } from "./unlocks";
+import { Expense } from "./expenses";
 
 // actions
 
@@ -20,9 +21,6 @@ export const actions = wireActions({
 
   floaty: action<{ clientX: number; clientY: number; text: string }>(),
   floatyKill: action<{ id: string }>(),
-
-  cpuUpgrade: action<{ freqDelta: number }>(),
-  romUpgrade: action<{ sizeDelta: number }>(),
 
   setShowCode: action<{ showCode: boolean }>(),
 
@@ -66,6 +64,8 @@ export const actions = wireActions({
   execute: action<{ op: OpCode }>(),
   commitSimulationState: action<{ state: SimulationState }>(),
   exitSimulation: action<{}>(),
+
+  unlock: action<{ unlockName: UnlockName }>(),
 });
 
 // utils

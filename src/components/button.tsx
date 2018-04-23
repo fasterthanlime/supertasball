@@ -29,7 +29,7 @@ const ButtonDiv = styled.div`
 
   &.disabled {
     cursor: not-allowed;
-    filter: grayscale(100%) brightness(60%);
+    filter: grayscale(50%) brightness(60%);
   }
 
   &.progressing {

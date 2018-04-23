@@ -68,4 +68,8 @@ export default reducer<UIState>(initialState, on => {
   on(actions.startPlayingPinball, (state, action) => {
     return { ...state, pickingMap: false };
   });
+
+  on(actions.validateStage, (state, action) => {
+    return { ...state, results: null };
+  });
 });

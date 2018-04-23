@@ -8,20 +8,20 @@ export interface MapDefs {
 }
 
 export const mapDefs: MapDefs = {
-  bear: {
+  bearCandy: {
     name: "Bear Candy",
-    svg: require("./maps/bear.svg"),
+    svg: require("./maps/bearCandy.svg"),
   },
-  add: {
+  knucklePanini: {
     name: "Knuckle Panini",
-    svg: require("./maps/add.svg"),
+    svg: require("./maps/knucklePanini.svg"),
   },
-  distributor: {
-    name: "Sssssssss",
-    svg: require("./maps/distributor.svg"),
+  ssss: {
+    name: "Ssss...",
+    svg: require("./maps/ssss.svg"),
   },
 };
 
 export type MapName = keyof typeof mapDefs;
 
-export const orderedMaps: MapName[] = ["add", "distributor", "bear"];
+export const orderedMaps: MapName[] = ["knucklePanini", "ssss", "bearCandy"];

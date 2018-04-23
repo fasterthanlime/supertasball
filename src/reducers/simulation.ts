@@ -80,4 +80,8 @@ export default reducer<SimulationState>(null, on => {
       results,
     };
   });
+
+  on(actions.validateStage, (state, action) => {
+    return null;
+  });
 });

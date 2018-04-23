@@ -94,6 +94,7 @@ class Op extends React.PureComponent<Props & DerivedProps> {
         }}
       >
         <OpDiv
+          innerRef={this.onEl}
           className={`cell ${active && "active"} ${edited &&
             "edited"} ${selected && "selected"}`}
           data-addr={addr}
@@ -104,6 +105,12 @@ class Op extends React.PureComponent<Props & DerivedProps> {
       </ContextMenuTrigger>
     );
   }
+
+  el: HTMLElement;
+  onEl = (el: HTMLElement) => {
+    this.el = el;
+    this.handleScroll();
+  };
 
   renderOpIcon(op: OpCode): JSX.Element {
     const { addr } = this.props;
@@ -223,6 +230,19 @@ class Op extends React.PureComponent<Props & DerivedProps> {
       },
     });
   };
+
+  componentDidUpdate(prevProps: Op["props"], prevState: any) {
+    // I'll do explicit bool comparisons IF I WANT TO
+    if (prevProps.active == false && this.props.active == true) {
+      this.handleScroll();
+    }
+  }
+
+  handleScroll() {
+    if (this.props.active && this.el) {
+      this.el.scrollIntoView({ behavior: "instant", block: "nearest" });
+    }
+  }
 }
 
 interface Props {

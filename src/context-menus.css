@@ -78,3 +78,16 @@
   content: attr(data-count);
   display: block;
 }
+
+/* surprise! there's scrollbar styles too! */
+.ops::-webkit-scrollbar {
+  width: 20px;
+}
+
+.ops::-webkit-scrollbar-track {
+  background: #444;
+}
+
+.ops::-webkit-scrollbar-thumb {
+  background: #aaa;
+}

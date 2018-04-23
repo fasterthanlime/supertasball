@@ -33,6 +33,8 @@ const Ops = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-content: start;
+  max-height: 600px;
+  overflow-y: auto;
 `;
 
 const Filler = styled.div`
@@ -93,7 +95,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       );
     }
     ops.push(<Filler key="filler" />);
-    return <Ops>{ops}</Ops>;
+    return <Ops className="ops">{ops}</Ops>;
   }
 
   onOpClick = (ev: React.MouseEvent<HTMLElement>) => {

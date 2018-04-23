@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Expense, RootState } from "../types";
+import { RootState } from "../types";
 import { connect, Dispatchers, actionCreatorsList } from "./connect";
 import Button from "./button";
 import { formatMoney } from "../format";
 import styled from "./styles";
+import { Expense } from "../expenses";
 
 class ExpenseButton extends React.PureComponent<Props & DerivedProps> {
   render() {

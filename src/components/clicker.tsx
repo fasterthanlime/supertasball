@@ -9,6 +9,7 @@ import ActivityButton from "./activity-button";
 import ExpenseButton from "./expense-button";
 import { activities } from "../activities";
 import { expenses } from "../expenses";
+import { RootState, Unlocked } from "../types";
 
 const Columns = styled.div`
   display: flex;
@@ -36,11 +37,32 @@ class Clicker extends React.PureComponent<Props & DerivedProps> {
         </Column>
         <Column>
           <h3>Spend money</h3>
-          <ExpenseButton expense={expenses.PlayPinball} />
-          <ExpenseButton expense={expenses.BuyMoreROM} />
-          <ExpenseButton expense={expenses.BuyFasterCPU} />
+          {this.renderExpenses()}
         </Column>
       </Columns>
+    );
+  }
+
+  renderExpenses(): JSX.Element {
+    const { unlocked } = this.props;
+    return (
+      <>
+        {expenses.map((ex, i) => {
+          if (ex.requires) {
+            for (const req of ex.requires) {
+              if (!unlocked[req]) {
+                return null;
+              }
+            }
+          }
+          if (ex.unlock) {
+            if (unlocked[ex.unlock]) {
+              return null;
+            }
+          }
+          return <ExpenseButton key={`expense-${i}`} expense={ex} />;
+        })}
+      </>
     );
   }
 }
@@ -48,6 +70,13 @@ class Clicker extends React.PureComponent<Props & DerivedProps> {
 interface Props {}
 
 const actionCreators = actionCreatorsList();
-type DerivedProps = Dispatchers<typeof actionCreators> & {};
+type DerivedProps = Dispatchers<typeof actionCreators> & {
+  unlocked: Unlocked;
+};
 
-export default connect<Props>(Clicker, { actionCreators });
+export default connect<Props>(Clicker, {
+  actionCreators,
+  state: (rs: RootState) => ({
+    unlocked: rs.resources.unlocked,
+  }),
+});

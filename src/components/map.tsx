@@ -285,8 +285,8 @@ export function loadMap(mapName: MapName): Map {
       case "goal": {
         let score = 0;
         let time = m.ticks * 1 / 60;
-        let timeScorePenalty = Math.floor(time);
-        score += timeScorePenalty;
+        let timeScorePenalty = Math.floor(time * 0.5);
+        score -= timeScorePenalty;
 
         for (const k of Object.keys(m.groups)) {
           const g = m.groups[k];

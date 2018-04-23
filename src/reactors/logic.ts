@@ -38,6 +38,9 @@ export default function(w: Watcher) {
       if (expense.action) {
         store.dispatch(expense.action());
       }
+      if (expense.unlock) {
+        store.dispatch(actions.unlock({ unlockName: expense.unlock }));
+      }
     } else {
       store.dispatch(
         actions.floaty({

@@ -6,10 +6,15 @@ export interface RootState {
   simulation: SimulationState;
 }
 
+export interface Unlocked {
+  [key: string]: boolean;
+}
+
 export interface ResourcesState {
   freq: number;
   codeSize: number;
   money: number;
+  unlocked: Unlocked;
 }
 
 export interface CellSelection {
@@ -89,18 +94,7 @@ export interface Activity {
 import { expenses } from "./expenses";
 import { MapName } from "./map-defs";
 import { Groups } from "./components/map";
-
-export interface Expense {
-  prereq?: string;
-
-  // e.g. "Play dice"
-  label: string;
-
-  // in $
-  cost: number;
-
-  action?: () => Action<any>;
-}
+import { UnlockName } from "./unlocks";
 
 interface Choice {
   label: string;

@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="add.svg">
+   sodipodi:docname="knucklePanini.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -24,8 +24,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="159.34052"
-     inkscape:cy="236.06785"
+     inkscape:cx="98.447663"
+     inkscape:cy="106.78214"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -75,7 +75,7 @@
     </ellipse>
     <path
        id="path5908"
-       d="m 157.82124,484.75701 c 0,0 33.01969,-9.07023 33.01969,-9.07023 0,0 8.13268,3.28783 8.13268,3.28783 0,0 3.68918,6.29196 3.68918,6.29196 0,0 -4.15434,6.93054 -4.15434,6.93054 0,0 -8.17707,2.64924 -8.17707,2.64924 0,0 -32.51014,-10.08934 -32.51014,-10.08934"
+       d="m 157.82124,486.75701 c 0,0 33.01969,-9.07023 33.01969,-9.07023 0,0 8.13268,3.28783 8.13268,3.28783 0,0 3.68918,6.29196 3.68918,6.29196 0,0 -4.15434,6.93054 -4.15434,6.93054 0,0 -8.17707,2.64924 -8.17707,2.64924 0,0 -32.51014,-10.08934 -32.51014,-10.08934"
        style="fill:#ff0000;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none;stroke-width:1.41421354;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        inkscape:connector-curvature="0">
       <desc
@@ -85,7 +85,7 @@ side=right</desc>
     <path
        inkscape:connector-curvature="0"
        id="path5908-0"
-       d="m 151.46776,484.73915 c 0,0 -33.01969,-9.07023 -33.01969,-9.07023 0,0 -8.13268,3.28783 -8.13268,3.28783 0,0 -3.68918,6.29196 -3.68918,6.29196 0,0 4.15434,6.93054 4.15434,6.93054 0,0 8.17707,2.64924 8.17707,2.64924 0,0 32.51014,-10.08934 32.51014,-10.08934"
+       d="m 151.46776,486.73915 c 0,0 -33.01969,-9.07023 -33.01969,-9.07023 0,0 -8.13268,3.28783 -8.13268,3.28783 0,0 -3.68918,6.29196 -3.68918,6.29196 0,0 4.15434,6.93054 4.15434,6.93054 0,0 8.17707,2.64924 8.17707,2.64924 0,0 32.51014,-10.08934 32.51014,-10.08934"
        style="fill:#ff0000;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none;stroke-width:1.41421354;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1">
       <desc
          id="desc5910-6">#flipper
@@ -230,7 +230,7 @@ side=left</desc>
        r="11.071428">
       <desc
          id="desc6424-3">#collect
-group=&quot;Knuckles&quot;</desc>
+group=Knuckles</desc>
     </circle>
     <circle
        style="fill:none;fill-opacity:1;stroke:#e59896;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -240,7 +240,7 @@ group=&quot;Knuckles&quot;</desc>
        r="11.071428">
       <desc
          id="desc6424-3-5">#collect
-group=&quot;Knuckles&quot;</desc>
+group=Knuckles</desc>
     </circle>
     <circle
        style="fill:none;fill-opacity:1;stroke:#e59896;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -250,7 +250,7 @@ group=&quot;Knuckles&quot;</desc>
        r="11.071428">
       <desc
          id="desc6424-3-1">#collect
-group=&quot;Knuckles&quot;</desc>
+group=Knuckles</desc>
     </circle>
     <circle
        style="fill:none;fill-opacity:1;stroke:#e59896;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -260,7 +260,9 @@ group=&quot;Knuckles&quot;</desc>
        r="11.071428">
       <desc
          id="desc6424-3-59">#collect
-group=&quot;Knuckles&quot;</desc>
+group=Knuckles
+singlePoints=20
+comboPoints=250</desc>
     </circle>
   </g>
 </svg>
