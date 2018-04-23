@@ -50,7 +50,7 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
         <Label
           title={`Your programs can contain at most ${codeSize} operations`}
         >
-          <Icon icon="maximize" /> {codeSize} ops
+          <Icon icon="cpu" /> {codeSize} ops
         </Label>
         <Filler />
         <a href="https://twitter.com/fasterthanlime" target="_blank">
