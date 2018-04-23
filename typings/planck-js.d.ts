@@ -18,6 +18,8 @@ declare module "planck-js" {
     getFixtureList(): Fixture;
     getPosition(): T_Vec2;
     getAngle(): number;
+    setAngle(): number;
+    getWorldCenter(): T_Vec2;
 
     // for lists
     getNext(): Body;
@@ -39,7 +41,7 @@ declare module "planck-js" {
     constructor(v: T_Vec2);
     createBody(opts?: CreateBodyOpts): Body;
     createDynamicBody(pos: T_Vec2): Body;
-    createJoint(def: JointDef);
+    createJoint(def: Joint);
     getBodyList(): Body;
   }
 
@@ -58,11 +60,15 @@ declare module "planck-js" {
   interface FixtureDef {}
 
   function Chain(vecs: T_Vec2[], loop: boolean): FixtureDef;
+  function Polygon(vecs: T_Vec2[]): FixtureDef;
   function Box(width: number, height: number): FixtureDef;
   function Circle(radius: number): FixtureDef;
 
-  interface JointDef {
+  interface Joint {
     setMotorSpeed(speed: number);
+    getMotorSpeed(): number;
+    getReactionForce(): T_Vec2;
+    getReactionTorque(): number;
   }
 
   interface RevoluteJointOpts {
@@ -72,7 +78,7 @@ declare module "planck-js" {
     motorSpeed?: number;
 
     lowerAngle?: number;
-    higherAngle?: number;
+    upperAngle?: number;
   }
 
   function RevoluteJoint(
@@ -80,5 +86,5 @@ declare module "planck-js" {
     a: Body,
     b: Body,
     vec: T_Vec2,
-  ): JointDef;
+  ): Joint;
 }

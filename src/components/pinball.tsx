@@ -57,13 +57,22 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     });
   }
 
+  bindings: Binding[];
+  leftJoints: planck.Joint[];
+  rightJoints: planck.Joint[];
+
   createWorld() {
+    this.bindings = [];
+    this.leftJoints = [];
+    this.rightJoints = [];
+
     const pl = planck,
       Vec2 = pl.Vec2;
     const world = new pl.World(Vec2(0, gravityY));
     this.world = world;
 
     const fixed = world.createBody();
+    fixed.createFixture(pl.Box(0, 0), 0.0);
 
     const doc = new DOMParser().parseFromString(bearMap, "text/xml");
 
@@ -75,21 +84,87 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
         const points = parseSVG(path.attributes["d"].nodeValue);
         makeAbsolute(points);
-        const body = world.createBody();
+
+        let offsetX = 0;
+        let offsetY = 0;
+
+        let isStatic = tags.indexOf("#ground") !== -1;
+
+        let jd: planck.RevoluteJointOpts;
+        let jointList: planck.Joint[];
+        let body: planck.Body;
+        let pos = Vec2(0, 0);
+
+        if (tags.indexOf("#flipper") !== -1) {
+          let totalX = 0.0,
+            totalY = 0.0;
+          for (const p of points) {
+            totalX += p.x;
+            totalY += p.y;
+          }
+          totalX /= points.length;
+          totalY /= points.length;
+          pos.x = totalX;
+          pos.y = totalY;
+          offsetX = -totalX;
+          offsetY = -totalY;
+          body = world.createDynamicBody(pos);
+
+          jd = {
+            enableMotor: true,
+            maxMotorTorque: 10000000.0,
+            enableLimit: true,
+            motorSpeed: 0.0,
+          };
+          let dir: planck.T_Vec2;
+          if (tags.indexOf("#left") !== -1) {
+            jd.lowerAngle = toRadians(-30);
+            jd.upperAngle = toRadians(5);
+            jointList = this.leftJoints;
+          } else if (tags.indexOf("#right") !== -1) {
+            jd.lowerAngle = toRadians(-5);
+            jd.upperAngle = toRadians(30);
+            jointList = this.rightJoints;
+          } else {
+            throw new Error(
+              `${
+                path.id
+              } has #flipper but not #left or #right. full tags: ${JSON.stringify(
+                tags,
+              )}`,
+            );
+          }
+        } else {
+          body = world.createBody();
+        }
         body.tags = tags;
         if (path.style.fill != "none") {
-          console.log(`path style fille`, path.style.fill);
           body.fill = true;
           body.fillColor = parseInt(tinycolor(path.style.fill).toHex(), 16);
         }
-        console.log(`body fill `, body.fill, `body fillColor`, body.fillColor);
 
         const vecs: T_Vec2[] = [];
         for (const p of points) {
-          vecs.push(Vec2(p.x, p.y));
+          vecs.push(Vec2(p.x + offsetX, p.y + offsetY));
         }
-        const chain = pl.Chain(vecs, true);
-        body.createFixture(chain, 0.0);
+        {
+          const p = points[0];
+          vecs.push(Vec2(p.x + offsetX, p.y + offsetY));
+        }
+        console.log(`vecs = `, vecs);
+
+        if (isStatic) {
+          const chain = pl.Chain(vecs, false);
+          body.createFixture(chain, 0.0);
+        } else {
+          body.createFixture(pl.Polygon(vecs), 1.0);
+        }
+
+        if (jd) {
+          const joint = pl.RevoluteJoint(jd, fixed, body, pos);
+          world.createJoint(joint);
+          jointList.push(joint);
+        }
       }
     }
     {
@@ -113,36 +188,6 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       }
     }
 
-    // Flippers
-    const pLeft = Vec2(-2.0, 3.0);
-    const pRight = Vec2(2.0, 3.0);
-
-    const leftFlipper = world.createDynamicBody(pLeft);
-    const rightFlipper = world.createDynamicBody(pRight);
-
-    leftFlipper.createFixture(pl.Box(1.75, 0.1), 1.0);
-    rightFlipper.createFixture(pl.Box(1.75, 0.1), 1.0);
-
-    const jd: any = {};
-    jd.enableMotor = true;
-    jd.maxMotorTorque = 1000.0;
-    jd.enableLimit = true;
-    jd.motorSpeed = 0.0;
-
-    jd.lowerAngle = -30.0 * Math.PI / 180.0;
-    jd.upperAngle = 5.0 * Math.PI / 180.0;
-    const leftJoint = pl.RevoluteJoint(jd, fixed, leftFlipper, pLeft);
-    world.createJoint(leftJoint);
-
-    jd.lowerAngle = -5.0 * Math.PI / 180.0;
-    jd.upperAngle = 30.0 * Math.PI / 180.0;
-    const rightJoint = pl.RevoluteJoint(jd, fixed, rightFlipper, pRight);
-    world.createJoint(rightJoint);
-
-    this.leftJoint = leftJoint;
-    this.rightJoint = rightJoint;
-    this.world = world;
-
     // now create graphics
     this.createGraphics();
   }
@@ -161,9 +206,6 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     }
   }
 
-  bindings: Binding[];
-  leftJoint: planck.JointDef;
-  rightJoint: planck.JointDef;
   left = false;
   right = false;
 
@@ -177,8 +219,18 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       this.world.step(0.016);
     }
 
-    this.rightJoint.setMotorSpeed(this.right ? -20 : 10);
-    this.leftJoint.setMotorSpeed(this.left ? 20 : -10);
+    for (const j of this.rightJoints) {
+      j.setMotorSpeed(this.right ? -20 : 10);
+      // console.log(
+      //   `set speed to: `,
+      //   j.getMotorSpeed(),
+      //   j.getReactionForce(),
+      //   j.getReactionTorque(),
+      // );
+    }
+    for (const j of this.leftJoints) {
+      j.setMotorSpeed(this.left ? 20 : -10);
+    }
 
     for (const binding of this.bindings) {
       sync(binding.body, binding.gfx);
@@ -294,4 +346,11 @@ function sync(b: planck.Body, gfx: PIXI.Graphics) {
   const pos = b.getPosition();
   gfx.position.set(pos.x, pos.y);
   gfx.rotation = b.getAngle();
+  // if (b.tags && b.tags.indexOf("#flipper") !== -1) {
+  //   console.log("flipper angle = ", b.getAngle());
+  // }
+}
+
+function toRadians(degrees: number): number {
+  return degrees * Math.PI / 180.0;
 }

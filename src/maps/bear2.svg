@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="bear.svg">
+   sodipodi:docname="bear2.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.919596"
-     inkscape:cx="232.54521"
-     inkscape:cy="69.862723"
+     inkscape:zoom="1.979899"
+     inkscape:cx="68.642135"
+     inkscape:cy="194.00394"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -65,22 +65,57 @@
     </path>
     <ellipse
        style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3355-3"
+       cx="66.75267"
+       cy="61.341469"
+       rx="4.5597486"
+       ry="4.5597482">
+      <desc
+         id="desc3371-6">#ball</desc>
+    </ellipse>
+    <ellipse
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="path3355-7"
-       cx="200.92094"
-       cy="472.17587"
+       cx="222.13414"
+       cy="96.399139"
        rx="4.5597486"
        ry="4.5597482">
       <desc
          id="desc3371-5">#ball</desc>
     </ellipse>
     <path
-       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 191.78571,513.21429 29.28571,-17.5 10.71429,-0.35714 6.78571,7.5 -2.14285,5.71428 -6.42858,5.35715 -33.21428,9.64285 -7.85714,-2.14285 -1.07143,-3.57143 z"
        id="path3423"
        inkscape:connector-curvature="0">
       <desc
          id="desc3449">#flipper
 #right</desc>
+    </path>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 136.43771,514.81546 -29.28571,-17.5 -10.714287,-0.35714 -6.78571,7.5 2.14285,5.71428 6.42858,5.35715 33.214277,9.64285 7.85714,-2.14285 1.07143,-3.57143 z"
+       id="path3423-3"
+       inkscape:connector-curvature="0">
+      <desc
+         id="desc3451">#flipper
+#left</desc>
+    </path>
+    <path
+       style="fill:#007baf;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:0.7027027"
+       d="M 58.571429,230 65.714286,282.14286 106.42857,270 117.85714,225 96.428571,177.14286 87.142857,135.71429 92.857143,92.142857 69.285714,71.428571 50,87.857143 l 20,29.285717 4.285714,47.14285 z"
+       id="path3453"
+       inkscape:connector-curvature="0">
+      <desc
+         id="desc3455">#ground</desc>
+    </path>
+    <path
+       style="fill:#fa2992;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="M 202.14286,167.14286 173.57143,215 l 23.57143,28.57143 41.42857,-10.71429 4.28571,-34.28571 L 230,160.71429 Z"
+       id="path3459"
+       inkscape:connector-curvature="0">
+      <desc
+         id="desc3461">#ground</desc>
     </path>
   </g>
 </svg>
