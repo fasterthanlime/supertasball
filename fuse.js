@@ -4,6 +4,7 @@ const {
   CSSResourcePlugin,
   CSSPlugin,
   QuantumPlugin,
+  RawPlugin,
 } = require("fuse-box");
 
 let isProduction = false;
@@ -25,6 +26,7 @@ const fuse = FuseBox.init({
       }),
       CSSPlugin(),
     ],
+    RawPlugin(["maps/*.svg"]),
     isProduction &&
       QuantumPlugin({
         uglify: true,

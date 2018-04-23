@@ -9,6 +9,9 @@ import "pixi-pause";
 import watching, { Watcher } from "./watching";
 import { actions } from "../actions";
 
+const bearMap = require("../maps/bear.svg");
+console.log(`bearMap: `, bearMap);
+
 const width = 16;
 const height = 28;
 
