@@ -8,6 +8,7 @@ const initialState: UIState = {
   floaties: {},
   cellSelection: { start: 0, size: 0 },
   clipboard: { ops: [] },
+  pickingMap: false,
 };
 
 let floatySeed = 0;
@@ -54,5 +55,17 @@ export default reducer<UIState>(initialState, on => {
 
   on(actions.clipboardPut, (state, action) => {
     return { ...state, clipboard: action.payload };
+  });
+
+  on(actions.playPinball, (state, action) => {
+    return { ...state, pickingMap: true };
+  });
+
+  on(actions.cancelPlayingPinball, (state, action) => {
+    return { ...state, pickingMap: false };
+  });
+
+  on(actions.startPlayingPinball, (state, action) => {
+    return { ...state, pickingMap: false };
   });
 });

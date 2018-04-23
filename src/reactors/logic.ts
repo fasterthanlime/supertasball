@@ -49,11 +49,13 @@ export default function(w: Watcher) {
     }
   });
 
-  w.on(actions.playPinball, (store, action) => {
+  w.on(actions.startPlayingPinball, (store, action) => {
+    const { mapName } = action.payload;
     const resources = store.getState().resources;
     const params: SimulationParams = {
       codeSize: resources.codeSize,
       freq: resources.freq,
+      mapName,
     };
     store.dispatch(actions.newSimulation({ params }));
   });

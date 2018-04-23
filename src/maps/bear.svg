@@ -25,7 +25,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
      inkscape:cx="22.253428"
-     inkscape:cy="195.01971"
+     inkscape:cy="280.73399"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -72,17 +72,6 @@
        d="M202.85714 85.714289C202.85714 85.714289 198.37557 99.816231 198.37557 99.816231C198.37557 99.816231 200.17048 109.10728 200.17048 109.10728C200.17048 109.10728 204.48737 115.36002 204.48737 115.36002C204.48737 115.36002 211.82596 123.32738 211.82596 123.32738C211.82596 123.32738 215.41842 131.95468 215.41842 131.95468C215.41842 131.95468 233.69397 112.89304 233.69397 112.89304C233.69397 112.89304 239.53809 102.41781 239.53809 102.41781C239.53809 102.41781 240.22408 90.382527 240.22408 90.382527C240.22408 90.382527 233.86264 79.280575 233.86264 79.280575C233.86264 79.280575 218.80154 77.247547 218.80154 77.247547C218.80154 77.247547 208.26533 78.289548 208.26533 78.289548C208.26533 78.289548 202.85714 85.714289 202.85714 85.714289"
        id="path4988" />
     <ellipse
-       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#68d400;stroke-width:1.18551564;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3355-7-9-2"
-       cx="32.635242"
-       cy="94.882706"
-       rx="13.100915"
-       ry="13.100913">
-      <desc
-         id="desc3371-5-2-8">#collect
-group=leftear</desc>
-    </ellipse>
-    <ellipse
        style="fill:#e30000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4.98087835;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="path3355-7"
        cx="69.447983"
@@ -101,7 +90,7 @@ group=leftear</desc>
        ry="12.75923">
       <desc
          id="desc3371-5-2-8-3">#collect
-group=leftear</desc>
+group=Left bunny ear</desc>
     </ellipse>
     <ellipse
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#68d400;stroke-width:1.24735427;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -112,7 +101,7 @@ group=leftear</desc>
        ry="13.78428">
       <desc
          id="desc3371-5-2-8-9">#collect
-group=leftear</desc>
+group=Left bunny ear</desc>
     </ellipse>
     <ellipse
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#68d400;stroke-width:1.13913679;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -123,40 +112,30 @@ group=leftear</desc>
        ry="12.588387">
       <desc
          id="desc3371-5-2-8-7">#collect
-group=leftear</desc>
-    </ellipse>
-    <ellipse
-       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0047;stroke-width:1.38649106;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3355-7-9-2-4-8"
-       cx="179.39285"
-       cy="81.035721"
-       rx="15.321856"
-       ry="15.321854">
-      <desc
-         id="desc3371-5-2-8-7-4">#collect
-group=rightear</desc>
+group=Left bunny ear
+points=100</desc>
     </ellipse>
     <ellipse
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0047;stroke-width:1.4019506;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3355-7-9-2-4-8-5"
-       cx="203.71428"
-       cy="43.357147"
+       cx="190.85713"
+       cy="60.500004"
        rx="15.492698"
        ry="15.492695">
       <desc
          id="desc3371-5-2-8-7-4-0">#collect
-group=rightear</desc>
+group=Right bunny ear</desc>
     </ellipse>
     <ellipse
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0047;stroke-width:1.4019506;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3355-7-9-2-4-8-5-3"
-       cx="247.14285"
-       cy="48.714287"
+       cx="232.14285"
+       cy="39.428574"
        rx="15.492698"
        ry="15.492696">
       <desc
          id="desc3371-5-2-8-7-4-0-6">#collect
-group=rightear</desc>
+group=Right bunny ear</desc>
     </ellipse>
     <ellipse
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0047;stroke-width:1.3710314;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -167,7 +146,8 @@ group=rightear</desc>
        ry="15.151012">
       <desc
          id="desc3371-5-2-8-7-4-0-6-0">#collect
-group=leftear</desc>
+group=Right bunny ear
+points=180</desc>
     </ellipse>
     <circle
        r="15.750181"
@@ -241,7 +221,8 @@ group=leftear</desc>
        ry="11.050814">
       <desc
          id="desc3371-5-2-8-7-4-0-6-0-4">#collect
-group=leftear</desc>
+group=Arrow of victory
+points=120</desc>
     </ellipse>
     <ellipse
        style="stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;fill-rule:evenodd;stroke:#a54900;stroke-linecap:butt;stroke-width:1;fill:none;stroke-miterlimit:4;stroke-dasharray:none"
@@ -252,7 +233,7 @@ group=leftear</desc>
        ry="11.050814">
       <desc
          id="desc3371-5-2-8-7-4-0-6-0-4-3">#collect
-group=leftear</desc>
+group=Arrow of victory</desc>
     </ellipse>
     <ellipse
        style="stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;fill-rule:evenodd;stroke:#a54900;stroke-linecap:butt;stroke-width:1;fill:none;stroke-miterlimit:4;stroke-dasharray:none"
@@ -263,7 +244,7 @@ group=leftear</desc>
        ry="11.050814">
       <desc
          id="desc3371-5-2-8-7-4-0-6-0-4-3-7">#collect
-group=leftear</desc>
+group=Arrow of victory</desc>
     </ellipse>
     <circle
        r="15.750181"

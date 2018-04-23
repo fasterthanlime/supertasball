@@ -10,8 +10,8 @@ import watching, { Watcher } from "./watching";
 import { actions } from "../actions";
 import { T_Vec2 } from "planck-js";
 import { Map, loadMap } from "./map";
-
-const bearMap = require("../maps/bear.svg");
+import { drawBody } from "./draw";
+import { MapName, mapDefs } from "../map-defs";
 
 let bodyIdSeed = 999;
 const width = 320;
@@ -63,7 +63,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
   map: Map;
 
   createWorld() {
-    this.map = loadMap(bearMap);
+    this.map = loadMap(this.props.mapName);
 
     this.bindings = [];
     this.container.removeChildren();
@@ -169,69 +169,18 @@ const actionCreators = actionCreatorsList("tick");
 
 type DerivedProps = {
   paused: boolean;
+  mapName: MapName;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(Game, {
   actionCreators,
   state: (rs: RootState) => ({
     paused: rs.simulation.paused,
+    mapName: rs.simulation.params.mapName,
   }),
 });
 
 //
-
-function drawBody(body: planck.Body, gfx: PIXI.Graphics) {
-  let lineWidth = 1;
-  let lineColor = body.strokeColor;
-
-  gfx.clear();
-
-  for (let f = body.getFixtureList(); f; f = f.getNext()) {
-    let shape = f.getShape();
-    let type = f.getType();
-    switch (type) {
-      case "circle": {
-        if (body.fill) {
-          gfx.beginFill(body.fillColor, 1.0);
-        } else {
-          gfx.lineStyle(lineWidth, lineColor, 1.0);
-        }
-        gfx.drawCircle(0, 0, shape.m_radius);
-        if (body.fill) {
-          gfx.endFill();
-        }
-        break;
-      }
-      case "chain":
-      case "polygon": {
-        const vertices = shape.m_vertices;
-        if (body.fill) {
-          gfx.beginFill(body.fillColor, 1.0);
-        }
-        for (let i = 0; i < vertices.length; i++) {
-          let v = vertices[i];
-          if (i == 0) {
-            gfx.moveTo(v.x, v.y);
-          } else {
-            if (!body.fill) {
-              gfx.lineStyle(lineWidth, lineColor, 1.0);
-            }
-            gfx.lineTo(v.x, v.y);
-          }
-        }
-        if (type === "polygon") {
-          gfx.closePath();
-        }
-        if (body.fill) {
-          gfx.endFill();
-        }
-        break;
-      }
-    }
-  }
-
-  return gfx;
-}
 
 function sync(b: planck.Body, gfx: PIXI.Graphics) {
   const pos = b.getPosition();

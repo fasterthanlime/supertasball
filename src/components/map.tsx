@@ -19,22 +19,38 @@ const tinycolor = require("tinycolor2");
 import { parseSVG, makeAbsolute } from "svg-path-parser";
 import store from "../store";
 import { actions } from "../actions";
+import { mapDefs, MapName } from "../map-defs";
 
 const gravityY = 150;
 const bigAngle = 20;
 const lowAngle = 25;
 
+interface Group {
+  comboPoints: number;
+  singlePoints: number;
+  total: number;
+  hit: number;
+}
+
 export interface Map {
   leftJoints: Joint[];
   rightJoints: Joint[];
   world: World;
+  ticks: number;
+  groups: {
+    [key: string]: Group;
+  };
 }
 
-export function loadMap(xmlString: string): Map {
+export function loadMap(mapName: MapName): Map {
+  const mapDef = mapDefs[mapName];
+
   const m: Map = {
     leftJoints: [],
     rightJoints: [],
     world: new World(Vec2(0, gravityY)),
+    ticks: 0,
+    groups: {},
   };
 
   const fixed = m.world.createBody();
@@ -43,7 +59,7 @@ export function loadMap(xmlString: string): Map {
     density: 0.0,
   });
 
-  const doc = new DOMParser().parseFromString(xmlString, "text/xml");
+  const doc = new DOMParser().parseFromString(mapDef.svg, "text/xml");
 
   {
     const paths = doc.querySelectorAll("path");
@@ -201,6 +217,26 @@ export function loadMap(xmlString: string): Map {
         def.density = 0.0;
         def.isSensor = true;
         bdef.bullet = false;
+
+        if (!tags.group) {
+          console.error("collectible without group: ", ellipse);
+          throw new Error("collectible without group");
+        }
+        let g: Group = m.groups[tags.group];
+        if (!g) {
+          g = {
+            hit: 0,
+            total: 0,
+            singlePoints: 10,
+            comboPoints: 50,
+          };
+        }
+
+        if (tags.singlePoints) {
+          g.singlePoints = parseInt(tags.singlePoints, 10);
+          g.comboPoints = parseInt(tags.comboPoints, 10);
+        }
+        g.total++;
       } else if (tags.type === "bumper") {
         type = "static";
         def.density = 0.0;

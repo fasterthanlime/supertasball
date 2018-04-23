@@ -23,6 +23,7 @@ export interface UIState {
   floaties: Floaties;
   showCode: boolean;
   clipboard: Clipboard;
+  pickingMap: boolean;
 }
 
 export interface Clipboard {
@@ -62,6 +63,7 @@ export interface Results {
 export interface SimulationParams {
   freq: number;
   codeSize: number;
+  mapName: MapName;
 }
 
 export interface Activity {
@@ -83,6 +85,7 @@ export interface Activity {
 }
 
 import { expenses } from "./expenses";
+import { MapName } from "./map-defs";
 
 export interface Expense {
   prereq?: string;

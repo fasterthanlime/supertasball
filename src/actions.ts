@@ -11,6 +11,7 @@ import {
   OpCodeType,
   Results,
 } from "./types";
+import { MapName } from "./map-defs";
 
 // actions
 
@@ -43,6 +44,8 @@ export const actions = wireActions({
   cellSetNumberValue: action<{ addr?: number; numberValue: number }>(),
 
   playPinball: action<{}>(),
+  cancelPlayingPinball: action<{}>(),
+  startPlayingPinball: action<{ mapName: MapName }>(),
   moneyDelta: action<{ delta: number }>(),
   doExpense: action<{ expense: Expense; clientX: number; clientY: number }>(),
   doActivity: action<{
