@@ -46,10 +46,17 @@ export interface SimulationState {
   stepping: boolean;
   ticks: number;
   lastUpdateTicks: number;
+  results: Results | null;
 
   freq: number;
   code: OpCode[];
   pc: number;
+}
+
+export interface Results {
+  hitGroups: string[];
+  missedGroups: string[];
+  score: number;
 }
 
 export interface SimulationParams {

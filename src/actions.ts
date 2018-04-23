@@ -9,6 +9,7 @@ import {
   Activity,
   SimulationState,
   OpCodeType,
+  Results,
 } from "./types";
 
 // actions
@@ -51,6 +52,9 @@ export const actions = wireActions({
   }>(),
 
   newSimulation: action<{ params: SimulationParams }>(),
+
+  reachedGoal: action<{ results: Results }>(),
+  validateStage: action<{ results: Results }>(),
 
   setPaused: action<{ paused: boolean }>(),
   tick: action<{}>(),

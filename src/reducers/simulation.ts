@@ -24,6 +24,7 @@ function freshSimulationState(
     stepping: false,
     code,
     freq: params.freq,
+    results: null,
   };
 }
 
@@ -68,6 +69,15 @@ export default reducer<SimulationState>(null, on => {
     return {
       ...state,
       code,
+    };
+  });
+
+  on(actions.reachedGoal, (state, action) => {
+    const { results } = action.payload;
+    return {
+      ...state,
+      paused: true,
+      results,
     };
   });
 });

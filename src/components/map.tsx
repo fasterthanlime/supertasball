@@ -17,6 +17,8 @@ import {
 } from "planck-js";
 const tinycolor = require("tinycolor2");
 import { parseSVG, makeAbsolute } from "svg-path-parser";
+import store from "../store";
+import { actions } from "../actions";
 
 const gravityY = 150;
 const bigAngle = 20;
@@ -226,11 +228,27 @@ export function loadMap(xmlString: string): Map {
       [bodyA, bodyB] = [bodyB, bodyA];
     }
 
-    if (bodyB.tags && bodyB.tags.type === "collect") {
-      if (!bodyB.fill) {
-        bodyB.fill = true;
-        bodyB.fillColor = bodyB.strokeColor;
-        bodyB.dirty = true;
+    let btype = bodyB.tags && bodyB.tags.type;
+    switch (btype) {
+      case "collect": {
+        if (!bodyB.fill) {
+          bodyB.fill = true;
+          bodyB.fillColor = bodyB.strokeColor;
+          bodyB.dirty = true;
+        }
+        break;
+      }
+      case "goal": {
+        store.dispatch(
+          actions.reachedGoal({
+            results: {
+              score: 200,
+              hitGroups: ["leftear"],
+              missedGroups: ["rightear"],
+            },
+          }),
+        );
+        break;
       }
     }
   });
