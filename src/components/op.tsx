@@ -49,7 +49,7 @@ const OpDiv = styled.div`
   .bottom-left,
   .bottom-right {
     position: absolute;
-    font-size: 14px;
+    font-size: 13px;
 
     &.icon,
     .icon {
@@ -116,7 +116,24 @@ class Op extends React.PureComponent<Props & DerivedProps> {
         <span className={`icon icon-${def.icon}`} data-rh={def.label} />
 
         {fields.numberValue ? (
-          <span className="top-right" data-rh={fields.numberValue.label}>
+          <span
+            className="top-right"
+            data-rh={fields.numberValue.label}
+            onContextMenu={ev => {
+              ev.preventDefault();
+              ev.stopPropagation();
+              const input = window.prompt(
+                fields.numberValue.label + ` ${fields.numberValue.unit}`,
+                "" + op.numberValue,
+              );
+              if (input !== null) {
+                let numberValue = parseInt(input, 10);
+                if (!isNaN(numberValue)) {
+                  this.props.cellSetNumberValue({ addr, numberValue });
+                }
+              }
+            }}
+          >
             {op.numberValue} {fields.numberValue.unit}
           </span>
         ) : null}
@@ -214,7 +231,11 @@ interface Props {
   onClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
-const actionCreators = actionCreatorsList("commitCell", "cellSetName");
+const actionCreators = actionCreatorsList(
+  "commitCell",
+  "cellSetName",
+  "cellSetNumberValue",
+);
 
 type DerivedProps = {} & Dispatchers<typeof actionCreators>;
 

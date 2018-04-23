@@ -126,6 +126,10 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
     let preventDefault = true;
     if (ev.key == "Delete") {
       this.props.cellYank({});
+    } else if (ev.key == " ") {
+      this.props.setPaused({ paused: !this.props.paused });
+    } else if (ev.key == "+" || ev.key == "PageDown") {
+      this.props.stepForward({});
     } else if (ev.key == "Backspace") {
       this.props.cellClear({});
     } else if (ev.key == "x") {
@@ -181,12 +185,15 @@ const actionCreators = actionCreatorsList(
   "cellDuplicate",
   "commitCell",
   "cellSetType",
+  "setPaused",
+  "stepForward",
 );
 
 type DerivedProps = {
   pc: number;
   code: OpCode[];
   showCode: boolean;
+  paused: boolean;
   cellSelection: CellSelection;
 } & Dispatchers<typeof actionCreators>;
 
@@ -195,6 +202,7 @@ export default connect<Props>(IDE, {
   state: (rs: RootState) => ({
     pc: rs.simulation.pc,
     code: rs.simulation.code,
+    paused: rs.simulation.paused,
     showCode: rs.ui.showCode,
     cellSelection: rs.ui.cellSelection,
   }),
