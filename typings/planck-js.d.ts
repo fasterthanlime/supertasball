@@ -14,7 +14,10 @@ declare module "planck-js" {
   }
 
   class Body {
-    createFixture(def: FixtureDef, density: number): Fixture;
+    createFixture(
+      def: FixtureDef,
+      densityOrShapeDef: number | ShapeDef,
+    ): Fixture;
     getFixtureList(): Fixture;
     getPosition(): T_Vec2;
     getAngle(): number;
@@ -58,6 +61,13 @@ declare module "planck-js" {
   }
 
   interface FixtureDef {}
+
+  interface ShapeDef {
+    density: number;
+    filterCategoryBits?: number;
+    filterMaskBits?: number;
+    filterGroupIndex?: number;
+  }
 
   function Chain(vecs: T_Vec2[], loop: boolean): FixtureDef;
   function Polygon(vecs: T_Vec2[]): FixtureDef;

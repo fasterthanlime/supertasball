@@ -17,7 +17,13 @@ const bearMap = require("../maps/bear.svg");
 const width = 320;
 const height = 560;
 
-const gravityY = 160;
+const activeSpeed = 40;
+const inactiveSpeed = 20;
+
+const bigAngle = 20;
+const lowAngle = 25;
+
+const gravityY = 150;
 
 const PinballDiv = styled.div`
   margin-right: 15px;
@@ -138,22 +144,26 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
           offsetX = -pos.x;
           offsetY = -pos.y;
-          body = world.createDynamicBody(pos);
+          body = world.createBody({
+            position: pos,
+            type: "dynamic",
+            bullet: true,
+          });
 
           jd = {
             enableMotor: true,
-            maxMotorTorque: 80000000.0,
+            maxMotorTorque: 2000000.0,
             enableLimit: true,
             motorSpeed: 0.0,
           };
           let dir: planck.T_Vec2;
           if (tags.indexOf("#left") !== -1) {
-            jd.lowerAngle = toRadians(-50);
-            jd.upperAngle = toRadians(0);
+            jd.lowerAngle = toRadians(-bigAngle);
+            jd.upperAngle = toRadians(lowAngle);
             jointList = this.leftJoints;
           } else if (tags.indexOf("#right") !== -1) {
-            jd.lowerAngle = toRadians(0);
-            jd.upperAngle = toRadians(50);
+            jd.lowerAngle = toRadians(-lowAngle);
+            jd.upperAngle = toRadians(bigAngle);
             jointList = this.rightJoints;
           } else {
             throw new Error(
@@ -178,12 +188,17 @@ class Game extends React.PureComponent<Props & DerivedProps> {
           vecs.push(Vec2(p.x + offsetX, p.y + offsetY));
         }
 
+        const shapeDef: planck.ShapeDef = {
+          density: isStatic ? 0.0 : 0.1,
+          filterGroupIndex: -1,
+        };
+        let fixtureDef: planck.FixtureDef;
         if (isStatic) {
-          const chain = pl.Chain(vecs, false);
-          body.createFixture(chain, 0.0);
+          fixtureDef = pl.Chain(vecs, false);
         } else {
-          body.createFixture(pl.Polygon(vecs), 1.0);
+          fixtureDef = pl.Polygon(vecs);
         }
+        body.createFixture(fixtureDef, shapeDef);
 
         if (jd) {
           const joint = pl.RevoluteJoint(jd, fixed, body, pos);
@@ -209,7 +224,9 @@ class Game extends React.PureComponent<Props & DerivedProps> {
           bullet: true,
         });
         body.tags = tags;
-        body.createFixture(pl.Circle(radius), 1.0);
+        body.createFixture(pl.Circle(radius), {
+          density: 0.02,
+        });
       }
     }
 
@@ -241,14 +258,17 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
     if (!this.props.paused) {
       this.props.tick({});
-      this.world.step(0.016);
+      let fraction = 4;
+      for (let i = 0; i < fraction; i++) {
+        this.world.step(0.016 / fraction);
+      }
     }
 
     for (const j of this.rightJoints) {
-      j.setMotorSpeed(this.right ? 40 : -20);
+      j.setMotorSpeed(this.right ? activeSpeed : -inactiveSpeed);
     }
     for (const j of this.leftJoints) {
-      j.setMotorSpeed(this.left ? -40 : 20);
+      j.setMotorSpeed(this.left ? -activeSpeed : inactiveSpeed);
     }
 
     for (const binding of this.bindings) {
