@@ -148,6 +148,8 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       if (ev.ctrlKey) {
         this.props.cellPasteInsert({});
       }
+    } else if (ev.key == "Home") {
+      this.props.reset({});
     } else if (ev.key == "Insert") {
       this.props.cellPasteInsert({});
     } else if (ev.key == "d") {
@@ -194,6 +196,7 @@ const actionCreators = actionCreatorsList(
   "cellSetType",
   "setPaused",
   "stepForward",
+  "reset",
 );
 
 type DerivedProps = {
