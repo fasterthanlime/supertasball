@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc --noEmit"
+    "test": "tsc --noEmit",
+    "start": "node fuse"
   },
   "author": "",
   "license": "MIT",
