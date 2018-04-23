@@ -14,6 +14,7 @@ import {
   Polygon,
   RevoluteJoint,
   BodyType,
+  Tags,
 } from "planck-js";
 const tinycolor = require("tinycolor2");
 import { parseSVG, makeAbsolute } from "svg-path-parser";
@@ -44,8 +45,7 @@ export function loadMap(xmlString: string): Map {
     const paths = doc.querySelectorAll("path");
     for (let i = 0; i < paths.length; i++) {
       const path = paths[i];
-      const desc = path.querySelector("desc");
-      const tags: string[] = desc ? desc.textContent.split("\n") : [];
+      const tags = parseTags(path);
       let filterGroupIndex = -1;
 
       const points = parseSVG(path.attributes["d"].nodeValue);
@@ -55,7 +55,7 @@ export function loadMap(xmlString: string): Map {
       let offsetY = 0;
 
       let isStatic = true;
-      if (tags.indexOf("#flipper") !== -1) {
+      if (tags.type == "flipper") {
         isStatic = false;
       }
 
@@ -64,8 +64,9 @@ export function loadMap(xmlString: string): Map {
       let body: Body;
       let pos = Vec2(0, 0);
 
-      if (tags.indexOf("#flipper") !== -1) {
-        let left = tags.indexOf("#left") !== -1;
+      if (tags.type == "flipper") {
+        console.log("flipper points = ", points);
+        let left = tags.side === "left";
         let right = !left;
 
         let totalX = 0.0;
@@ -99,9 +100,9 @@ export function loadMap(xmlString: string): Map {
         let width = maxX - minX;
         let height = maxY - minY;
         if (left) {
-          pos.x -= width * 0.4;
+          pos.x -= width * 0.3169;
         } else {
-          pos.x += width * 0.4;
+          pos.x += width * 0.3169;
         }
 
         offsetX = -pos.x;
@@ -119,11 +120,11 @@ export function loadMap(xmlString: string): Map {
           motorSpeed: 0.0,
         };
         let dir: T_Vec2;
-        if (tags.indexOf("#left") !== -1) {
+        if (tags.side === "left") {
           jd.lowerAngle = toRadians(-bigAngle);
           jd.upperAngle = toRadians(lowAngle);
           jointList = m.leftJoints;
-        } else if (tags.indexOf("#right") !== -1) {
+        } else if (tags.side === "right") {
           jd.lowerAngle = toRadians(-lowAngle);
           jd.upperAngle = toRadians(bigAngle);
           jointList = m.rightJoints;
@@ -140,10 +141,7 @@ export function loadMap(xmlString: string): Map {
         body = m.world.createBody();
       }
       body.tags = tags;
-      if (path.style.fill != "none") {
-        body.fill = true;
-        body.fillColor = parseInt(tinycolor(path.style.fill).toHex(), 16);
-      }
+      parseStyle(path, body);
 
       const vecs: T_Vec2[] = [];
       for (const p of points) {
@@ -170,26 +168,34 @@ export function loadMap(xmlString: string): Map {
     }
   }
   {
-    const ellipses = doc.querySelectorAll("ellipse");
+    const ellipses = doc.querySelectorAll("ellipse, circle");
     for (let i = 0; i < ellipses.length; i++) {
-      const ellipse = ellipses[i];
-      const tags = ellipse.querySelector("desc").textContent.split("\n");
+      const ellipse = ellipses[i] as SVGElement;
+      const tags = parseTags(ellipse);
 
       const position = Vec2(
         +ellipse.attributes["cx"].nodeValue,
         +ellipse.attributes["cy"].nodeValue,
       );
-      const radius = +ellipse.attributes["rx"].nodeValue;
+      const radius = +(ellipse.attributes["r"] || ellipse.attributes["rx"])
+        .nodeValue;
       let density = 0.02;
       let type: BodyType = "dynamic";
       let bullet = true;
       let isSensor = false;
+      let restitution: number = null;
+      let filterGroupIndex: number = null;
 
-      if (tags.indexOf("#collect") !== -1) {
+      if (tags.type === "collect") {
         type = "static";
         density = 0.0;
         bullet = false;
         isSensor = true;
+      } else if (tags.type === "bumper") {
+        type = "static";
+        density = 0.0;
+        restitution = 1;
+        filterGroupIndex = -1;
       }
 
       const body = m.world.createBody({
@@ -198,26 +204,38 @@ export function loadMap(xmlString: string): Map {
         bullet,
       });
       body.tags = tags;
+      parseStyle(ellipse, body);
       const ddef: DetailedFixtureDef = {
         shape: Circle(radius),
       };
       if (isSensor) {
         ddef.isSensor = true;
       }
+      if (restitution !== null) {
+        ddef.restitution = restitution;
+      }
       body.createFixture(ddef, {
         density: 0.02,
+        filterGroupIndex,
       });
     }
   }
 
-  m.world.on("begin-contact", function(contact) {
+  m.world.on("begin-contact", contact => {
     let bodyA = contact.getFixtureA().getBody();
     let bodyB = contact.getFixtureB().getBody();
-    console.log(
-      JSON.stringify(bodyA.tags),
-      `has contact with`,
-      JSON.stringify(bodyB.tags),
-    );
+
+    if (bodyB.tags && bodyB.tags.type === "ball") {
+      [bodyA, bodyB] = [bodyB, bodyA];
+    }
+
+    if (bodyB.tags && bodyB.tags.type === "collect") {
+      if (!bodyB.fill) {
+        bodyB.fill = true;
+        bodyB.fillColor = bodyB.strokeColor;
+        bodyB.dirty = true;
+      }
+    }
   });
 
   return m;
@@ -225,4 +243,47 @@ export function loadMap(xmlString: string): Map {
 
 export function toRadians(degrees: number): number {
   return degrees * Math.PI / 180.0;
+}
+
+// tag key-value regular expression
+const tagKvRe = /^(.*)=(.*)$/;
+
+export function parseTags(el: SVGElement): Tags {
+  const tags: Tags = {
+    type: "unknown",
+  };
+
+  const desc = el.querySelector("desc");
+  if (desc) {
+    let tokens = desc.textContent.split("\n");
+    for (const tok of tokens) {
+      if (tok.startsWith("#")) {
+        tags.type = tok.replace(/^#/, "");
+      } else {
+        const matches = tagKvRe.exec(tok);
+        if (matches) {
+          tags[matches[1]] = matches[2];
+        } else {
+          tags[tok] = "true";
+        }
+      }
+    }
+  }
+  return tags;
+}
+
+export function parseStyle(el: SVGElement, body: Body) {
+  if (el.style.fill != "none") {
+    body.fill = true;
+    body.fillColor = toPixiColor(el.style.fill);
+  }
+
+  if (el.style.stroke != "none") {
+    body.stroke = true;
+    body.strokeColor = toPixiColor(el.style.stroke);
+  }
+}
+
+function toPixiColor(input: string): number {
+  return parseInt(tinycolor(input).toHex(), 16);
 }

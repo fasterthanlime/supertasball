@@ -1,4 +1,10 @@
 declare module "planck-js" {
+  // custom addition
+  interface Tags {
+    type: string;
+    [key: string]: string;
+  }
+
   class T_Vec2 {
     x: number;
     y: number;
@@ -15,6 +21,7 @@ declare module "planck-js" {
 
   interface DetailedFixtureDef {
     shape: FixtureDef;
+    restitution?: number;
     isSensor?: boolean;
   }
 
@@ -33,10 +40,16 @@ declare module "planck-js" {
     getNext(): Body;
 
     // additions
-    tags: string[];
+    tags: Tags;
+
+    id?: number;
+    dirty: boolean;
 
     fill?: boolean;
     fillColor?: number;
+
+    stroke?: boolean;
+    strokeColor?: number;
   }
 
   export type BodyType = "dynamic" | "static";

@@ -13,6 +13,7 @@ import { Map, loadMap } from "./map";
 
 const bearMap = require("../maps/bear.svg");
 
+let bodyIdSeed = 999;
 const width = 320;
 const height = 560;
 
@@ -56,7 +57,9 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     });
   }
 
-  bindings: Binding[];
+  bindings: {
+    [key: number]: Binding;
+  };
   map: Map;
 
   createWorld() {
@@ -66,12 +69,14 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     this.container.removeChildren();
 
     for (let b = this.map.world.getBodyList(); b; b = b.getNext()) {
-      const gfx = drawBody(b);
+      const gfx = new PIXI.Graphics();
+      b.id = bodyIdSeed++;
+      drawBody(b, gfx);
       this.container.addChild(gfx);
-      this.bindings.push({
+      this.bindings[b.id] = {
         body: b,
         gfx,
-      });
+      };
     }
   }
 
@@ -98,7 +103,12 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       j.setMotorSpeed(this.left ? -activeSpeed : inactiveSpeed);
     }
 
-    for (const binding of this.bindings) {
+    for (const id of Object.keys(this.bindings)) {
+      const binding = this.bindings[id];
+      if (binding.body.dirty) {
+        drawBody(binding.body, binding.gfx);
+        binding.body.dirty = false;
+      }
       sync(binding.body, binding.gfx);
     }
 
@@ -116,9 +126,15 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
   componentWillUnmount() {
     this.running = false;
+    if (this.app) {
+      this.app.destroy();
+      this.app = null;
+    }
   }
 
+  app: PIXI.Application;
   container: PIXI.Container;
+
   onRef = (el: HTMLDivElement) => {
     if (!el) {
       return;
@@ -129,6 +145,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       height,
       antialias: true,
     });
+    this.app = app;
     app.renderer.backgroundColor = 0xffffff;
 
     app.stage.position.set(0, 0);
@@ -163,10 +180,11 @@ export default connect<Props>(Game, {
 
 //
 
-function drawBody(body: planck.Body): PIXI.Graphics {
-  const gfx = new PIXI.Graphics();
+function drawBody(body: planck.Body, gfx: PIXI.Graphics) {
   let lineWidth = 1;
-  let lineColor = 0x333333;
+  let lineColor = body.strokeColor;
+
+  gfx.clear();
 
   for (let f = body.getFixtureList(); f; f = f.getNext()) {
     let shape = f.getShape();
