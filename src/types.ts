@@ -55,9 +55,11 @@ export interface SimulationState {
 }
 
 export interface Results {
-  hitGroups: string[];
-  missedGroups: string[];
+  groups: Groups;
+  // in seconds
+  time: number;
   score: number;
+  timeScorePenalty: number;
 }
 
 export interface SimulationParams {
@@ -86,6 +88,7 @@ export interface Activity {
 
 import { expenses } from "./expenses";
 import { MapName } from "./map-defs";
+import { Groups } from "./components/map";
 
 export interface Expense {
   prereq?: string;

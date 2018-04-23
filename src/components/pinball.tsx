@@ -94,6 +94,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       for (let i = 0; i < fraction; i++) {
         this.map.world.step(0.016 / fraction);
       }
+      this.map.ticks++;
     }
 
     for (const j of this.map.rightJoints) {

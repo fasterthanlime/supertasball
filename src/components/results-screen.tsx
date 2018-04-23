@@ -40,31 +40,35 @@ const ButtonsDiv = styled.div`
 class ResultsScreen extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { results } = this.props;
-    const hitTargets = results.hitGroups.length;
-    const missedTargets = results.missedGroups.length;
-    const totalTargets = hitTargets + missedTargets;
+    let hitTargets = 0;
+    let totalTargets = 0;
+
+    for (const k of Object.keys(results.groups)) {
+      const g = results.groups[k];
+      hitTargets += g.hit;
+      totalTargets += g.total;
+    }
 
     return (
       <ResultsDiv>
         <h3>Results</h3>
+        <pre>{JSON.stringify(results, null, 2)}</pre>
         <section>
           <Icon icon="award" /> Score: {results.score.toLocaleString()}
         </section>
         <section>
-          <Icon icon="crosshair" /> Targets {hitTargets}/{totalTargets}:
+          <Icon icon="crosshair" /> Combos: {hitTargets}/{totalTargets}
           <ul>
-            {results.hitGroups.map(g => (
-              <li key={g}>
-                <Icon icon="check" /> {g}
-              </li>
-            ))}
-          </ul>
-          <ul>
-            {results.missedGroups.map(g => (
-              <li key={g}>
-                <Icon icon="x" /> {g}
-              </li>
-            ))}
+            {Object.keys(results.groups).map(k => {
+              const g = results.groups[k];
+              return (
+                <li key={k}>
+                  <Icon icon={g.hit >= g.total ? "check" : "x"} /> {k} {g.hit}/{
+                    g.total
+                  }
+                </li>
+              );
+            })}
           </ul>
         </section>
         <ButtonsDiv>

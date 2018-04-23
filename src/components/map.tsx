@@ -25,11 +25,15 @@ const gravityY = 150;
 const bigAngle = 20;
 const lowAngle = 25;
 
-interface Group {
+export interface Group {
   comboPoints: number;
   singlePoints: number;
   total: number;
   hit: number;
+}
+
+export interface Groups {
+  [key: string]: Group;
 }
 
 export interface Map {
@@ -37,9 +41,7 @@ export interface Map {
   rightJoints: Joint[];
   world: World;
   ticks: number;
-  groups: {
-    [key: string]: Group;
-  };
+  groups: Groups;
 }
 
 export function loadMap(mapName: MapName): Map {
@@ -230,6 +232,7 @@ export function loadMap(mapName: MapName): Map {
             singlePoints: 10,
             comboPoints: 50,
           };
+          m.groups[tags.group] = g;
         }
 
         if (tags.singlePoints) {
@@ -271,16 +274,37 @@ export function loadMap(mapName: MapName): Map {
           bodyB.fill = true;
           bodyB.fillColor = bodyB.strokeColor;
           bodyB.dirty = true;
+
+          const g = m.groups[bodyB.tags.group];
+          if (g) {
+            g.hit++;
+          }
         }
         break;
       }
       case "goal": {
+        let score = 0;
+        let time = m.ticks * 1 / 60;
+        let timeScorePenalty = Math.floor(time);
+        score += timeScorePenalty;
+
+        for (const k of Object.keys(m.groups)) {
+          const g = m.groups[k];
+          for (let i = 0; i < g.hit; i++) {
+            score += g.singlePoints;
+          }
+          if (g.hit >= g.total) {
+            score += g.comboPoints;
+          }
+        }
+
         store.dispatch(
           actions.reachedGoal({
             results: {
-              score: 200,
-              hitGroups: ["leftear"],
-              missedGroups: ["rightear"],
+              score,
+              time: time,
+              groups: m.groups,
+              timeScorePenalty,
             },
           }),
         );
