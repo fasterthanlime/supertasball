@@ -80,7 +80,8 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       const paths = doc.querySelectorAll("path");
       for (let i = 0; i < paths.length; i++) {
         const path = paths[i];
-        const tags = path.querySelector("desc").textContent.split("\n");
+        const desc = path.querySelector("desc");
+        const tags: string[] = desc ? desc.textContent.split("\n") : [];
 
         const points = parseSVG(path.attributes["d"].nodeValue);
         makeAbsolute(points);
@@ -88,7 +89,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
         let offsetX = 0;
         let offsetY = 0;
 
-        let isStatic = tags.indexOf("#ground") !== -1;
+        let isStatic = tags.indexOf("#flipper") === -1;
 
         let jd: planck.RevoluteJointOpts;
         let jointList: planck.Joint[];
@@ -118,12 +119,12 @@ class Game extends React.PureComponent<Props & DerivedProps> {
           };
           let dir: planck.T_Vec2;
           if (tags.indexOf("#left") !== -1) {
-            jd.lowerAngle = toRadians(-30);
-            jd.upperAngle = toRadians(5);
+            jd.lowerAngle = toRadians(-50);
+            jd.upperAngle = toRadians(0);
             jointList = this.leftJoints;
           } else if (tags.indexOf("#right") !== -1) {
-            jd.lowerAngle = toRadians(-5);
-            jd.upperAngle = toRadians(30);
+            jd.lowerAngle = toRadians(0);
+            jd.upperAngle = toRadians(50);
             jointList = this.rightJoints;
           } else {
             throw new Error(
@@ -145,10 +146,6 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
         const vecs: T_Vec2[] = [];
         for (const p of points) {
-          vecs.push(Vec2(p.x + offsetX, p.y + offsetY));
-        }
-        {
-          const p = points[0];
           vecs.push(Vec2(p.x + offsetX, p.y + offsetY));
         }
         console.log(`vecs = `, vecs);
@@ -220,16 +217,10 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     }
 
     for (const j of this.rightJoints) {
-      j.setMotorSpeed(this.right ? -20 : 10);
-      // console.log(
-      //   `set speed to: `,
-      //   j.getMotorSpeed(),
-      //   j.getReactionForce(),
-      //   j.getReactionTorque(),
-      // );
+      j.setMotorSpeed(this.right ? 40 : -20);
     }
     for (const j of this.leftJoints) {
-      j.setMotorSpeed(this.left ? 20 : -10);
+      j.setMotorSpeed(this.left ? -40 : 20);
     }
 
     for (const binding of this.bindings) {
@@ -330,7 +321,9 @@ function drawBody(body: planck.Body): PIXI.Graphics {
             gfx.lineTo(v.x, v.y);
           }
         }
-        gfx.closePath();
+        if (type === "polygon") {
+          gfx.closePath();
+        }
         if (body.fill) {
           gfx.endFill();
         }
