@@ -9,15 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 744.09448819 1052.3622047"
+   width="320"
+   height="560"
+   viewBox="0 0 320 560.00001"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="bear.svg">
-  <defs
-     id="defs4" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="679.27509"
-     inkscape:cy="519.10668"
+     inkscape:zoom="2.8"
+     inkscape:cx="145.53847"
+     inkscape:cy="236.00012"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -35,7 +33,10 @@
      inkscape:window-height="1017"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     units="px" />
+  <defs
+     id="defs4" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -44,21 +45,51 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
+     id="layer1"
      inkscape:groupmode="layer"
-     id="layer1">
+     inkscape:label="Layer 1">
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 47.142857,328.07649 24.285715,274.28571 78.571428,70 -51.428571,30 -50,72.85715 2.857143,107.14285 60.000008,107.14286 115.71428,32.85714 200,10 L 644.28572,990.93363 710,875.21935 708.57143,760.93363 651.42858,693.79077 532.85715,616.64792 l 108.57143,-45.71429 77.14285,-85.71428 0,-127.14286 -45.71428,-121.42857 -18.57143,-84.28572 38.57143,-40 -14.28572,-59.999996 -64.28571,-28.571428 -132.85714,2.857142 -84.28572,47.142857 5.71429,49.999995 0,74.28572 -98.57143,4.28571 -71.42857,-52.85714 8.57143,-59.999999 7.14285,-41.428572 L 137.14286,28.07649 65.714286,39.505061 18.571429,122.3622 l 30,77.14286 48.571428,55.71429 z"
        id="path3336"
-       inkscape:connector-curvature="0">
+       d="M31.123464 216.52391C31.123464 216.52391 40.859621 326.4852 40.859621 326.4852C40.859621 326.4852 72.35895 354.54824 72.35895 354.54824C72.35895 354.54824 51.741207 366.57526 51.741207 366.57526C51.741207 366.57526 31.69618 395.78373 31.69618 395.78373C31.69618 395.78373 32.84161 438.73735 32.84161 438.73735C32.84161 438.73735 56.895646 481.69097 56.895646 481.69097C56.895646 481.69097 103.28556 494.86347 103.28556 494.86347C103.28556 494.86347 183.46567 498.87247 183.46567 498.87247C183.46567 498.87247 270.51837 482.26367 270.51837 482.26367C270.51837 482.26367 296.86326 435.87378 296.86326 435.87378C296.86326 435.87378 296.29054 390.05657 296.29054 390.05657C296.29054 390.05657 273.38194 363.13896 273.38194 363.13896C273.38194 363.13896 225.84659 332.21235 225.84659 332.21235C225.84659 332.21235 269.37294 313.88547 269.37294 313.88547C269.37294 313.88547 300.29955 279.52257 300.29955 279.52257C300.29955 279.52257 300.29955 228.55092 300.29955 228.55092C300.29955 228.55092 281.97267 179.87014 281.97267 179.87014C281.97267 179.87014 274.52737 146.07995 274.52737 146.07995C274.52737 146.07995 289.99068 130.04393 289.99068 130.04393C289.99068 130.04393 284.26353 105.9899 284.26353 105.9899C284.26353 105.9899 258.49135 94.53559 258.49135 94.53559C258.49135 94.53559 205.22885 95.68102 205.22885 95.68102C205.22885 95.68102 171.43866 114.58062 171.43866 114.58062C171.43866 114.58062 173.72952 134.62565 173.72952 134.62565C173.72952 134.62565 173.72952 164.40683 173.72952 164.40683C173.72952 164.40683 134.21218 166.12498 134.21218 166.12498C134.21218 166.12498 105.57643 144.93452 105.57643 144.93452C105.57643 144.93452 109.01272 120.88049 109.01272 120.88049C109.01272 120.88049 111.87629 104.27175 111.87629 104.27175C111.87629 104.27175 67.204515 96.25374 67.204515 96.25374C67.204515 96.25374 38.56876 100.83546 38.56876 100.83546C38.56876 100.83546 19.669163 134.05293 19.669163 134.05293C19.669163 134.05293 31.69618 164.97955 31.69618 164.97955C31.69618 164.97955 51.168492 187.31544 51.168492 187.31544C51.168492 187.31544 31.123464 216.52391 31.123464 216.52391"
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-linecap:butt;stroke-width:0.566958980831;fill:none">
       <desc
-         id="desc3363">ground</desc>
+         id="desc3363">#ground
+#static</desc>
     </path>
+    <ellipse
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-linecap:butt;stroke-width:1.76100636;fill:#ff0000"
+       id="path3355"
+       cx="182.35715"
+       cy="363.71426"
+       rx="4.5597486"
+       ry="4.5597482">
+      <desc
+         id="desc3371">#ball</desc>
+    </ellipse>
+    <ellipse
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-linecap:butt;stroke-width:1.76100643231;fill:#ff0000"
+       id="path3355-3"
+       cx="219.28571"
+       cy="308.57141"
+       rx="4.5597486"
+       ry="4.5597482">
+      <desc
+         id="desc3371-6">#ball</desc>
+    </ellipse>
+    <ellipse
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-linecap:butt;stroke-width:1.76100643231;fill:#ff0000"
+       id="path3355-7"
+       cx="251.42856"
+       cy="273.92856"
+       rx="4.5597486"
+       ry="4.5597482">
+      <desc
+         id="desc3371-5">#ball</desc>
+    </ellipse>
   </g>
 </svg>

@@ -8,14 +8,13 @@ import * as PIXI from "pixi.js";
 import "pixi-pause";
 import watching, { Watcher } from "./watching";
 import { actions } from "../actions";
+import { parseSVG, makeAbsolute } from "svg-path-parser";
+import { T_Vec2 } from "planck-js";
 
 const bearMap = require("../maps/bear.svg");
-console.log(`bearMap: `, bearMap);
 
-const width = 16;
-const height = 28;
-
-const scale = 20;
+const width = 320;
+const height = 560;
 
 const PinballDiv = styled.div`
   margin-right: 15px;
@@ -62,28 +61,57 @@ class Game extends React.PureComponent<Props & DerivedProps> {
   createWorld() {
     const pl = planck,
       Vec2 = pl.Vec2;
-    const world = new pl.World(Vec2(0, -10));
+    const world = new pl.World(Vec2(0, 160));
 
-    // Ground body
-    const ground = world.createBody();
-    this.ground = ground;
-    const chain = pl.Chain(
-      [
-        Vec2(0.0, 0.0),
-        Vec2(8.0, 6.0),
-        Vec2(8.0, 16.0),
-        Vec2(6.0, 18.0),
-        Vec2(8.0, 20.0),
-        Vec2(8.0, 28.0),
-        Vec2(-8.0, 28.0),
-        Vec2(-8.0, 20.0),
-        Vec2(-6.0, 18.0),
-        Vec2(-8.0, 16.0),
-        Vec2(-8.0, 6.0),
-      ],
-      true,
-    );
-    ground.createFixture(chain, 0.0);
+    const fixed = world.createBody();
+
+    const doc = new DOMParser().parseFromString(bearMap, "text/xml");
+
+    {
+      const paths = doc.querySelectorAll("path");
+      for (let i = 0; i < paths.length; i++) {
+        const path = paths[i];
+        const tags = path.querySelector("desc").textContent.split("\n");
+
+        const points = parseSVG(path.attributes["d"].nodeValue);
+        makeAbsolute(points);
+        if (tags.indexOf("#ground") !== -1) {
+          const ground = world.createBody();
+          this.ground = ground;
+          const vecs: T_Vec2[] = [];
+          let i = 0;
+          for (let i = 0; i < points.length; i++) {
+            let p = points[i];
+            vecs.push(Vec2(p.x, p.y));
+          }
+          const chain = pl.Chain(vecs, true);
+          ground.createFixture(chain, 0.0);
+        }
+      }
+    }
+    {
+      const ellipses = doc.querySelectorAll("ellipse");
+      for (let i = 0; i < ellipses.length; i++) {
+        const ellipse = ellipses[i];
+        const tags = ellipse.querySelector("desc").textContent.split("\n");
+
+        if (tags.indexOf("#ball") !== -1) {
+          const position = Vec2(
+            +ellipse.attributes["cx"].nodeValue,
+            +ellipse.attributes["cy"].nodeValue,
+          );
+          const radius = +ellipse.attributes["rx"].nodeValue;
+          console.log(`doing ball! position = `, position, radius);
+          const ball = world.createBody({
+            position,
+            type: "dynamic",
+            bullet: true,
+          });
+          ball.createFixture(pl.Circle(radius), 1.0);
+          this.ball = ball;
+        }
+      }
+    }
 
     // Flippers
     const pLeft = Vec2(-2.0, 3.0);
@@ -105,22 +133,13 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
     jd.lowerAngle = -30.0 * Math.PI / 180.0;
     jd.upperAngle = 5.0 * Math.PI / 180.0;
-    const leftJoint = pl.RevoluteJoint(jd, ground, leftFlipper, pLeft);
+    const leftJoint = pl.RevoluteJoint(jd, fixed, leftFlipper, pLeft);
     world.createJoint(leftJoint);
 
     jd.lowerAngle = -5.0 * Math.PI / 180.0;
     jd.upperAngle = 30.0 * Math.PI / 180.0;
-    const rightJoint = pl.RevoluteJoint(jd, ground, rightFlipper, pRight);
+    const rightJoint = pl.RevoluteJoint(jd, fixed, rightFlipper, pRight);
     world.createJoint(rightJoint);
-
-    // Circle character
-    const ball = world.createBody({
-      position: Vec2(1.0, 15.0),
-      type: "dynamic",
-      bullet: true,
-    });
-    ball.createFixture(pl.Circle(0.2), 1.0);
-    this.ball = ball;
 
     this.leftJoint = leftJoint;
     this.rightJoint = rightJoint;
@@ -162,16 +181,15 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     }
 
     const app = new PIXI.Application({
-      width: 10 + width * scale,
-      height: 10 + height * scale,
+      width,
+      height,
     });
     app.renderer.backgroundColor = 0xffffff;
 
-    app.stage.position.set(5 + width / 2 * scale, 5 + height * scale);
+    app.stage.position.set(0, 0);
 
     const container = new PIXI.Container();
     app.stage.addChild(container);
-    container.scale.set(scale, -scale);
 
     // ---------
     container.addChild(drawBody(this.ground));
@@ -212,14 +230,18 @@ export default connect<Props>(Game, {
 
 function drawBody(body: planck.Body): PIXI.Graphics {
   const gfx = new PIXI.Graphics();
-  gfx.lineStyle(2 / scale, 0x333333, 1.0);
+  let lineWidth = 3;
+  let lineColor = 0x333333;
 
   for (let f = body.getFixtureList(); f; f = f.getNext()) {
     let shape = f.getShape();
     let type = f.getType();
     switch (type) {
       case "circle": {
+        // gfx.lineStyle(lineWidth, lineColor, 1.0);
+        gfx.beginFill(lineColor, 1.0);
         gfx.drawCircle(0, 0, shape.m_radius);
+        gfx.endFill();
         break;
       }
       case "chain":
@@ -230,10 +252,10 @@ function drawBody(body: planck.Body): PIXI.Graphics {
           if (i == 0) {
             gfx.moveTo(v.x, v.y);
           } else {
+            gfx.lineStyle(lineWidth, lineColor, 1.0);
             gfx.lineTo(v.x, v.y);
           }
         }
-        gfx.closePath();
         break;
       }
     }
