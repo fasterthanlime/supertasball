@@ -10,6 +10,8 @@ import Op from "./op";
 
 import CellTypeMenu from "./menus/cell-type-menu";
 import NameMenu from "./menus/name-menu";
+import watching, { Watcher } from "./watching";
+import { actions } from "../actions";
 
 const glowColor = "rgb(140, 240, 140)";
 
@@ -41,6 +43,7 @@ const Filler = styled.div`
   flex-grow: 1;
 `;
 
+@watching
 class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { showCode } = this.props;
@@ -57,6 +60,14 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
         <NameMenu />
       </IDEDiv>
     );
+  }
+
+  subscribe(w: Watcher) {
+    w.on(actions.checkpoint, (store, action) => {
+      if (this.divEl) {
+        this.divEl.focus();
+      }
+    });
   }
 
   onContextMenu = (ev: React.MouseEvent<any>) => {
@@ -127,16 +138,20 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
     const cs = this.props.cellSelection;
     let preventDefault = true;
     if (ev.key == "Delete") {
-      this.props.cellYank({});
+      this.props.cellClear({});
     } else if (ev.key == " ") {
       this.props.setPaused({ paused: !this.props.paused });
     } else if (ev.key == "+" || ev.key == "PageDown") {
       this.props.stepForward({});
     } else if (ev.key == "Backspace") {
-      this.props.cellClear({});
+      this.props.cellYank({});
     } else if (ev.key == "x") {
       if (ev.ctrlKey) {
         this.props.cellCut({});
+      }
+    } else if (ev.key == "X") {
+      if (ev.ctrlKey) {
+        this.props.cellYank({});
       }
     } else if (ev.key == "c") {
       if (ev.ctrlKey) {
@@ -149,6 +164,10 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
     } else if (ev.key == "V") {
       if (ev.ctrlKey) {
         this.props.cellPasteInsert({});
+      }
+    } else if (ev.key == "z") {
+      if (ev.ctrlKey) {
+        this.props.undo({});
       }
     } else if (ev.key == "Home") {
       this.props.reset({});
@@ -193,8 +212,8 @@ const actionCreators = actionCreatorsList(
   "cellCopy",
   "cellPaste",
   "cellPasteInsert",
+  "undo",
   "cellDuplicate",
-  "commitCell",
   "cellSetType",
   "setPaused",
   "stepForward",

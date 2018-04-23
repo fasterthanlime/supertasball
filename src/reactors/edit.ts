@@ -4,6 +4,7 @@ import { OpCode, OpCodeTypes } from "../types";
 
 export default function(w: Watcher) {
   w.on(actions.cellClear, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const rs = store.getState();
     const { code } = rs.simulation;
     const cs = rs.ui.cellSelection;
@@ -16,6 +17,7 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellDuplicate, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const rs = store.getState();
     const { code } = rs.simulation;
     const cs = rs.ui.cellSelection;
@@ -36,6 +38,7 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellSetType, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const { type } = action.payload;
     let cs = store.getState().ui.cellSelection;
 
@@ -66,6 +69,7 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellSetName, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const { code } = store.getState().simulation;
     const { addr, name } = action.payload;
     const op = code[addr];
@@ -73,6 +77,7 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellSetLabel, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const { code } = store.getState().simulation;
     const { addr, label } = action.payload;
     const op = code[addr];
@@ -80,13 +85,23 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellSetNumberValue, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const { code } = store.getState().simulation;
     const { addr, numberValue } = action.payload;
     const op = code[addr];
     store.dispatch(actions.commitCell({ addr, op: { ...op, numberValue } }));
   });
 
+  w.on(actions.cellSetBoolValue, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
+    const { code } = store.getState().simulation;
+    const { addr, boolValue } = action.payload;
+    const op = code[addr];
+    store.dispatch(actions.commitCell({ addr, op: { ...op, boolValue } }));
+  });
+
   w.on(actions.cellYank, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const rs = store.getState();
     const { code } = rs.simulation;
     const cs = rs.ui.cellSelection;
@@ -107,6 +122,7 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellCut, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const rs = store.getState();
     const { code } = rs.simulation;
     const cs = rs.ui.cellSelection;
@@ -121,6 +137,7 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellCopy, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const rs = store.getState();
     const { code } = rs.simulation;
     const cs = rs.ui.cellSelection;
@@ -134,6 +151,7 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellPaste, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const rs = store.getState();
     const { code } = rs.simulation;
     const cs = rs.ui.cellSelection;
@@ -150,6 +168,7 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.cellPasteInsert, (store, action) => {
+    store.dispatch(actions.checkpoint({}));
     const rs = store.getState();
     const { code } = rs.simulation;
     const cs = rs.ui.cellSelection;

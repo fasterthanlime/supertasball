@@ -5,8 +5,9 @@ import store from "../store";
 
 function freshSimulationState(
   params: SimulationParams,
-  code: OpCode[] | null,
+  oldState: SimulationState | null,
 ): SimulationState {
+  let code = oldState ? oldState.code : null;
   if (!code) {
     code = [];
     code.length = params.codeSize;
@@ -25,6 +26,7 @@ function freshSimulationState(
     code,
     freq: params.freq,
     results: null,
+    undoStack: oldState ? oldState.undoStack : [],
   };
 }
 
@@ -50,7 +52,7 @@ export default reducer<SimulationState>(null, on => {
   });
 
   on(actions.reset, (state, action) => {
-    return freshSimulationState(state.params, state.code);
+    return freshSimulationState(state.params, state);
   });
 
   on(actions.stepForward, (state, action) => {
@@ -83,5 +85,29 @@ export default reducer<SimulationState>(null, on => {
 
   on(actions.validateStage, (state, action) => {
     return null;
+  });
+
+  on(actions.checkpoint, (state, action) => {
+    return {
+      ...state,
+      undoStack: [...state.undoStack, state.code],
+    };
+  });
+
+  on(actions.undo, (state, action) => {
+    console.log(`undoing, stack = `, state.undoStack);
+    if (state.undoStack.length == 0) {
+      return state;
+    }
+
+    let code = state.undoStack[state.undoStack.length - 1];
+    let undoStack = [...state.undoStack];
+    undoStack.length = undoStack.length - 1;
+
+    return {
+      ...state,
+      code,
+      undoStack,
+    };
   });
 });

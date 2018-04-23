@@ -222,12 +222,9 @@ class Op extends React.PureComponent<Props & DerivedProps> {
     ev.preventDefault();
     ev.stopPropagation();
     const { addr, op } = this.props;
-    this.props.commitCell({
+    this.props.cellSetBoolValue({
       addr,
-      op: {
-        ...op,
-        boolValue: !op.boolValue,
-      },
+      boolValue: !op.boolValue,
     });
   };
 
@@ -258,6 +255,7 @@ const actionCreators = actionCreatorsList(
   "commitCell",
   "cellSetName",
   "cellSetNumberValue",
+  "cellSetBoolValue",
   "setCellSelection",
 );
 

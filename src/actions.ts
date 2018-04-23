@@ -40,6 +40,7 @@ export const actions = wireActions({
   cellSetName: action<{ addr?: number; name: string }>(),
   cellSetLabel: action<{ addr?: number; label: string }>(),
   cellSetNumberValue: action<{ addr?: number; numberValue: number }>(),
+  cellSetBoolValue: action<{ addr?: number; boolValue: boolean }>(),
 
   playPinball: action<{}>(),
   cancelPlayingPinball: action<{}>(),
@@ -66,6 +67,9 @@ export const actions = wireActions({
   exitSimulation: action<{}>(),
 
   unlock: action<{ unlockName: UnlockName }>(),
+
+  checkpoint: action<{}>(),
+  undo: action<{}>(),
 });
 
 // utils

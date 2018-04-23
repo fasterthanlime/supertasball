@@ -57,6 +57,8 @@ export interface SimulationState {
   freq: number;
   code: OpCode[];
   pc: number;
+
+  undoStack: OpCode[][];
 }
 
 export interface Results {
