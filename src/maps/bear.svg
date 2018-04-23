@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="145.53847"
-     inkscape:cy="236.00012"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="16.987829"
+     inkscape:cy="323.8173"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -55,41 +55,77 @@
      inkscape:label="Layer 1">
     <path
        id="path3336"
-       d="M31.123464 216.52391C31.123464 216.52391 40.859621 326.4852 40.859621 326.4852C40.859621 326.4852 72.35895 354.54824 72.35895 354.54824C72.35895 354.54824 51.741207 366.57526 51.741207 366.57526C51.741207 366.57526 31.69618 395.78373 31.69618 395.78373C31.69618 395.78373 32.84161 438.73735 32.84161 438.73735C32.84161 438.73735 56.895646 481.69097 56.895646 481.69097C56.895646 481.69097 103.28556 494.86347 103.28556 494.86347C103.28556 494.86347 183.46567 498.87247 183.46567 498.87247C183.46567 498.87247 270.51837 482.26367 270.51837 482.26367C270.51837 482.26367 296.86326 435.87378 296.86326 435.87378C296.86326 435.87378 296.29054 390.05657 296.29054 390.05657C296.29054 390.05657 273.38194 363.13896 273.38194 363.13896C273.38194 363.13896 225.84659 332.21235 225.84659 332.21235C225.84659 332.21235 269.37294 313.88547 269.37294 313.88547C269.37294 313.88547 300.29955 279.52257 300.29955 279.52257C300.29955 279.52257 300.29955 228.55092 300.29955 228.55092C300.29955 228.55092 281.97267 179.87014 281.97267 179.87014C281.97267 179.87014 274.52737 146.07995 274.52737 146.07995C274.52737 146.07995 289.99068 130.04393 289.99068 130.04393C289.99068 130.04393 284.26353 105.9899 284.26353 105.9899C284.26353 105.9899 258.49135 94.53559 258.49135 94.53559C258.49135 94.53559 205.22885 95.68102 205.22885 95.68102C205.22885 95.68102 171.43866 114.58062 171.43866 114.58062C171.43866 114.58062 173.72952 134.62565 173.72952 134.62565C173.72952 134.62565 173.72952 164.40683 173.72952 164.40683C173.72952 164.40683 134.21218 166.12498 134.21218 166.12498C134.21218 166.12498 105.57643 144.93452 105.57643 144.93452C105.57643 144.93452 109.01272 120.88049 109.01272 120.88049C109.01272 120.88049 111.87629 104.27175 111.87629 104.27175C111.87629 104.27175 67.204515 96.25374 67.204515 96.25374C67.204515 96.25374 38.56876 100.83546 38.56876 100.83546C38.56876 100.83546 19.669163 134.05293 19.669163 134.05293C19.669163 134.05293 31.69618 164.97955 31.69618 164.97955C31.69618 164.97955 51.168492 187.31544 51.168492 187.31544C51.168492 187.31544 31.123464 216.52391 31.123464 216.52391"
-       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-linecap:butt;stroke-width:0.566958980831;fill:none">
+       d="m 29.694893,211.52391 11.164728,160.67558 31.499329,28.06304 -20.617743,12.02702 -20.045027,29.20847 1.14543,42.95362 24.054036,42.95362 46.389914,13.1725 80.18011,4.009 87.0527,-16.6088 26.34489,-46.38989 -0.57272,-45.81721 -22.9086,-26.91761 -47.53535,-30.92661 43.52635,-18.32688 30.92661,-34.3629 0,-50.97165 -42.61259,-88.68078 13.98327,-93.79019 15.46331,-16.03602 -5.72715,-24.05403 -25.77218,-11.45431 -53.2625,1.14543 -33.79019,18.8996 2.29086,20.04503 7.14286,86.92404 -41.6602,18.861 -20.77861,-41.19046 9.15058,-44.76831 -15.70786,-50.18017 -44.671778,-8.01801 -28.635755,4.58172 -18.899597,33.21747 12.027017,30.92662 19.472312,22.33589 -18.616456,78.49418"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.56695896;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccc">
       <desc
          id="desc3363">#ground
 #static</desc>
     </path>
     <ellipse
-       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-linecap:butt;stroke-width:1.76100636;fill:#ff0000"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.76100636;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="path3355"
        cx="182.35715"
-       cy="363.71426"
+       cy="409.42856"
        rx="4.5597486"
        ry="4.5597482">
       <desc
          id="desc3371">#ball</desc>
     </ellipse>
     <ellipse
-       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-linecap:butt;stroke-width:1.76100643231;fill:#ff0000"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="path3355-3"
-       cx="219.28571"
-       cy="308.57141"
+       cx="66.75267"
+       cy="61.341469"
        rx="4.5597486"
        ry="4.5597482">
       <desc
          id="desc3371-6">#ball</desc>
     </ellipse>
     <ellipse
-       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-linecap:butt;stroke-width:1.76100643231;fill:#ff0000"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.76100647;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="path3355-7"
-       cx="251.42856"
-       cy="273.92856"
+       cx="222.13414"
+       cy="96.399139"
        rx="4.5597486"
        ry="4.5597482">
       <desc
          id="desc3371-5">#ball</desc>
     </ellipse>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 191.78571,513.21429 29.28571,-17.5 10.71429,-0.35714 6.78571,7.5 -2.14285,5.71428 -6.42858,5.35715 -33.21428,9.64285 -7.85714,-2.14285 -1.07143,-3.57143 z"
+       id="path3423"
+       inkscape:connector-curvature="0">
+      <desc
+         id="desc3449">#flipper
+#right</desc>
+    </path>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 136.43771,514.81546 -29.28571,-17.5 -10.714287,-0.35714 -6.78571,7.5 2.14285,5.71428 6.42858,5.35715 33.214277,9.64285 7.85714,-2.14285 1.07143,-3.57143 z"
+       id="path3423-3"
+       inkscape:connector-curvature="0">
+      <desc
+         id="desc3451">#flipper
+#left</desc>
+    </path>
+    <path
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="M 58.571429,230 65.714286,282.14286 106.42857,270 117.85714,225 96.428571,177.14286 87.142857,135.71429 92.857143,92.142857 69.285714,71.428571 50,87.857143 l 20,29.285717 4.285714,47.14285 z"
+       id="path3453"
+       inkscape:connector-curvature="0">
+      <desc
+         id="desc3455">#ground</desc>
+    </path>
+    <path
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="M 202.14286,167.14286 173.57143,215 l 23.57143,28.57143 41.42857,-10.71429 4.28571,-34.28571 L 230,160.71429 Z"
+       id="path3459"
+       inkscape:connector-curvature="0">
+      <desc
+         id="desc3461">#ground</desc>
+    </path>
   </g>
 </svg>

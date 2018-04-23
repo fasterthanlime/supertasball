@@ -8,6 +8,8 @@ declare module "planck-js" {
   interface Fixture {
     getType(): FixtureType;
     getShape(): Shape;
+
+    // for lists
     getNext(): Fixture;
   }
 
@@ -16,6 +18,12 @@ declare module "planck-js" {
     getFixtureList(): Fixture;
     getPosition(): T_Vec2;
     getAngle(): number;
+
+    // for lists
+    getNext(): Body;
+
+    // additions
+    tags: string[];
   }
 
   interface CreateBodyOpts {
@@ -29,6 +37,7 @@ declare module "planck-js" {
     createBody(opts?: CreateBodyOpts): Body;
     createDynamicBody(pos: T_Vec2): Body;
     createJoint(def: JointDef);
+    getBodyList(): Body;
   }
 
   type FixtureType = "circle" | "edge" | "polygon" | "chain";
