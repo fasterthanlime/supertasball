@@ -4,6 +4,8 @@ import styled from "./styles";
 import { actionCreatorsList, Dispatchers, connect } from "./connect";
 let opSide = 80;
 
+import { ContextMenuTrigger } from "react-contextmenu";
+
 const Filler = styled.div`
   flex-grow: 1;
 `;
@@ -14,9 +16,10 @@ const OpDiv = styled.div`
   color: black;
   background-color: white;
   position: relative;
-  border-bottom: 8px solid #777;
+  border-bottom: 12px solid #777;
   user-select: none;
   transition: transform 0.2s;
+  margin: 2px;
 
   &.active {
     background-color: #333;
@@ -34,7 +37,11 @@ const OpDiv = styled.div`
   flex-wrap: wrap;
 
   .icon {
-    font-size: 20px;
+    font-size: 30px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .top-left,
@@ -84,6 +91,7 @@ class Op extends React.PureComponent<Props & DerivedProps> {
   }
 
   renderOpIcon(op: OpCode): JSX.Element {
+    const { addr } = this.props;
     const { type, label } = op;
     const def = OpCodeTypes[type];
     const fields = def.relevantFields;
@@ -91,8 +99,17 @@ class Op extends React.PureComponent<Props & DerivedProps> {
     return (
       <>
         <Filler />
-        {label ? <span className={`icon icon-tag top-left`} /> : null}
-        <span className={`icon icon-${def.icon}`} data-rh={def.label} />
+        <span
+          className={`icon icon-tag top-left`}
+          style={{ opacity: label ? 1 : 0.1 }}
+        />
+
+        <ContextMenuTrigger
+          id="cell-type"
+          collect={props => ({ ...props, addr })}
+        >
+          <span className={`icon icon-${def.icon}`} data-rh={def.label} />
+        </ContextMenuTrigger>
 
         {fields.numberValue ? (
           <span className="top-right" data-rh={fields.numberValue.label}>

@@ -4,7 +4,6 @@ import {
   Action,
   Page,
   OpCode,
-  EditedCell,
   SimulationParams,
   Expense,
   Activity,
@@ -36,7 +35,7 @@ export const actions = wireActions({
   cellCopy: action<{}>(),
   cellPaste: action<{}>(),
   cellDuplicate: action<{}>(),
-  cellSetType: action<{ type: OpCodeType }>(),
+  cellSetType: action<{ addr?: number; type: OpCodeType }>(),
 
   playPinball: action<{}>(),
   moneyDelta: action<{ delta: number }>(),

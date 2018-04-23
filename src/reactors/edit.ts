@@ -37,7 +37,12 @@ export default function(w: Watcher) {
 
   w.on(actions.cellSetType, (store, action) => {
     const { type } = action.payload;
-    const cs = store.getState().ui.cellSelection;
+    let cs = store.getState().ui.cellSelection;
+
+    if (typeof action.payload.addr !== "undefined") {
+      cs = { start: action.payload.addr, size: 1 };
+    }
+
     let model: OpCode = { type: type };
     const def = OpCodeTypes[type];
     if (def.relevantFields.name && def.relevantFields.name.choices) {

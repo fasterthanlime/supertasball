@@ -1,11 +1,15 @@
 import React = require("react");
 import { connect, Dispatchers, actionCreatorsList } from "./connect";
-import { RootState, OpCode, CellSelection } from "../types";
+import { RootState, OpCode, CellSelection, OpCodeTypes } from "../types";
 import styled from "./styles";
+
+import { ContextMenu, MenuItem } from "react-contextmenu";
 
 import SimControls from "./sim-controls";
 import Op from "./op";
 import CellEditor from "./cell-editor";
+
+import CellTypeMenu from "./menus/cell-type-menu";
 
 const glowColor = "rgb(140, 240, 140)";
 
@@ -42,6 +46,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       <IDEDiv tabIndex={0} onKeyDown={this.onKeyDown} innerRef={this.onDiv}>
         <SimControls />
         {showCode ? this.renderOps() : <p>Code hidden</p>}
+        <CellTypeMenu />
       </IDEDiv>
     );
   }
@@ -115,14 +120,6 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   };
 
   onKeyDown = (ev: React.KeyboardEvent<HTMLElement>) => {
-    if (this.props.editedCell) {
-      if (ev.key == "Escape") {
-        this.props.editCellStop({});
-        this.focus();
-      }
-      return;
-    }
-
     const cs = this.props.cellSelection;
     let preventDefault = true;
     if (ev.key == "Delete") {
@@ -194,7 +191,6 @@ type DerivedProps = {
   pc: number;
   code: OpCode[];
   showCode: boolean;
-  editedCell: EditedCell;
   cellSelection: CellSelection;
 } & Dispatchers<typeof actionCreators>;
 
@@ -204,7 +200,6 @@ export default connect<Props>(IDE, {
     pc: rs.simulation.pc,
     code: rs.simulation.code,
     showCode: rs.ui.showCode,
-    editedCell: rs.ui.editedCell,
     cellSelection: rs.ui.cellSelection,
   }),
 });
