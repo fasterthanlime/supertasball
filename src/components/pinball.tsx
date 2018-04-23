@@ -10,6 +10,7 @@ import watching, { Watcher } from "./watching";
 import { actions } from "../actions";
 import { parseSVG, makeAbsolute } from "svg-path-parser";
 import { T_Vec2 } from "planck-js";
+const tinycolor = require("tinycolor2");
 
 const bearMap = require("../maps/bear.svg");
 
@@ -30,6 +31,7 @@ interface Binding {
 @watching
 class Game extends React.PureComponent<Props & DerivedProps> {
   world: any;
+  running: boolean;
 
   constructor(props, context) {
     super(props, context);
@@ -75,6 +77,13 @@ class Game extends React.PureComponent<Props & DerivedProps> {
         makeAbsolute(points);
         const body = world.createBody();
         body.tags = tags;
+        if (path.style.fill != "none") {
+          console.log(`path style fille`, path.style.fill);
+          body.fill = true;
+          body.fillColor = parseInt(tinycolor(path.style.fill).toHex(), 16);
+        }
+        console.log(`body fill `, body.fill, `body fillColor`, body.fillColor);
+
         const vecs: T_Vec2[] = [];
         for (const p of points) {
           vecs.push(Vec2(p.x, p.y));
@@ -159,6 +168,10 @@ class Game extends React.PureComponent<Props & DerivedProps> {
   right = false;
 
   step = () => {
+    if (!this.running) {
+      return;
+    }
+
     if (!this.props.paused) {
       this.props.tick({});
       this.world.step(0.016);
@@ -179,7 +192,12 @@ class Game extends React.PureComponent<Props & DerivedProps> {
   }
 
   componentDidMount() {
+    this.running = true;
     requestAnimationFrame(this.step);
+  }
+
+  componentWillUnmount() {
+    this.running = false;
   }
 
   container: PIXI.Container;
@@ -246,14 +264,23 @@ function drawBody(body: planck.Body): PIXI.Graphics {
       case "chain":
       case "polygon": {
         const vertices = shape.m_vertices;
+        if (body.fill) {
+          gfx.beginFill(body.fillColor, 1.0);
+        }
         for (let i = 0; i < vertices.length; i++) {
           let v = vertices[i];
           if (i == 0) {
             gfx.moveTo(v.x, v.y);
           } else {
-            gfx.lineStyle(lineWidth, lineColor, 1.0);
+            if (!body.fill) {
+              gfx.lineStyle(lineWidth, lineColor, 1.0);
+            }
             gfx.lineTo(v.x, v.y);
           }
+        }
+        gfx.closePath();
+        if (body.fill) {
+          gfx.endFill();
         }
         break;
       }

@@ -24,6 +24,9 @@ declare module "planck-js" {
 
     // additions
     tags: string[];
+
+    fill?: boolean;
+    fillColor?: number;
   }
 
   interface CreateBodyOpts {
