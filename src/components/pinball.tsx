@@ -12,13 +12,11 @@ import { T_Vec2 } from "planck-js";
 import { Map, loadMap } from "./map";
 import { drawBody } from "./draw";
 import { MapName, mapDefs } from "../map-defs";
+import { physx } from "../physics-constants";
 
 let bodyIdSeed = 999;
 const width = 320;
 const height = 560;
-
-const activeSpeed = 40;
-const inactiveSpeed = 20;
 
 const PinballDiv = styled.div`
   margin-right: 15px;
@@ -90,18 +88,15 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
     if (!this.props.paused) {
       this.props.tick({});
-      let fraction = 4;
-      for (let i = 0; i < fraction; i++) {
-        this.map.world.step(0.016 / fraction);
-      }
+      physx.step(this.map.world);
       this.map.ticks++;
-    }
 
-    for (const j of this.map.rightJoints) {
-      j.setMotorSpeed(this.right ? activeSpeed : -inactiveSpeed);
-    }
-    for (const j of this.map.leftJoints) {
-      j.setMotorSpeed(this.left ? -activeSpeed : inactiveSpeed);
+      for (const j of this.map.rightJoints) {
+        physx.setRightEnabled(j, this.right);
+      }
+      for (const j of this.map.leftJoints) {
+        physx.setLeftEnabled(j, this.left);
+      }
     }
 
     for (const id of Object.keys(this.bindings)) {

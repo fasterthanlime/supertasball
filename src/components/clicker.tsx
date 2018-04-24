@@ -38,6 +38,17 @@ class Clicker extends React.PureComponent<Props & DerivedProps> {
         <Column>
           <h3>Spend money</h3>
           {this.renderExpenses()}
+          <h3>Learn how to play the game</h3>
+          <Button
+            icon="video"
+            onClick={() =>
+              window.open(
+                "https://www.youtube.com/watch?v=c2lE4DDl5P0&yt:cc=on",
+              )
+            }
+          >
+            Watch a video tutorial
+          </Button>
         </Column>
       </Columns>
     );

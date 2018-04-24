@@ -60,6 +60,8 @@ export interface SimulationState {
   code: OpCode[];
   pc: number;
 
+  dirty: boolean;
+
   undoStack: OpCode[][];
 }
 
@@ -69,6 +71,7 @@ export interface Results {
   time: number;
   score: number;
   timeScorePenalty: number;
+  dirty: boolean;
 }
 
 export interface SimulationParams {

@@ -60,7 +60,7 @@ export const actions = wireActions({
 
   setPaused: action<{ paused: boolean }>(),
   tick: action<{}>(),
-  reset: action<{}>(),
+  reset: action<{ play?: boolean }>(),
   stepForward: action<{}>(),
   execute: action<{ op: OpCode }>(),
   commitSimulationState: action<{ state: SimulationState }>(),

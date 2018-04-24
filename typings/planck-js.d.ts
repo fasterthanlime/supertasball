@@ -35,8 +35,12 @@ declare module "planck-js" {
     getFixtureList(): Fixture;
     getPosition(): T_Vec2;
     getAngle(): number;
-    setAngle(): number;
+    setAngle(angle: number);
     getWorldCenter(): T_Vec2;
+
+    setStatic(): void;
+    setDynamic(): void;
+    setKinematic(): void;
 
     // for lists
     getNext(): Body;

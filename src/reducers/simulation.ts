@@ -27,6 +27,7 @@ function freshSimulationState(
     freq: params.freq,
     results: null,
     undoStack: oldState ? oldState.undoStack : [],
+    dirty: false,
   };
 }
 
@@ -52,7 +53,12 @@ export default reducer<SimulationState>(null, on => {
   });
 
   on(actions.reset, (state, action) => {
-    return freshSimulationState(state.params, state);
+    let newState = freshSimulationState(state.params, state);
+    const { play } = action.payload;
+    if (play) {
+      newState = { ...newState, paused: false };
+    }
+    return newState;
   });
 
   on(actions.stepForward, (state, action) => {
@@ -70,6 +76,7 @@ export default reducer<SimulationState>(null, on => {
 
     return {
       ...state,
+      dirty: true,
       code,
     };
   });
@@ -95,7 +102,6 @@ export default reducer<SimulationState>(null, on => {
   });
 
   on(actions.undo, (state, action) => {
-    console.log(`undoing, stack = `, state.undoStack);
     if (state.undoStack.length == 0) {
       return state;
     }

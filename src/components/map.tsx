@@ -20,6 +20,7 @@ import { parseSVG, makeAbsolute } from "svg-path-parser";
 import store from "../store";
 import { actions } from "../actions";
 import { mapDefs, MapName } from "../map-defs";
+import { physx } from "../physics-constants";
 
 const gravityY = 150;
 const bigAngle = 20;
@@ -62,6 +63,8 @@ export function loadMap(mapName: MapName): Map {
   });
 
   const doc = new DOMParser().parseFromString(mapDef.svg, "text/xml");
+
+  let balls: Body[] = [];
 
   {
     const paths = doc.querySelectorAll("path");
@@ -257,9 +260,36 @@ export function loadMap(mapName: MapName): Map {
         bullet,
       });
       body.tags = tags;
+
+      if (body.tags.type === "ball") {
+        balls.push(body);
+      }
+
       parseStyle(ellipse, body);
       def.shape = Circle(radius);
       body.createFixture(def);
+    }
+  }
+
+  // stabilize flippers
+  for (const j of m.rightJoints) {
+    physx.setRightEnabled(j, false);
+  }
+  for (const j of m.leftJoints) {
+    physx.setLeftEnabled(j, false);
+  }
+
+  {
+    for (let ball of balls) {
+      ball.setStatic();
+    }
+
+    for (let j = 0; j < 60; j++) {
+      physx.step(m.world);
+    }
+
+    for (let ball of balls) {
+      ball.setDynamic();
     }
   }
 
@@ -302,6 +332,7 @@ export function loadMap(mapName: MapName): Map {
           }
         }
 
+        const { dirty } = store.getState().simulation;
         store.dispatch(
           actions.reachedGoal({
             results: {
@@ -309,6 +340,7 @@ export function loadMap(mapName: MapName): Map {
               time: time,
               groups: m.groups,
               timeScorePenalty,
+              dirty,
             },
           }),
         );

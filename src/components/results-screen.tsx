@@ -115,12 +115,26 @@ class ResultsScreen extends React.PureComponent<Props & DerivedProps> {
           <i>{formatMoney(cashReward)}</i>
         </section>
         <ButtonsDiv>
-          <Button icon="refresh-cw" onClick={this.onRetry}>
-            Try again!
-          </Button>
-          <Button icon="check" onClick={this.onValidate}>
-            Validate course
-          </Button>
+          {results.dirty ? (
+            <>
+              <Button icon="edit" onClick={this.onRetry}>
+                Modify program
+              </Button>
+              <Button icon="play" onClick={this.onRetryWithPlay}>
+                Play from beginning
+              </Button>
+              <p>(To qualify for cash reward)</p>
+            </>
+          ) : (
+            <>
+              <Button icon="edit" onClick={this.onRetry}>
+                Modify program
+              </Button>
+              <Button icon="check" onClick={this.onValidate}>
+                Validate course
+              </Button>
+            </>
+          )}
         </ButtonsDiv>
       </ResultsDiv>
     );
@@ -128,6 +142,10 @@ class ResultsScreen extends React.PureComponent<Props & DerivedProps> {
 
   onRetry = () => {
     this.props.reset({});
+  };
+
+  onRetryWithPlay = () => {
+    this.props.reset({ play: true });
   };
 
   onValidate = () => {
