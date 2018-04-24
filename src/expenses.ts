@@ -26,54 +26,54 @@ export const expenses: Expense[] = [
   // -------- cpu upgrades
   {
     label: "Buy a 4Hz CPU",
-    cost: 250,
+    cost: 30,
     unlock: "cpu4",
   },
   {
     label: "Buy a 8Hz CPU",
-    cost: 400,
+    cost: 50,
     requires: ["cpu4"],
     unlock: "cpu8",
   },
   {
     label: "Buy a 16Hz CPU",
-    cost: 800,
+    cost: 120,
     requires: ["cpu8"],
     unlock: "cpu16",
   },
   {
     label: "Buy a 30Hz CPU",
-    cost: 1200,
+    cost: 200,
     requires: ["cpu16"],
     unlock: "cpu30",
   },
   {
     label: "Buy a 60Hz CPU",
-    cost: 2000,
+    cost: 400,
     requires: ["cpu30"],
     unlock: "cpu60",
   },
   // -------- ROM upgrades
   {
     label: "Buy a 20-op ROM",
-    cost: 100,
+    cost: 40,
     unlock: "rom20",
   },
   {
     label: "Buy a 40-op ROM",
-    cost: 200,
+    cost: 80,
     requires: ["rom20"],
     unlock: "rom40",
   },
   {
     label: "Buy a 100-op ROM",
-    cost: 600,
+    cost: 130,
     requires: ["rom40"],
     unlock: "rom100",
   },
   {
     label: "Buy a 250-op ROM",
-    cost: 1400,
+    cost: 299,
     requires: ["rom100"],
     unlock: "rom250",
   },

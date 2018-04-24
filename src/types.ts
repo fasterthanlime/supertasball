@@ -29,6 +29,8 @@ export interface UIState {
   showCode: boolean;
   clipboard: Clipboard;
   pickingMap: boolean;
+  showAchievements: boolean;
+  showHelp: boolean;
 }
 
 export interface Clipboard {

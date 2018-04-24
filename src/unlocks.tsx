@@ -10,6 +10,11 @@ export interface Unlocks {
 }
 
 export const unlocks: Unlocks = {
+  brave: {
+    label: "You're brave enough to play TASball!",
+    effects: {},
+  },
+
   // CPU upgrades
   cpu4: {
     label: "You bought a 4Hz CPU!",

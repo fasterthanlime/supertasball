@@ -7,6 +7,9 @@ import { ContextMenu, MenuItem } from "react-contextmenu";
 
 import SimControls from "./sim-controls";
 import Op from "./op";
+import EditorHelp from "./editor-help";
+
+import Button from "./button";
 
 import CellTypeMenu from "./menus/cell-type-menu";
 import NameMenu from "./menus/name-menu";
@@ -46,7 +49,11 @@ const Filler = styled.div`
 @watching
 class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { showCode } = this.props;
+    const { showCode, showHelp } = this.props;
+    if (showHelp) {
+      return this.renderHelp();
+    }
+
     return (
       <IDEDiv
         tabIndex={0}
@@ -61,6 +68,10 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       </IDEDiv>
     );
   }
+
+  hideHelp = () => {
+    this.props.hideHelp({});
+  };
 
   subscribe(w: Watcher) {
     w.on(actions.checkpoint, (store, action) => {
@@ -198,6 +209,10 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       ev.preventDefault();
     }
   };
+
+  renderHelp(): JSX.Element {
+    return <EditorHelp />;
+  }
 }
 
 interface Props {}
@@ -218,12 +233,14 @@ const actionCreators = actionCreatorsList(
   "setPaused",
   "stepForward",
   "reset",
+  "hideHelp",
 );
 
 type DerivedProps = {
   pc: number;
   code: OpCode[];
   showCode: boolean;
+  showHelp: boolean;
   paused: boolean;
   cellSelection: CellSelection;
 } & Dispatchers<typeof actionCreators>;
@@ -235,6 +252,7 @@ export default connect<Props>(IDE, {
     code: rs.simulation.code,
     paused: rs.simulation.paused,
     showCode: rs.ui.showCode,
+    showHelp: rs.ui.showHelp,
     cellSelection: rs.ui.cellSelection,
   }),
 });

@@ -1,6 +1,6 @@
 import React = require("react");
 import { connect, Dispatchers, actionCreatorsList } from "./connect";
-import { RootState } from "../types";
+import { RootState, Unlocked } from "../types";
 import Button from "./button";
 import Icon from "./icon";
 import Money from "./money";
@@ -27,6 +27,10 @@ export const Label = styled.div`
   width: 120px;
 
   font-size: ${props => props.theme.fontSizes.larger};
+
+  &.achievements {
+    cursor: pointer;
+  }
 `;
 
 const Filler = styled.div`
@@ -35,7 +39,7 @@ const Filler = styled.div`
 
 class Controls extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { money, freq, codeSize } = this.props;
+    const { money, freq, codeSize, unlocked } = this.props;
 
     return (
       <ControlsDiv>
@@ -43,14 +47,24 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
           <Icon icon="dollar-sign" /> <Money />
         </Label>
         <Label
-          title={`The CPU can execute up to ${freq} operations per second`}
+          data-rh-at="bottom"
+          data-rh={`The CPU can execute up to ${freq} operations per second`}
         >
           <Icon icon="activity" /> {freq} Hz
         </Label>
         <Label
-          title={`Your programs can contain at most ${codeSize} operations`}
+          data-rh-at="bottom"
+          data-rh={`Your programs can contain at most ${codeSize} operations`}
         >
           <Icon icon="cpu" /> {codeSize} ops
+        </Label>
+        <Label
+          className="achievements"
+          data-rh-at="bottom"
+          data-rh={`You have ${Object.keys(unlocked).length} achievements`}
+          onClick={this.onShowAchievements}
+        >
+          <Icon icon="award" /> {Object.keys(unlocked).length}
         </Label>
         <Filler />
         <a href="https://twitter.com/fasterthanlime" target="_blank">
@@ -60,6 +74,10 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
     );
   }
 
+  onShowAchievements = () => {
+    this.props.showAchievements({});
+  };
+
   onMenu = () => {
     this.props.setPage({ page: "menu" });
   };
@@ -67,12 +85,13 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPage");
+const actionCreators = actionCreatorsList("setPage", "showAchievements");
 
 type DerivedProps = {
   money: number;
   freq: number;
   codeSize: number;
+  unlocked: Unlocked;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(Controls, {
@@ -81,5 +100,6 @@ export default connect<Props>(Controls, {
     money: rs.resources.money,
     freq: rs.resources.freq,
     codeSize: rs.resources.codeSize,
+    unlocked: rs.resources.unlocked,
   }),
 });

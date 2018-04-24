@@ -8,8 +8,10 @@ import { isCheating } from "../is-cheating";
 const initialState: ResourcesState = {
   money: 5,
   codeSize: 10,
-  freq: 1,
-  unlocked: {},
+  freq: 2,
+  unlocked: {
+    brave: true,
+  },
 };
 
 if (isCheating()) {

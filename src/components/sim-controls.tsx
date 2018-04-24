@@ -33,22 +33,13 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
         <Button icon="refresh-cw" onClick={this.onReset} />
         <Button icon="chevron-right" onClick={this.onStepForward} />
         {this.renderPlayPause()}
-        <span>{" | "}</span>
-        <Button icon="copy" onClick={this.onCopy} />
         <Filler />
         <Label>
           <Icon icon="activity" /> {this.props.freq} Hz
         </Label>
-        <Label>
-          <label>
-            <input
-              type="checkbox"
-              checked={this.props.showCode}
-              onChange={this.onToggleShowCode}
-            />{" "}
-            Code
-          </label>
-        </Label>
+        <Button icon="help-circle" onClick={this.showHelp}>
+          Help!
+        </Button>
         <Button icon="x" onClick={this.onExitSimulation} />
       </SimControlsDiv>
     );
@@ -88,8 +79,8 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
     this.props.setPaused({ paused: true });
   };
 
-  onCopy = () => {
-    this.props.cellCopy({});
+  showHelp = () => {
+    this.props.showHelp({});
   };
 }
 
@@ -101,7 +92,7 @@ const actionCreators = actionCreatorsList(
   "reset",
   "stepForward",
   "setShowCode",
-  "cellCopy",
+  "showHelp",
 );
 
 type DerivedProps = {

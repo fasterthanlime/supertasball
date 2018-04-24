@@ -9,6 +9,8 @@ const initialState: UIState = {
   cellSelection: { start: 0, size: 0 },
   clipboard: { ops: [] },
   pickingMap: false,
+  showAchievements: false,
+  showHelp: false,
 };
 
 let floatySeed = 0;
@@ -71,5 +73,21 @@ export default reducer<UIState>(initialState, on => {
 
   on(actions.validateStage, (state, action) => {
     return { ...state, results: null };
+  });
+
+  on(actions.showAchievements, (state, action) => {
+    return { ...state, showAchievements: true };
+  });
+
+  on(actions.hideAchievements, (state, action) => {
+    return { ...state, showAchievements: false };
+  });
+
+  on(actions.showHelp, (state, action) => {
+    return { ...state, showHelp: true };
+  });
+
+  on(actions.hideHelp, (state, action) => {
+    return { ...state, showHelp: false };
   });
 });
