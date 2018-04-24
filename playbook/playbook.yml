@@ -1,0 +1,68 @@
+---
+- hosts: supertasball.amos.me
+  remote_user: root
+  tasks:
+    - name: Ensure git is at the latest version
+      apt:
+        name: git
+        state: latest
+    - name: Ensure apt can grok https (wtf)
+      apt:
+        name: apt-transport-https
+        state: latest
+    - name: Add nodesource repository key
+      shell: curl --silent https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+    - name: Ensure we have nodesource repository
+      apt_repository:
+        repo: "deb https://deb.nodesource.com/node_9.x xenial main"
+    - name: Ensure nodejs is at the latest version
+      apt:
+        name: nodejs
+        state: latest
+    - name: Download sources
+      git:
+        repo: "https://github.com/fasterthanlime/supertasball.git"
+        dest: "/srv/apps/supertasball"
+        accept_hostkey: yes
+        force: yes
+        ssh_opts: "-o StrictHostKeyChecking=no"
+    - name: Build
+      shell: "cd /srv/apps/supertasball && npm i && node fuse.js"
+      environment:
+        NODE_ENV: "production"
+    - name: Ensure nginx it at the latest version
+      apt:
+        name: nginx
+        state: latest
+    - name: Disable default site
+      file:
+        dest: /etc/nginx/sites-enabled/default
+        state: absent
+    - name: Install Site config
+      template:
+        src: ./nginx/supertasball.amos.me
+        dest: /etc/nginx/sites-available/supertasball.amos.me
+        owner: root
+        group: root
+    - name: Enable Site config
+      file:
+        src: /etc/nginx/sites-available/supertasball.amos.me
+        dest: /etc/nginx/sites-enabled/supertasball.amos.me
+        state: link
+    - name: Reload Nginx
+      service: name=nginx state=reloaded
+    - name: Ensure certbot PPA is present
+      apt_repository:
+        repo: "ppa:certbot/certbot"
+    - name: Ensure certbot is at latest
+      apt:
+        name: certbot
+        state: latest
+    - name: Ensure certbot cron job
+      cron:
+        name: "Renew Let's Encrypt certificate"
+        minute: 17
+        hour: 7
+        job: "certbot renew --post-hook 'systemctl reload nginx'"
+
+    
