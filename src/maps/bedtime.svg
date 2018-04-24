@@ -14,7 +14,7 @@
    viewBox="0 0 320 560.00001"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="bedtime.svg">
   <sodipodi:namedview
      id="base"
@@ -23,16 +23,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="155.52673"
-     inkscape:cy="327.67076"
+     inkscape:zoom="11.2"
+     inkscape:cx="276.1418"
+     inkscape:cy="106.99401"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="986"
-     inkscape:window-x="-11"
-     inkscape:window-y="1609"
+     inkscape:window-height="1017"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      units="px"
      inkscape:object-nodes="false"
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,8 +58,9 @@
      id="layer1">
     <path
        style="opacity:1;fill:#ff95ff;fill-opacity:1;stroke:none;stroke-width:0.86000001;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 296.3535,462.0152 a 16.541248,16.541248 0 0 1 -16.54124,16.54125 16.541248,16.541248 0 0 1 -16.54125,-16.54125 16.541248,16.541248 0 0 1 16.54125,-16.54125 16.541248,16.541248 0 0 1 16.54124,16.54125 z"
-       id="path1069">
+       d="m 303.04992,450.05092 a 25.469818,25.469818 0 0 1 -25.46981,25.46982 25.469818,25.469818 0 0 1 -25.46982,-25.46982 25.469818,25.469818 0 0 1 25.46982,-25.46982 25.469818,25.469818 0 0 1 25.46981,25.46982 z"
+       id="path1069"
+       inkscape:connector-curvature="0">
       <desc
          id="desc1266">#goal</desc>
     </path>
