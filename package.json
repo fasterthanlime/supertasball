@@ -1,12 +1,11 @@
 {
-  "name": "tasball",
+  "name": "supertasball",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "tsc --noEmit",
-    "start": "node fuse",
-    "deploy": "cross-env NODE_ENV=production node fuse && butler push dist fasterthanlime/tasball:html5"
+    "start": "node fuse"
   },
   "author": "",
   "license": "MIT",

@@ -11,7 +11,7 @@ export interface Unlocks {
 
 export const unlocks: Unlocks = {
   brave: {
-    label: "You're brave enough to play TASball!",
+    label: "You're brave enough to play Super TASball!",
     effects: {},
   },
 
