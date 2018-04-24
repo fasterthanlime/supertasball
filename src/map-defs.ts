@@ -40,6 +40,10 @@ export const mapDefs: MapDefs = {
     name: "Beetle Belly",
     svg: require("./maps/beetleBelly.svg"),
   },
+  doubleTown: {
+    name: "Double Town",
+    svg: require("./maps/DoubleTown.svg"),
+  },
   custom: {
     name: "Custom map",
     svg: null,
@@ -57,4 +61,5 @@ export const orderedMaps: MapName[] = [
   "bedtime",
   "misterSkull",
   "beetleBelly",
+  "doubleTown",
 ];
