@@ -86,6 +86,10 @@ export function loadMap(mapName: MapName): Map {
         def.isSensor = true;
       }
 
+      if (tags.type == "bumper") {
+        def.restitution = 1.0;
+      }
+
       let jd: RevoluteJointOpts;
       let jointList: Joint[];
       let body: Body;

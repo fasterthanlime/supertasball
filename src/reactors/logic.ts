@@ -3,6 +3,7 @@ import { actions } from "../actions";
 import { SimulationParams } from "../types";
 import { Store } from "../store";
 import { formatAmount } from "../format";
+import { unlocks } from "../unlocks";
 
 export default function(w: Watcher) {
   w.on(actions.doActivity, (store, action) => {
@@ -40,6 +41,8 @@ export default function(w: Watcher) {
       }
       if (expense.unlock) {
         store.dispatch(actions.unlock({ unlockName: expense.unlock }));
+        const ul = unlocks[expense.unlock];
+        store.dispatch(actions.floaty({ clientX, clientY, text: ul.label }));
       }
     } else {
       store.dispatch(

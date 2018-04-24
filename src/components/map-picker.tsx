@@ -16,13 +16,38 @@ const MapPickerDiv = styled.div`
     font-size: 28px;
   }
 
+  .maps {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
   section {
+    display: inline;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 0.4em 1em;
     font-size: 120%;
-    margin: 1em 0;
+    margin: 0.4em;
 
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    .preview {
+      width: 40px;
+      margin-right: 10px;
+
+      svg {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    &:hover {
+      border-color: rgb(120, 240, 120);
+      cursor: pointer;
+    }
   }
 
   ul {
@@ -48,30 +73,34 @@ class MapPicker extends React.PureComponent<Props & DerivedProps> {
   render() {
     return (
       <MapPickerDiv>
-        <h3>Pick a map</h3>
-        {orderedMaps.map(key => {
-          if (key === "custom") {
-            return;
-          }
+        <h3>Pick a pinball machine</h3>
+        <div className="maps">
+          {orderedMaps.map(key => {
+            if (key === "custom") {
+              return;
+            }
 
-          const mapDef = mapDefs[key];
-          return (
-            <section key={key}>
-              <Button
-                icon="play"
+            const mapDef = mapDefs[key];
+            return (
+              <section
+                key={key}
                 onClick={() => {
                   this.props.startPlayingPinball({ mapName: key });
                 }}
               >
-                Play {mapDef.name}
-              </Button>
-            </section>
-          );
-        })}
+                <div
+                  className="preview"
+                  dangerouslySetInnerHTML={{ __html: mapDef.svg }}
+                />
+                {mapDef.name}
+              </section>
+            );
+          })}
+        </div>
         {this.renderDropZone()}
         <ButtonsDiv>
           <Button icon="x" onClick={this.onCancel}>
-            Nevermind
+            Exit arcade
           </Button>
         </ButtonsDiv>
       </MapPickerDiv>
