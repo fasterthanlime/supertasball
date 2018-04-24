@@ -16,9 +16,11 @@ const fuse = FuseBox.init({
   homeDir: "src",
   target: "browser@es6",
   output: "dist/$name.js",
+  hash: isProduction,
   plugins: [
     WebIndexPlugin({
       template: "index.template.html",
+      pre: { relType: "load" },
     }),
     [
       CSSResourcePlugin({
