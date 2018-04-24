@@ -17,6 +17,17 @@ const AchievementsDiv = styled.div`
     font-size: 28px;
   }
 
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 20px;
+  bottom: 20px;
+
+  box-shadow: 0 0 8px #777;
+  background: white;
+  z-index: 20;
+  padding: 1em 3em;
+
   .unlocks {
     display: flex;
     flex-direction: column;

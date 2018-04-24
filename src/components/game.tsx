@@ -12,19 +12,18 @@ import styled from "./styles";
 
 class Game extends React.PureComponent<Props & DerivedProps> {
   render() {
+    const { showAchievements } = this.props;
     return (
       <>
         <Controls />
+        {showAchievements ? <Achievements /> : null}
         {this.renderMain()}
       </>
     );
   }
 
   renderMain(): JSX.Element {
-    const { simulation, pickingMap, showAchievements } = this.props;
-    if (showAchievements) {
-      return <Achievements />;
-    }
+    const { simulation, pickingMap } = this.props;
     if (simulation) {
       return <Simulation />;
     }

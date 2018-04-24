@@ -18,6 +18,8 @@ const AppDiv = styled.div`
   padding: 30px;
   background: white;
 
+  position: relative;
+
   font-size: ${props => props.theme.fontSizes.baseText};
 `;
 
