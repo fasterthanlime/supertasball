@@ -2,7 +2,6 @@ server {
         server_name supertasball.amos.me;
 
         listen 443 http2 default_server;
-        listen [::]:443 http2 default_server;
 
         gzip on;
         gzip_types application/javascript image/* text/css;
@@ -18,4 +17,10 @@ server {
         location / {
                 try_files $uri $uri/ =404;
         }
+}
+
+server {
+       listen 80 default_server;
+       server_name supertasball.amos.me;
+       rewrite ^ https://$host$request_uri? permanent;
 }
