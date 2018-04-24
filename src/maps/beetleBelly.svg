@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="320"
+   height="560"
+   viewBox="0 0 320 560.00001"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="beetle-belly.svg">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="163.10507"
+     inkscape:cy="259.28548"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     inkscape:window-x="-11"
+     inkscape:window-y="1609"
+     inkscape:window-maximized="1"
+     units="px"
+     inkscape:snap-global="true" />
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;fill-opacity:0.68627451;stroke:none;stroke-linecap:butt;stroke-width:3.73459077223;fill:#ff0000"
+       d="M91.205221 437.97709C91.205221 437.97709 152.86273 421.04029 152.86273 421.04029C152.86273 421.04029 168.04885 427.17964 168.04885 427.17964C168.04885 427.17964 174.93764 438.92859 174.93764 438.92859C174.93764 438.92859 167.18026 451.86995 167.18026 451.86995C167.18026 451.86995 151.91125 456.81687 151.91125 456.81687C151.91125 456.81687 91.205221 437.97709 91.205221 437.97709"
+       id="path5908-2-07">
+      <desc
+         id="desc5910-1-59">#flipper
+side=right</desc>
+    </path>
+    <path
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;fill-opacity:0.68627451;stroke:none;stroke-linecap:butt;stroke-width:3.73459077223;fill:#ff0000"
+       d="M230.29478 438.47708C230.29478 438.47708 168.63727 421.54028 168.63727 421.54028C168.63727 421.54028 153.45115 427.67963 153.45115 427.67963C153.45115 427.67963 146.56236 439.42858 146.56236 439.42858C146.56236 439.42858 154.31974 452.36994 154.31974 452.36994C154.31974 452.36994 169.58875 457.31686 169.58875 457.31686C169.58875 457.31686 230.29478 438.47708 230.29478 438.47708"
+       id="path5908-2-0-5">
+      <desc
+         id="desc5910-1-0-2">#flipper
+side=left</desc>
+    </path>
+    <path
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;fill-opacity:0.68627451;stroke:none;stroke-linecap:butt;stroke-width:3.73459077223;fill:#ff0000"
+       d="M89.363689 437.8302C89.363689 437.8302 27.706177 420.8934 27.706177 420.8934C27.706177 420.8934 12.520057 427.03275 12.520057 427.03275C12.520057 427.03275 5.6312666 438.7817 5.6312666 438.7817C5.6312666 438.7817 13.388647 451.72306 13.388647 451.72306C13.388647 451.72306 28.657657 456.66998 28.657657 456.66998C28.657657 456.66998 89.363689 437.8302 89.363689 437.8302"
+       id="path5908-2-0">
+      <desc
+         id="desc5910-1-0">#flipper
+side=left</desc>
+    </path>
+    <ellipse
+       ry="4.2152958"
+       rx="4.2152963"
+       cy="342.06064"
+       cx="138.37656"
+       id="path3355-7"
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;fill-opacity:1;stroke:none;stroke-linecap:butt;stroke-width:7.0440257151;fill:#e30000">
+      <desc
+         id="desc3371-5">#ball</desc>
+    </ellipse>
+    <path
+       id="rect6100"
+       d="M38.2514 488.99863C38.2514 488.99863 282.54466 488.99863 282.54466 488.99863C282.54466 488.99863 266.96017 492.5 266.96017 492.5C266.96017 492.5 53.83588 492.5 53.83588 492.5C53.83588 492.5 38.2514 488.99863 38.2514 488.99863"
+       style="stroke-opacity:1;fill-opacity:1;stroke:none;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:0.581546890711;fill:#ff00ff">
+      <desc
+         id="desc6105">#goal</desc>
+    </path>
+    <path
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;fill-opacity:0.68627451;stroke:none;stroke-linecap:butt;stroke-width:3.73459077223;fill:#ff0000"
+       d="M230.59931 438.27149C230.59931 438.27149 292.25682 421.33469 292.25682 421.33469C292.25682 421.33469 307.44294 427.47404 307.44294 427.47404C307.44294 427.47404 314.33173 439.22299 314.33173 439.22299C314.33173 439.22299 306.57435 452.16435 306.57435 452.16435C306.57435 452.16435 291.30534 457.11127 291.30534 457.11127C291.30534 457.11127 230.59931 438.27149 230.59931 438.27149"
+       id="path5908-2">
+      <desc
+         id="desc5910-1">#flipper
+side=right</desc>
+    </path>
+    <path
+       id="path2308"
+       d="M160.74677 492.5C160.74677 492.5 53.83588 492.5 53.83588 492.5C53.83588 492.5 38.2514 488.99863 38.2514 488.99863C38.2514 488.99863 22.362206 475.67582 22.362206 475.67582C22.362206 475.67582 13.670917 448.47854 13.670917 448.47854C13.670917 448.47854 13.670917 330.35714 13.670917 330.35714C13.670917 330.35714 13.670917 160.0 13.670917 160.0C13.670917 160.0 28.70111 138.17175 28.70111 138.17175C28.70111 138.17175 161.78747 109.63729 161.78747 109.63729"
+       style="stroke-linejoin:miter;stroke-opacity:1;stroke:#000000;stroke-linecap:butt;stroke-width:1.54442962372;fill:none" />
+    <path
+       id="path2308-9"
+       d="M160.04927 492.5C160.04927 492.5 266.96017 492.5 266.96017 492.5C266.96017 492.5 282.54466 488.99863 282.54466 488.99863C282.54466 488.99863 298.43384 475.67582 298.43384 475.67582C298.43384 475.67582 307.12513 448.47854 307.12513 448.47854C307.12513 448.47854 307.12513 330.35714 307.12513 330.35714C307.12513 330.35714 307.12513 160.0 307.12513 160.0C307.12513 160.0 292.09494 138.17175 292.09494 138.17175C292.09494 138.17175 161.78747 109.63729 161.78747 109.63729"
+       style="stroke-linejoin:miter;stroke-opacity:1;stroke:#000000;stroke-linecap:butt;stroke-width:1.54442962372;fill:none" />
+    <path
+       id="path2325"
+       d="M160.714303336 408.920365563C160.714303336 408.920365563 184.797167084 450.980097391 184.797167084 450.980097391C184.797167084 450.980097391 208.880048727 493.039829219 208.880048727 493.039829219C208.880048727 493.039829219 160.714285441 493.039829219 160.714285441 493.039829219C160.714285441 493.039829219 112.548540049 493.039829219 112.548540049 493.039829219C112.548540049 493.039829219 136.631421693 450.980097391 136.631421693 450.980097391C136.631421693 450.980097391 160.714303336 408.920365563 160.714303336 408.920365563"
+       style="opacity:1;stroke-opacity:1;stroke:none;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:0.0">
+      <desc
+         id="desc2807">#ground
+#static</desc>
+    </path>
+    <path
+       id="path2357"
+       d="M29.669505 421.50067C29.669505 421.50067 21.615953 426.15039 21.615953 426.15039C21.615953 426.15039 13.562402 430.80011 13.562402 430.80011C13.562402 430.80011 13.562402 421.50067 13.562402 421.50067C13.562402 421.50067 13.562402 412.20123 13.562402 412.20123C13.562402 412.20123 21.615954 416.85095 21.615954 416.85095C21.615954 416.85095 29.669505 421.50067 29.669505 421.50067"
+       style="opacity:1;stroke-opacity:1;stroke:none;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:0.0">
+      <desc
+         id="desc2811">#ground
+#static</desc>
+    </path>
+    <path
+       id="path2357-1"
+       d="M291.2218 421.41733C291.2218 421.41733 299.27535 426.06705 299.27535 426.06705C299.27535 426.06705 307.3289 430.71677 307.3289 430.71677C307.3289 430.71677 307.3289 421.41733 307.3289 421.41733C307.3289 421.41733 307.3289 412.11789 307.3289 412.11789C307.3289 412.11789 299.27535 416.76761 299.27535 416.76761C299.27535 416.76761 291.2218 421.41733 291.2218 421.41733"
+       style="opacity:1;stroke-opacity:1;stroke:none;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:0.0">
+      <desc
+         id="desc2809">#ground
+#static</desc>
+    </path>
+    <circle
+       cy="209.26096"
+       cx="85.81543"
+       id="path5309-8-7-1-6-6"
+       style="stroke-opacity:1;fill-opacity:1;stroke:none;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:0.637348901171;fill:#699fff"
+       r="10.01577">
+      <desc
+         id="desc5311-6-2-7-7-4">#bumper</desc>
+    </circle>
+    <circle
+       r="11.071428"
+       cy="174.62682"
+       cx="59.599007"
+       id="path6422-9-5"
+       style="stroke-opacity:1;fill-opacity:1;stroke:#e59896;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:1.41421356237;fill:none">
+      <desc
+         id="desc6424-3-7">#collect
+group=Orbs</desc>
+    </circle>
+    <circle
+       r="11.071428"
+       cy="171.09128"
+       cx="255.06351"
+       id="path6422-9-5-3"
+       style="stroke-opacity:1;fill-opacity:1;stroke:#e59896;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:1.41421356237;fill:none">
+      <desc
+         id="desc6424-3-7-7">#collect
+group=Orbs
+singlePoints=20
+comboPoints=150</desc>
+    </circle>
+    <path
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;fill-opacity:0.68627451;stroke:none;stroke-linecap:butt;stroke-width:1.99999996836;fill:#ff0000"
+       d="M92.182215 299.37617C92.182215 299.37617 59.162525 290.30594 59.162525 290.30594C59.162525 290.30594 51.029845 293.59377 51.029845 293.59377C51.029845 293.59377 47.340665 299.88573 47.340665 299.88573C47.340665 299.88573 51.495005 306.81627 51.495005 306.81627C51.495005 306.81627 59.672075 309.46551 59.672075 309.46551C59.672075 309.46551 92.182215 299.37617 92.182215 299.37617"
+       id="path5908-0-9-0">
+      <desc
+         id="desc5910-6-5-6">#flipper
+side=left</desc>
+    </path>
+    <path
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;fill-opacity:0.68627451;stroke:none;stroke-linecap:butt;stroke-width:1.99999996836;fill:#ff0000"
+       d="M226.05136 299.00107C226.05136 299.00107 259.07105 289.93084 259.07105 289.93084C259.07105 289.93084 267.20373 293.21867 267.20373 293.21867C267.20373 293.21867 270.89291 299.51063 270.89291 299.51063C270.89291 299.51063 266.73857 306.44117 266.73857 306.44117C266.73857 306.44117 258.5615 309.09041 258.5615 309.09041C258.5615 309.09041 226.05136 299.00107 226.05136 299.00107"
+       id="path5908-2-2">
+      <desc
+         id="desc5910-1-5">#flipper
+side=right</desc>
+    </path>
+    <circle
+       r="11.071428"
+       cy="355.61096"
+       cx="29.765406"
+       id="path6422-9-5-1"
+       style="stroke-opacity:1;fill-opacity:1;stroke:#e59896;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:1.41421356237;fill:none">
+      <desc
+         id="desc6424-3-7-76">#collect
+group=Orbs</desc>
+    </circle>
+    <circle
+       r="11.071428"
+       cy="356.90643"
+       cx="290.69635"
+       id="path6422-9-5-0"
+       style="stroke-opacity:1;fill-opacity:1;stroke:#e59896;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:1.41421356237;fill:none">
+      <desc
+         id="desc6424-3-7-6">#collect
+group=Orbs</desc>
+    </circle>
+    <circle
+       cy="378.47894"
+       cx="159.75204"
+       id="path5309-8-7-1-6-6-7"
+       style="stroke-opacity:1;fill-opacity:1;stroke:none;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:1.33139956376;fill:#699fff"
+       r="20.922592">
+      <desc
+         id="desc5311-6-2-7-7-4-4">#bumper</desc>
+    </circle>
+    <circle
+       r="11.071428"
+       cy="153.4136"
+       cx="160.61427"
+       id="path6422-9-5-3-2"
+       style="stroke-opacity:1;fill-opacity:1;stroke:#e59896;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:1.41421356237;fill:none">
+      <desc
+         id="desc6424-3-7-7-0">#collect
+group=Orbs</desc>
+    </circle>
+    <circle
+       cy="208.93611"
+       cx="240.66757"
+       id="path5309-8-7-1-6-6-0"
+       style="stroke-opacity:1;fill-opacity:1;stroke:none;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:0.637348901171;fill:#699fff"
+       r="10.01577">
+      <desc
+         id="desc5311-6-2-7-7-4-8">#bumper</desc>
+    </circle>
+    <path
+       id="path2748"
+       d="M13.4880899052 348.43873186C13.4880899052 348.43873186 13.4880899052 293.06719186 13.4880899052 293.06719186C13.4880899052 293.06719186 13.4880899052 237.69565186 13.4880899052 237.69565186C13.4880899052 237.69565186 42.7534305478 265.38142186 42.7534305478 265.38142186C42.7534305478 265.38142186 72.0187699698 293.06719186 72.0187699698 293.06719186C72.0187699698 293.06719186 42.7534293272 320.75296186 42.7534293272 320.75296186C42.7534293272 320.75296186 13.4880899052 348.43873186 13.4880899052 348.43873186"
+       style="opacity:1;stroke-opacity:1;stroke:none;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:0.0">
+      <desc
+         id="desc2805">#ground
+#static</desc>
+    </path>
+    <path
+       id="path2748-2"
+       d="M307.457954095 348.05908195C307.457954095 348.05908195 307.457954095 292.68754195 307.457954095 292.68754195C307.457954095 292.68754195 307.457954095 237.31600195 307.457954095 237.31600195C307.457954095 237.31600195 278.192613452 265.00177195 278.192613452 265.00177195C278.192613452 265.00177195 248.92727403 292.68754195 248.92727403 292.68754195C248.92727403 292.68754195 278.192614673 320.37331195 278.192614673 320.37331195C278.192614673 320.37331195 307.457954095 348.05908195 307.457954095 348.05908195"
+       style="opacity:1;stroke-opacity:1;stroke:none;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:0.0">
+      <desc
+         id="desc2803">#ground
+#static</desc>
+    </path>
+    <circle
+       cy="289.64285"
+       cx="161.07144"
+       id="path5309-8-7-1-6-6-7-5"
+       style="stroke-opacity:1;fill-opacity:1;stroke:none;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:1.33139956376;fill:#699fff"
+       r="20.922592">
+      <desc
+         id="desc5311-6-2-7-7-4-4-4">#bumper</desc>
+    </circle>
+    <circle
+       r="11.071428"
+       cy="335"
+       cx="160.35713"
+       id="path6422-9-5-0-0"
+       style="stroke-opacity:1;fill-opacity:1;stroke:#e59896;stroke-dasharray:none;stroke-miterlimit:4;stroke-width:1.41421356237;fill:none">
+      <desc
+         id="desc6424-3-7-6-0">#collect
+group=Orbs</desc>
+    </circle>
+  </g>
+</svg>

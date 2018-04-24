@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "tsc --noEmit",
-    "start": "node fuse"
+    "start": "node fuse",
+    "deploy": "cross-env NODE_ENV=production node fuse && butler push dist fasterthanlime/tasball:html5"
   },
   "author": "",
   "license": "MIT",
@@ -37,6 +38,7 @@
     "@types/react-redux": "^5.0.16",
     "@types/redux": "^3.6.0",
     "@types/underscore": "^1.8.8",
+    "cross-env": "^5.1.4",
     "fuse-box": "^3.2.2",
     "typescript": "^2.8.3",
     "uglify-es": "^3.3.9"
