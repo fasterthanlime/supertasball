@@ -22,6 +22,12 @@ export interface CellSelection {
   size: number;
 }
 
+export interface Track {
+  url: string;
+  title: string;
+  artist: string;
+}
+
 export interface UIState {
   page: Page;
   cellSelection: CellSelection;
@@ -31,6 +37,8 @@ export interface UIState {
   pickingMap: boolean;
   showAchievements: boolean;
   showHelp: boolean;
+  tracks: Track[];
+  activeTrack?: Track;
 }
 
 export interface Clipboard {
@@ -163,27 +171,6 @@ export const OpCodeTypes = {
         unit: "Hz",
         defaultValue: 4,
       },
-    },
-  }),
-  note: op({
-    label: "Play/pause note",
-    icon: "music",
-    relevantFields: {
-      name: {
-        label: "Channel to use",
-        choices: [
-          { label: "Ch 0", value: "0" },
-          { label: "Ch 1", value: "1" },
-          { label: "Ch 2", value: "2" },
-          { label: "Ch 3", value: "3" },
-        ],
-      },
-      numberValue: {
-        label: "Note frequency",
-        unit: "Hz",
-        defaultValue: 440,
-      },
-      boolValue: `Play or mute sound channel`,
     },
   }),
 };

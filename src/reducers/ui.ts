@@ -1,6 +1,7 @@
 import reducer from "./reducer";
 import { UIState } from "../types";
 import { actions } from "../actions";
+import { loadTracks } from "../load-tracks";
 
 const initialState: UIState = {
   page: "game",
@@ -11,6 +12,7 @@ const initialState: UIState = {
   pickingMap: false,
   showAchievements: false,
   showHelp: false,
+  tracks: loadTracks(),
 };
 
 let floatySeed = 0;
@@ -89,5 +91,9 @@ export default reducer<UIState>(initialState, on => {
 
   on(actions.hideHelp, (state, action) => {
     return { ...state, showHelp: false };
+  });
+
+  on(actions.nowPlaying, (state, action) => {
+    return { ...state, activeTrack: action.payload.track };
   });
 });

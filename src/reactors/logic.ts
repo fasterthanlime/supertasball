@@ -1,9 +1,11 @@
 import { Watcher } from "../watcher";
 import { actions } from "../actions";
-import { SimulationParams } from "../types";
+import { SimulationParams, Track } from "../types";
 import { Store } from "../store";
 import { formatAmount } from "../format";
 import { unlocks } from "../unlocks";
+import { sample } from "underscore";
+import * as music from "../music";
 
 export default function(w: Watcher) {
   w.on(actions.doActivity, (store, action) => {
@@ -64,6 +66,16 @@ export default function(w: Watcher) {
       mapName,
     };
     store.dispatch(actions.newSimulation({ params }));
+  });
+
+  w.on(actions.boot, (store, action) => {
+    let track = sample<Track>(store.getState().ui.tracks);
+    store.dispatch(actions.nowPlaying({ track }));
+  });
+
+  w.on(actions.nowPlaying, (store, action) => {
+    const { track } = action.payload;
+    music.setPlaying(track);
   });
 }
 

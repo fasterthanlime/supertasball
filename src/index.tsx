@@ -12,6 +12,7 @@ import { ThemeProvider, theme } from "./components/styles";
 import "./icomoon/style.css";
 import "react-hint/css/index.css";
 import "./context-menus.css";
+import { actions } from "./actions";
 
 ReactDOM.render(
   <Provider store={store as any}>
@@ -21,3 +22,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("app"),
 );
+
+store.dispatch(actions.boot({}));

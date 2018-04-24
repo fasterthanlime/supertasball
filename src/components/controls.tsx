@@ -4,6 +4,7 @@ import { RootState, Unlocked } from "../types";
 import Button from "./button";
 import Icon from "./icon";
 import Money from "./money";
+import MusicPlayer from "./music-player";
 import styled from "./styles";
 
 const ControlsDiv = styled.div`
@@ -67,9 +68,7 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
           <Icon icon="award" /> {Object.keys(unlocked).length}
         </Label>
         <Filler />
-        <a href="https://twitter.com/fasterthanlime" target="_blank">
-          <Icon icon="twitter" />
-        </a>
+        <MusicPlayer />
       </ControlsDiv>
     );
   }

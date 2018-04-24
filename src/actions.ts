@@ -9,6 +9,7 @@ import {
   SimulationState,
   OpCodeType,
   Results,
+  Track,
 } from "./types";
 import { MapName } from "./map-defs";
 import { UnlockName } from "./unlocks";
@@ -76,6 +77,10 @@ export const actions = wireActions({
 
   checkpoint: action<{}>(),
   undo: action<{}>(),
+
+  boot: action<{}>(),
+
+  nowPlaying: action<{ track: Track }>(),
 });
 
 // utils

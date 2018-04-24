@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
+    "jsxm": "^1.0.0",
     "pixi-pause": "^1.0.3",
     "pixi.js": "^4.7.3",
     "planck-js": "^0.1.44",
@@ -22,11 +23,9 @@
     "react-hint": "^3.0.1",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "stage-js": "^0.8.10",
     "styled-components": "^3.2.6",
     "svg-path-parser": "^1.1.0",
     "tinycolor2": "^1.4.1",
-    "tone": "^0.12.80",
     "underscore": "^1.9.0"
   },
   "devDependencies": {

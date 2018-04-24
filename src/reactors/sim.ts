@@ -3,29 +3,6 @@ import { Watcher } from "../watcher";
 import { SimulationState } from "../types";
 import { Store } from "../store";
 
-import * as Tone from "tone";
-interface Frequency {
-  value: number;
-}
-interface Volume {
-  value: number;
-}
-interface Oscillator {
-  frequency: Frequency;
-  volume: Volume;
-  toMaster(): Oscillator;
-  start();
-}
-
-const oscillators: Oscillator[] = [];
-
-for (let i = 0; i < 4; i++) {
-  const osc = new Tone.Oscillator() as Oscillator;
-  osc.volume.value = -Infinity;
-  osc.toMaster().start();
-  oscillators[i] = osc;
-}
-
 export default function(w: Watcher) {
   w.on(actions.tick, (store, action) => {
     const oldState = store.getState().simulation;
@@ -46,22 +23,6 @@ export default function(w: Watcher) {
 
     store.dispatch(actions.commitSimulationState({ state: state }));
   });
-
-  w.on(actions.reset, (state, action) => {
-    killSound();
-  });
-
-  w.on(actions.setPaused, (state, action) => {
-    if (action.payload.paused) {
-      killSound();
-    }
-  });
-}
-
-function killSound() {
-  for (const osc of oscillators) {
-    osc.volume.value = -Infinity;
-  }
 }
 
 function cpuStep(store: Store, oldState: SimulationState) {
@@ -86,15 +47,6 @@ function cpuStep(store: Store, oldState: SimulationState) {
         state.freq = op.numberValue;
       }
       break;
-    }
-    case "note": {
-      let osc = oscillators[op.name];
-      if (osc) {
-        osc.volume.value = op.boolValue ? -6 : -Infinity;
-        if (typeof op.numberValue !== "undefined") {
-          osc.frequency.value = op.numberValue;
-        }
-      }
     }
   }
   store.dispatch(actions.execute({ op }));
