@@ -56,13 +56,13 @@ class MusicPlayer extends React.PureComponent<Props & DerivedProps> {
 
   onNextTrack = () => {
     const track = sample<Track>(this.props.tracks);
-    this.props.nowPlaying({ track });
+    this.props.playNext({});
   };
 }
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("nowPlaying");
+const actionCreators = actionCreatorsList("nowPlaying", "playNext");
 
 type DerivedProps = {
   activeTrack: Track;

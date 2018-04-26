@@ -62,5 +62,10 @@ export function getTrackList(): Track[] {
       title: "Chippie",
       url: require("./tracks/chippie.xm").default,
     },
+    {
+      artist: "Quazar",
+      title: "Hybrid Song",
+      url: require("./tracks/hybridSong.xm").default,
+    },
   ];
 }

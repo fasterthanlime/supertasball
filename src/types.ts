@@ -38,6 +38,8 @@ export interface UIState {
   showHelp: boolean;
   tracks: Track[];
   activeTrack?: Track;
+  playlist: number[];
+  playlistIndex: number;
 }
 
 export interface Clipboard {

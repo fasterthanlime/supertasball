@@ -2,6 +2,9 @@ import reducer from "./reducer";
 import { UIState } from "../types";
 import { actions } from "../actions";
 import { getTrackList } from "../track-list";
+import { shuffle, keys } from "underscore";
+
+const tracks = getTrackList();
 
 const initialState: UIState = {
   showCode: true,
@@ -11,7 +14,9 @@ const initialState: UIState = {
   pickingMap: false,
   showAchievements: false,
   showHelp: false,
-  tracks: getTrackList(),
+  tracks,
+  playlist: shuffle(keys(tracks)),
+  playlistIndex: 0,
 };
 
 let floatySeed = 0;
@@ -83,6 +88,17 @@ export default reducer<UIState>(initialState, on => {
 
   on(actions.hideHelp, (state, action) => {
     return { ...state, showHelp: false };
+  });
+
+  on(actions.playNext, (state, action) => {
+    let playlistIndex = (state.playlistIndex + 1) % state.tracks.length;
+    let playlist = state.playlist;
+    if (playlistIndex === 0) {
+      console.log(`Reached end of playlist, shuffling...`);
+      playlist = shuffle(playlist);
+    }
+    const activeTrack = state.tracks[playlist[playlistIndex]];
+    return { ...state, activeTrack, playlistIndex, playlist };
   });
 
   on(actions.nowPlaying, (state, action) => {

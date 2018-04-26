@@ -78,6 +78,7 @@ export const actions = wireActions({
   boot: action<{}>(),
 
   nowPlaying: action<{ track: Track }>(),
+  playNext: action<{}>(),
 });
 
 // utils
