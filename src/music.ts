@@ -1,4 +1,9 @@
-require("./flod/bundle.js");
+// require("./flod/bundle.js");
+require("jsxm/xm.js");
+require("jsxm/xmeffects.js");
+declare var XMPlayer;
+XMPlayer.init();
+
 import { sample } from "underscore";
 import { Track } from "./types";
 declare var neoart;
@@ -8,14 +13,9 @@ interface Mod {
 }
 
 let done = false;
-let player: any;
 
 export function setPlaying(track: Track) {
-  if (player) {
-    player.stop();
-    player = null;
-  }
-
+  XMPlayer.stop();
   if (!track) {
     return;
   }
@@ -25,9 +25,11 @@ export function setPlaying(track: Track) {
   xhr.responseType = "arraybuffer";
   xhr.onreadystatechange = () => {
     if (xhr.readyState == XMLHttpRequest.DONE) {
-      neoart.FileLoader.player = null;
-      player = neoart.FileLoader.load(xhr.response);
-      player.play();
+      if (XMPlayer.load(xhr.response)) {
+        XMPlayer.play();
+      } else {
+        console.error("Music failed to load :(");
+      }
     }
   };
   xhr.send();
