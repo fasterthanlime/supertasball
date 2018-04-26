@@ -30,6 +30,10 @@
       shell: npm i
       args:
         chdir: /srv/apps/supertasball
+    - name: Run tests
+      shell: npm t
+      args:
+        chdir: /srv/apps/supertasball
     - name: Set version info
       shell: npm run set-version
       args:
