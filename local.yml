@@ -19,6 +19,38 @@
       apt:
         name: nodejs
         state: latest
+    - name: Ensure certbot PPA is present
+      apt_repository:
+        repo: "ppa:certbot/certbot"
+    - name: Ensure certbot is at latest
+      apt:
+        name: python-certbot-nginx
+        state: latest
+    - name: Ensure certbot cron job
+      cron:
+        name: "Renew Let's Encrypt certificate"
+        minute: 17
+        hour: 7
+        job: "certbot renew --post-hook 'systemctl reload nginx'"
+    - name: Ensure nginx it at the latest version
+      apt:
+        name: nginx
+        state: latest
+    - name: Disable default site
+      file:
+        dest: /etc/nginx/sites-enabled/default
+        state: absent
+    - name: Install Site config
+      template:
+        src: ./nginx/site.conf
+        dest: /etc/nginx/sites-available/supertasball.amos.me
+        owner: root
+        group: root
+    - name: Enable Site config
+      file:
+        src: /etc/nginx/sites-available/supertasball.amos.me
+        dest: /etc/nginx/sites-enabled/supertasball.amos.me
+        state: link
     - name: Download sources
       git:
         repo: "https://github.com/supertasball/supertasball.git"
@@ -38,45 +70,24 @@
       shell: npm run set-version
       args:
         chdir: /srv/apps/supertasball
+    - name: Clean previous bundle
+      shell: rm -rf dist
+      args:
+        chdir: /srv/apps/supertasball
+      environment:
+        NODE_ENV: "production"
     - name: Build bundle
       shell: node fuse.js
       args:
         chdir: /srv/apps/supertasball
       environment:
         NODE_ENV: "production"
-    - name: Ensure certbot PPA is present
-      apt_repository:
-        repo: "ppa:certbot/certbot"
-    - name: Ensure certbot is at latest
-      apt:
-        name: python-certbot-nginx
-        state: latest
-    - name: Ensure certbot cron job
-      cron:
-        name: "Renew Let's Encrypt certificate"
-        minute: 17
-        hour: 7
-        job: "certbot renew --post-hook 'systemctl reload nginx'"
-
-    - name: Ensure nginx it at the latest version
-      apt:
-        name: nginx
-        state: latest
-    - name: Disable default site
-      file:
-        dest: /etc/nginx/sites-enabled/default
-        state: absent
-    - name: Install Site config
-      template:
-        src: ./nginx/supertasball.amos.me
-        dest: /etc/nginx/sites-available/supertasball.amos.me
-        owner: root
-        group: root
-    - name: Enable Site config
-      file:
-        src: /etc/nginx/sites-available/supertasball.amos.me
-        dest: /etc/nginx/sites-enabled/supertasball.amos.me
-        state: link
+    - name: Merge bundle with server root
+      shell: mkdir -p prod-dist && cp -rf dist/* prod-dist/
+      args:
+        chdir: /srv/apps/supertasball
+      environment:
+        NODE_ENV: "production"
     - name: Reload Nginx
       service: name=nginx state=reloaded
     
