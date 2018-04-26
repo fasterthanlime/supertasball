@@ -21,7 +21,7 @@
         state: latest
     - name: Download sources
       git:
-        repo: "https://github.com/fasterthanlime/supertasball.git"
+        repo: "https://github.com/supertasball/supertasball.git"
         dest: "/srv/apps/supertasball"
         accept_hostkey: yes
         force: yes
