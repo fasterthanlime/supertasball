@@ -76,15 +76,11 @@ class Controls extends React.PureComponent<Props & DerivedProps> {
   onShowAchievements = () => {
     this.props.showAchievements({});
   };
-
-  onMenu = () => {
-    this.props.setPage({ page: "menu" });
-  };
 }
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPage", "showAchievements");
+const actionCreators = actionCreatorsList("showAchievements");
 
 type DerivedProps = {
   money: number;

@@ -29,7 +29,6 @@ export interface Track {
 }
 
 export interface UIState {
-  page: Page;
   cellSelection: CellSelection;
   floaties: Floaties;
   showCode: boolean;
@@ -184,8 +183,6 @@ export interface OpCode {
   numberValue?: number;
   label?: string;
 }
-
-export type Page = "menu" | "game";
 
 export interface Action<T> {
   type: string;

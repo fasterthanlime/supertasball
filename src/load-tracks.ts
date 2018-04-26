@@ -1,3 +1,5 @@
+import { Track } from "./types";
+
 export function loadTracks(): Track[] {
   return [
     {
@@ -49,6 +51,11 @@ export function loadTracks(): Track[] {
       artist: "Ultrasyd",
       title: "Pizza",
       url: require("./tracks/ultrasydPizza.xm").default,
+    },
+    {
+      artist: "fender",
+      title: "|- sunlight -|",
+      url: require("./tracks/sunlight.xm").default,
     },
   ];
 }

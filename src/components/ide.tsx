@@ -194,8 +194,6 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       this.props.setCellSelection({ start: cs.start + 1, size: 1 });
     } else if (ev.key == "G") {
       this.props.cellSetType({ type: "goto" });
-    } else if (ev.key == "N") {
-      this.props.cellSetType({ type: "note" });
     } else if (ev.key == "M") {
       this.props.cellSetType({ type: "motor" });
     } else if (ev.key == "F") {
@@ -218,7 +216,6 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
 interface Props {}
 
 const actionCreators = actionCreatorsList(
-  "setPage",
   "floaty",
   "setCellSelection",
   "cellYank",

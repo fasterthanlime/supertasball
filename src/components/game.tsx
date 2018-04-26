@@ -4,6 +4,7 @@ import { RootState, SimulationState } from "../types";
 
 import Button from "./button";
 import Controls from "./controls";
+import Footer from "./footer";
 import Simulation from "./simulation";
 import Clicker from "./clicker";
 import MapPicker from "./map-picker";
@@ -18,6 +19,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
         <Controls />
         {showAchievements ? <Achievements /> : null}
         {this.renderMain()}
+        <Footer />
       </>
     );
   }
@@ -32,15 +34,11 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     }
     return <Clicker />;
   }
-
-  onMenu = () => {
-    this.props.setPage({ page: "menu" });
-  };
 }
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPage");
+const actionCreators = actionCreatorsList();
 
 type DerivedProps = {
   simulation: SimulationState;

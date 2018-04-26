@@ -2,7 +2,6 @@ import {
   ActionCreator,
   Dispatch,
   Action,
-  Page,
   OpCode,
   SimulationParams,
   Activity,
@@ -18,8 +17,6 @@ import { Expense } from "./expenses";
 // actions
 
 export const actions = wireActions({
-  setPage: action<{ page: Page }>(),
-
   floaty: action<{ clientX: number; clientY: number; text: string }>(),
   floatyKill: action<{ id: string }>(),
 

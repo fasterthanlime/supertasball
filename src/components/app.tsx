@@ -5,7 +5,6 @@ import { RootState } from "../types";
 import ReactHintFactory = require("react-hint");
 const ReactHint = ReactHintFactory(React);
 
-import Menu from "./menu";
 import Game from "./game";
 import FloatiesContainer from "./floaties-container";
 import styled from "./styles";
@@ -27,34 +26,20 @@ class App extends React.PureComponent<Props & DerivedProps> {
   render() {
     return (
       <AppDiv>
-        {this.renderPage()}
+        <Game />
         <FloatiesContainer />
         <ReactHint events />
       </AppDiv>
     );
   }
-
-  renderPage(): JSX.Element {
-    const { page } = this.props;
-    if (page === "menu") {
-      return <Menu />;
-    }
-
-    return <Game />;
-  }
 }
 
 interface Props {}
 
-const actionCreators = actionCreatorsList("setPage");
+const actionCreators = actionCreatorsList();
 
-type DerivedProps = {
-  page: string;
-} & Dispatchers<typeof actionCreators>;
+type DerivedProps = {} & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(App, {
   actionCreators,
-  state: (rs: RootState) => ({
-    page: rs.ui.page,
-  }),
 });

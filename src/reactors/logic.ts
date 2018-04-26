@@ -68,10 +68,10 @@ export default function(w: Watcher) {
     store.dispatch(actions.newSimulation({ params }));
   });
 
-  w.on(actions.boot, (store, action) => {
-    let track = sample<Track>(store.getState().ui.tracks);
-    store.dispatch(actions.nowPlaying({ track }));
-  });
+  // w.on(actions.boot, (store, action) => {
+  //   let track = sample<Track>(store.getState().ui.tracks);
+  //   store.dispatch(actions.nowPlaying({ track }));
+  // });
 
   w.on(actions.nowPlaying, (store, action) => {
     const { track } = action.payload;

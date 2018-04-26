@@ -4,7 +4,6 @@ import { actions } from "../actions";
 import { loadTracks } from "../load-tracks";
 
 const initialState: UIState = {
-  page: "game",
   showCode: true,
   floaties: {},
   cellSelection: { start: 0, size: 0 },
@@ -18,13 +17,6 @@ const initialState: UIState = {
 let floatySeed = 0;
 
 export default reducer<UIState>(initialState, on => {
-  on(actions.setPage, (state, action) => {
-    return {
-      ...state,
-      page: action.payload.page,
-    };
-  });
-
   on(actions.floaty, (state, action) => {
     return {
       ...state,
