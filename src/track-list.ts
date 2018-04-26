@@ -57,5 +57,10 @@ export function getTrackList(): Track[] {
       title: "|- sunlight -|",
       url: require("./tracks/sunlight.xm").default,
     },
+    {
+      artist: "Jakim",
+      title: "Chippie",
+      url: require("./tracks/chippie.xm").default,
+    },
   ];
 }
