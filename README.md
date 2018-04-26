@@ -103,6 +103,30 @@ is a bit wonky/hardcoded.
 * No gradients, no masks, no nothing. We don't use the browser's
   SVG renderer so only a minimal set of features is supported :)
 
+#### If things are in the wrong place
+
+...then you need the Inkscape "Apply transforms" plugin.
+
+Once [installed](https://github.com/Klowner/inkscape-applytransforms), you can use it from this menu:
+
+![](https://user-images.githubusercontent.com/7998310/39317565-2f069cd8-497c-11e8-96e9-c872b556418f.png)
+
+#### Cheat mode: trying out your map
+
+If you add `?cheat` to the game's URL ([link for the lazy](https://supertasball.amos.me/?cheat)), you'll start with $30K, and
+there'll be an .svg drop zone:
+
+![](https://user-images.githubusercontent.com/7998310/39322247-8241c96a-4989-11e8-8b98-505f3d3032f6.png)
+
+If you drop an .svg on there, you'll be able to test your map
+
+#### Submitting maps
+
+Ideally, you'd open a pull request with the .svg file added and
+it listed in `map-defs.ts`, but if that's too much work, you
+can open an issue and attach the .svg file - hopefully one of the
+contributors will add it!
+
 ### Soundtrack
 
 The soundtrack is a collection of [.XM files](<https://en.wikipedia.org/wiki/XM_(file_format)>) in the `src/tracks/` folder, mostly collected from [The Mod Archive](https://modarchive.org/).
