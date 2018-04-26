@@ -1,7 +1,7 @@
 # Super TASball
 
 [![Build Status](https://travis-ci.org/supertasball/supertasball.svg?branch=master)](https://travis-ci.org/supertasball/supertasball)
-![Owned by contributors](https://img.shields.io/badge/owned%20by-contributors-orange.svg)
+[![Quality gate](https://sonarcloud.io/api/project_badges/measure?project=supertasball&metric=alert_status)](https://sonarcloud.io/dashboard?id=supertasball)
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 
 An open-source, tool-assisted pinball idle game.
