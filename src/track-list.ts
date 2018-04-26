@@ -1,6 +1,6 @@
 import { Track } from "./types";
 
-export function loadTracks(): Track[] {
+export function getTrackList(): Track[] {
   return [
     {
       artist: "lemonade",

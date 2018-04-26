@@ -1,7 +1,7 @@
 import reducer from "./reducer";
 import { UIState } from "../types";
 import { actions } from "../actions";
-import { loadTracks } from "../load-tracks";
+import { getTrackList } from "../track-list";
 
 const initialState: UIState = {
   showCode: true,
@@ -11,7 +11,7 @@ const initialState: UIState = {
   pickingMap: false,
   showAchievements: false,
   showHelp: false,
-  tracks: loadTracks(),
+  tracks: getTrackList(),
 };
 
 let floatySeed = 0;
