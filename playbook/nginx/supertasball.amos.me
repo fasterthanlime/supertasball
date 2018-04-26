@@ -17,6 +17,10 @@ server {
         location / {
                 try_files $uri $uri/ =404;
         }
+
+        location ~* \.(js|xm)$ {
+                expires 30d;
+        }
 }
 
 server {
