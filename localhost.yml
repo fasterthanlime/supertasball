@@ -1,5 +1,5 @@
 ---
-- hosts: supertasball.amos.me
+- hosts: localhost
   remote_user: root
   tasks:
     - name: Ensure git is at the latest version
