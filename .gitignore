@@ -1,4 +1,6 @@
 /node_modules
 /.fusebox
 /dist
-playbook.retry
+/playbook.retry
+/.nyc_output
+/coverage
