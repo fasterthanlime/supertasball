@@ -4,10 +4,23 @@ import Icon from "./icon";
 import React = require("react");
 import styled from "./styles";
 
-const EditorHelpDiv = styled.div``;
+const EditorHelpDiv = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+
+  z-index: 200;
+  background: ${props => props.theme.paper};
+
+  padding: 0 20px;
+
+  border: 1px dashed #444;
+  overflow: hidden;
+`;
 
 const Contents = styled.div`
-  max-height: 500px;
+  max-height: 400px;
   overflow-y: auto;
 
   i {
@@ -139,32 +152,12 @@ class EditorHelp extends React.PureComponent<Props & DerivedProps> {
             GOTOs will only be executed if they point to a valid label. To set
             the label for a cell, right click it and pick 'Set label...'
           </p>
-          <p>
-            Conditional jumps were originally planned but hey 72 hours is short
-            when you reach the end!
-          </p>
 
           <h4>The FREQ instruction</h4>
           <p>
             It changes the frequency at which the CPU operates. Any value from
             1Hz to the maximum currently available will be set. Other values
             will be ignored.
-          </p>
-
-          <h4>The NOTE instruction</h4>
-          <p>There are four channels to play notes in.</p>
-          <p>
-            The frequency is the height of the note, see{" "}
-            <a
-              href="https://pages.mtu.edu/~suits/notefreqs.html"
-              target="_blank"
-            >
-              this handy table
-            </a>{" "}
-            for reference.
-          </p>
-          <p>
-            Don't forget to turn off a note or it'll keep playing until paused.
           </p>
         </Contents>
       </EditorHelpDiv>

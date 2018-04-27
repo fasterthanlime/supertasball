@@ -14,15 +14,10 @@ const SimulationDiv = styled.div`
 
 class Simulation extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { results } = this.props;
     return <SimulationDiv>{this.renderMain()}</SimulationDiv>;
   }
 
   renderMain(): JSX.Element {
-    const { results } = this.props;
-    if (results) {
-      return <ResultsScreen />;
-    }
     return this.renderPinball();
   }
 
@@ -38,14 +33,6 @@ class Simulation extends React.PureComponent<Props & DerivedProps> {
 
 interface Props {}
 const actionCreators = actionCreatorsList();
-type DerivedProps = Dispatchers<typeof actionCreators> & {
-  results: Results;
-};
+type DerivedProps = Dispatchers<typeof actionCreators> & {};
 
-export default connect<Props>(Simulation, {
-  actionCreators,
-  state: (rs: RootState) => ({
-    results: rs.simulation && rs.simulation.results,
-    pickingMap: rs.ui.pickingMap,
-  }),
-});
+export default connect<Props>(Simulation, { actionCreators });

@@ -14,6 +14,10 @@ const ControlsDiv = styled.div`
   align-items: center;
   margin-bottom: 10px;
 
+  border-bottom: 1px solid #777;
+  margin-bottom: 20px;
+  padding: 30px 0;
+
   a,
   a:visited {
     color: rgb(120, 120, 240);

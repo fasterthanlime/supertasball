@@ -5,9 +5,7 @@ import styled from "./styles";
 
 import Button from "./button";
 import Icon from "./icon";
-import ActivityButton from "./activity-button";
 import ExpenseButton from "./expense-button";
-import { activities } from "../activities";
 import { expenses } from "../expenses";
 import { RootState, Unlocked } from "../types";
 
@@ -23,22 +21,20 @@ const Column = styled.div`
   margin: 0 1em;
 `;
 
-class Clicker extends React.PureComponent<Props & DerivedProps> {
+class Lobby extends React.PureComponent<Props & DerivedProps> {
   render() {
     return (
       <Columns>
         <Column>
-          <h3>Earn money</h3>
-          <ActivityButton activity={activities.PlayDice} />
-          <ActivityButton activity={activities.MineSatoshi} />
-          <ActivityButton activity={activities.WashWindow} />
-          <ActivityButton activity={activities.MowLawn} />
-          <ActivityButton activity={activities.StealCar} />
+          <h3>Upgrades</h3>
+          {this.renderExpenses()}
         </Column>
         <Column>
-          <h3>Spend money</h3>
-          {this.renderExpenses()}
-          <h3>Learn how to play the game</h3>
+          <h3>Pinball</h3>
+          <Button onClick={this.onPlay} icon="play">
+            Play pinball
+          </Button>
+          <h3>Help</h3>
           <Button
             icon="video"
             onClick={() =>
@@ -76,16 +72,20 @@ class Clicker extends React.PureComponent<Props & DerivedProps> {
       </>
     );
   }
+
+  onPlay = () => {
+    this.props.playPinball({});
+  };
 }
 
 interface Props {}
 
-const actionCreators = actionCreatorsList();
+const actionCreators = actionCreatorsList("playPinball");
 type DerivedProps = Dispatchers<typeof actionCreators> & {
   unlocked: Unlocked;
 };
 
-export default connect<Props>(Clicker, {
+export default connect<Props>(Lobby, {
   actionCreators,
   state: (rs: RootState) => ({
     unlocked: rs.resources.unlocked,

@@ -21,6 +21,7 @@ import store from "../store";
 import { actions } from "../actions";
 import { MapDef } from "../map-defs";
 import { physx } from "../physics-constants";
+import { computeResults } from "../score-utils";
 
 const gravityY = 150;
 const bigAngle = 20;
@@ -315,33 +316,8 @@ export function loadMap(mapDef: MapDef): Map {
         break;
       }
       case "goal": {
-        let score = 0;
-        let time = m.ticks * 1 / 60;
-        let timeScorePenalty = Math.floor(time * 0.5);
-        score -= timeScorePenalty;
-
-        for (const k of Object.keys(m.groups)) {
-          const g = m.groups[k];
-          for (let i = 0; i < g.hit; i++) {
-            score += g.singlePoints;
-          }
-          if (g.hit >= g.total) {
-            score += g.comboPoints;
-          }
-        }
-
-        const { dirty } = store.getState().simulation;
-        store.dispatch(
-          actions.reachedGoal({
-            results: {
-              score,
-              time: time,
-              groups: m.groups,
-              timeScorePenalty,
-              dirty,
-            },
-          }),
-        );
+        const results = computeResults(m, store.getState().simulation);
+        store.dispatch(actions.reachedGoal({ results }));
         break;
       }
     }

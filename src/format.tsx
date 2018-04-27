@@ -6,7 +6,7 @@ const MoneySpan = styled.div`
   font-weight: bold;
   margin: 0 0.3em;
 
-  color: #fbdb5d;
+  color: #1ca8ef;
 `;
 
 interface FormatMoneyOpts {

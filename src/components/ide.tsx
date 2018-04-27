@@ -8,10 +8,12 @@ import { ContextMenu, MenuItem } from "react-contextmenu";
 import SimControls from "./sim-controls";
 import Op from "./op";
 import EditorHelp from "./editor-help";
+import ResultsScreen from "./results-screen";
 
 import Button from "./button";
 
 import CellTypeMenu from "./menus/cell-type-menu";
+import EditorMenu from "./menus/editor-menu";
 import NameMenu from "./menus/name-menu";
 import watching, { Watcher } from "./watching";
 import { actions } from "../actions";
@@ -49,10 +51,7 @@ const Filler = styled.div`
 @watching
 class IDE extends React.PureComponent<Props & DerivedProps> {
   render() {
-    const { showCode, showHelp } = this.props;
-    if (showHelp) {
-      return this.renderHelp();
-    }
+    const { showCode, showHelp, hasResults } = this.props;
 
     return (
       <IDEDiv
@@ -61,9 +60,12 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
         innerRef={this.onDiv}
         onContextMenu={this.onContextMenu}
       >
+        {showHelp ? <EditorHelp /> : null}
+        {hasResults ? <ResultsScreen /> : null}
         <SimControls />
         {showCode ? this.renderOps() : <p>Code hidden</p>}
         <CellTypeMenu />
+        <EditorMenu />
         <NameMenu />
       </IDEDiv>
     );
@@ -146,6 +148,10 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   };
 
   onKeyDown = (ev: React.KeyboardEvent<HTMLElement>) => {
+    if (this.props.showHelp) {
+      return;
+    }
+
     const cs = this.props.cellSelection;
     let preventDefault = true;
     if (ev.key == "Delete") {
@@ -207,10 +213,6 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       ev.preventDefault();
     }
   };
-
-  renderHelp(): JSX.Element {
-    return <EditorHelp />;
-  }
 }
 
 interface Props {}
@@ -240,6 +242,7 @@ type DerivedProps = {
   showHelp: boolean;
   paused: boolean;
   cellSelection: CellSelection;
+  hasResults: boolean;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(IDE, {
@@ -251,5 +254,6 @@ export default connect<Props>(IDE, {
     showCode: rs.ui.showCode,
     showHelp: rs.ui.showHelp,
     cellSelection: rs.ui.cellSelection,
+    hasResults: !!rs.simulation.results,
   }),
 });

@@ -11,24 +11,39 @@ import { formatMoney } from "../format";
 import { getCashReward } from "../score-utils";
 
 const ResultsDiv = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+
+  z-index: 400;
+  background: #fffeff;
+
+  padding: 0 20px;
+  padding-bottom: 40px;
+
+  border: 1px dashed #444;
+  overflow: hidden;
+
   h3 {
-    font-size: 30px;
+    font-size: 24px;
   }
 
   section {
-    font-size: 120%;
     margin: 1em 0;
-
-    font-size: 30px;
-
-    ul {
-      font-size: 24px;
-    }
 
     i {
       font-style: normal;
       color: rgb(100, 220, 60);
       font-weight: bold;
+
+      &.zero {
+        color: rgb(220, 70, 60);
+      }
+
+      &.partial {
+        color: rgb(220, 144, 60);
+      }
     }
   }
 
@@ -58,6 +73,10 @@ const ButtonsDiv = styled.div`
   justify-content: flex-start;
 `;
 
+const Filler = styled.div`
+  flex-grow: 1;
+`;
+
 class ResultsScreen extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { results } = this.props;
@@ -83,9 +102,15 @@ class ResultsScreen extends React.PureComponent<Props & DerivedProps> {
       <ResultsDiv>
         <h3>Results</h3>
         <section>
-          <Icon icon="crosshair" /> Combos: <i>{totalGroupPoints} points</i> ({
-            hitGroups
-          }/{totalGroups} combos)
+          <Icon icon="crosshair" /> Combos:{" "}
+          <i
+            className={
+              hitGroups == 0 ? "zero" : hitGroups < totalGroups ? "partial" : ""
+            }
+          >
+            {totalGroupPoints} points
+          </i>{" "}
+          ({hitGroups}/{totalGroups} combos)
           <ul>
             {Object.keys(results.groups).map(k => {
               const g = results.groups[k];
@@ -95,20 +120,34 @@ class ResultsScreen extends React.PureComponent<Props & DerivedProps> {
               return (
                 <li key={k}>
                   <Icon icon={g.hit >= g.total ? "check" : "x"} />
-                  {k}: <i>{groupPoints} points</i> ({g.hit}/{g.total})
+                  {k}:{" "}
+                  <i
+                    className={
+                      g.hit == 0 ? "zero" : g.hit < g.total ? "partial" : ""
+                    }
+                  >
+                    {groupPoints} points
+                  </i>{" "}
+                  ({g.hit}/{g.total})
                 </li>
               );
             })}
           </ul>
         </section>
-        <section>
-          <Icon icon="clock" /> Time penalty:{" "}
-          <i>-{results.timeScorePenalty.toLocaleString()} points</i>
-        </section>
+        {results.timeScorePenalty > 0 ? (
+          <section>
+            <Icon icon="clock" /> Time penalty:{" "}
+            <i className="red">
+              -{results.timeScorePenalty.toLocaleString()} points
+            </i>
+          </section>
+        ) : null}
         <hr />
         <section>
           <Icon icon="award" /> Total:{" "}
-          <i>{results.score.toLocaleString()} points</i>
+          <i className={results.score < 0.01 ? "zero" : ""}>
+            {results.score.toLocaleString()} points
+          </i>
         </section>
         <section>
           <Icon icon="dollar-sign" /> Cash reward:{" "}
@@ -117,9 +156,10 @@ class ResultsScreen extends React.PureComponent<Props & DerivedProps> {
         <ButtonsDiv>
           {results.dirty ? (
             <>
-              <Button icon="edit" onClick={this.onRetry}>
-                Modify program
+              <Button icon="refresh-cw" onClick={this.onRetry}>
+                Try again
               </Button>
+              <Filler />
               <Button icon="play" onClick={this.onRetryWithPlay}>
                 Play from beginning
               </Button>
@@ -127,9 +167,10 @@ class ResultsScreen extends React.PureComponent<Props & DerivedProps> {
             </>
           ) : (
             <>
-              <Button icon="edit" onClick={this.onRetry}>
-                Modify program
+              <Button icon="refresh-cw" onClick={this.onRetry}>
+                Try again
               </Button>
+              <Filler />
               <Button icon="check" onClick={this.onValidate}>
                 Validate course
               </Button>

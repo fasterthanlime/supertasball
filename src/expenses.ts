@@ -18,11 +18,6 @@ export interface Expense {
 const _ = (e: Expense) => e;
 
 export const expenses: Expense[] = [
-  {
-    label: "Play pinball",
-    cost: 3.5,
-    action: () => actions.playPinball({}),
-  },
   // -------- cpu upgrades
   {
     label: "Buy a 4Hz CPU",

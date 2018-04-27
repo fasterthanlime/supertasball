@@ -6,7 +6,7 @@ import Button from "./button";
 import Controls from "./controls";
 import Footer from "./footer";
 import Simulation from "./simulation";
-import Clicker from "./clicker";
+import Lobby from "./lobby";
 import MapPicker from "./map-picker";
 import Achievements from "./achievements";
 import styled from "./styles";
@@ -32,7 +32,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
     if (pickingMap) {
       return <MapPicker />;
     }
-    return <Clicker />;
+    return <Lobby />;
   }
 }
 

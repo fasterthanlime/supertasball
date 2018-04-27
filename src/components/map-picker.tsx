@@ -1,19 +1,36 @@
 import * as React from "react";
 import styled from "./styles";
 import { actionCreatorsList, Dispatchers, connect } from "./connect";
-import { SimulationState, RootState, Results } from "../types";
+import {
+  SimulationState,
+  RootState,
+  Results,
+  GameMode,
+  gameModeDefs,
+} from "../types";
 
 import Pinball from "./pinball";
 import IDE from "./ide";
 import Icon from "./icon";
 import Button from "./button";
-import { mapDefs, orderedMaps } from "../map-defs";
+import { mapDefs, orderedMaps, MapName } from "../map-defs";
 import { isCheating } from "../is-cheating";
 import Dropzone = require("react-dropzone");
+
+const previewWidth = "120px";
 
 const MapPickerDiv = styled.div`
   h3 {
     font-size: 28px;
+  }
+
+  .exit {
+    float: right;
+  }
+
+  select {
+    font-size: ${props => props.theme.fontSizes.larger};
+    padding: 0.4em;
   }
 
   .maps {
@@ -22,20 +39,20 @@ const MapPickerDiv = styled.div`
     flex-wrap: wrap;
   }
 
-  section {
+  section,
+  .dropzone {
     display: inline;
     border: 2px solid #ddd;
     border-radius: 8px;
     padding: 0.4em 1em;
-    font-size: 120%;
     margin: 0.4em;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
 
     .preview {
-      width: 40px;
+      width: ${previewWidth};
       margin-right: 10px;
 
       svg {
@@ -44,10 +61,15 @@ const MapPickerDiv = styled.div`
       }
     }
 
-    &:hover {
+    &:hover,
+    &.active {
       border-color: rgb(120, 240, 120);
       cursor: pointer;
     }
+  }
+
+  .dropzone {
+    border: 2px dashed #333;
   }
 
   ul {
@@ -66,14 +88,31 @@ const ButtonsDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+
+  margin-top: 20px;
 `;
 
-class MapPicker extends React.PureComponent<Props & DerivedProps> {
+class MapPicker extends React.PureComponent<Props & DerivedProps, State> {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      gameMode: "score",
+      mapName: orderedMaps[0],
+    };
+  }
+
   render() {
     return (
       <MapPickerDiv>
-        <h3>Pick a pinball machine</h3>
+        <Button className="exit" icon="x" onClick={this.onCancel} />
+        <h3>New game</h3>
+        <select value={this.state.gameMode} onChange={this.onModeChange}>
+          <option value="score">{gameModeDefs.score.name}</option>
+          <option value="time">{gameModeDefs.time.name}</option>
+          <option value="golf">{gameModeDefs.golf.name}</option>
+        </select>
+        <p>{gameModeDefs[this.state.gameMode].description}</p>
         <div className="maps">
           {orderedMaps.map(key => {
             if (key === "custom") {
@@ -84,9 +123,10 @@ class MapPicker extends React.PureComponent<Props & DerivedProps> {
             return (
               <section
                 key={key}
-                onClick={() => {
-                  this.props.startPlayingPinball({ mapName: key });
-                }}
+                data-mapname={key}
+                onClick={this.onMapChange}
+                onDoubleClick={this.onPlay}
+                className={`${this.state.mapName == key ? "active" : ""}`}
               >
                 <div
                   className="preview"
@@ -96,23 +136,56 @@ class MapPicker extends React.PureComponent<Props & DerivedProps> {
               </section>
             );
           })}
+          {this.renderDropZone()}
         </div>
-        {this.renderDropZone()}
         <ButtonsDiv>
-          <Button icon="x" onClick={this.onCancel}>
-            Exit arcade
+          <Button icon="play" onClick={this.onPlay} large>
+            Play now
           </Button>
         </ButtonsDiv>
       </MapPickerDiv>
     );
   }
 
+  onModeChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({ gameMode: ev.currentTarget.value as GameMode });
+  };
+
+  onMapChange = (ev: React.MouseEvent<HTMLDivElement>) => {
+    this.setState({ mapName: ev.currentTarget.dataset["mapname"] });
+  };
+
+  onPlay = () => {
+    const { gameMode, mapName } = this.state;
+    this.props.startPlayingPinball({ mapName, gameMode });
+  };
+
   renderDropZone(): JSX.Element {
     if (!isCheating()) {
       return null;
     }
 
-    return <Dropzone onDrop={this.onDrop}>Drop .svg files here!</Dropzone>;
+    return (
+      <Dropzone
+        className={`dropzone ${
+          this.state.mapName === "custom" ? "active" : ""
+        }`}
+        onDrop={this.onDrop}
+        style={{}}
+      >
+        {this.state.customMapSvg ? (
+          <>
+            <div
+              className="preview"
+              dangerouslySetInnerHTML={{ __html: this.state.customMapSvg }}
+            />
+            Custom map
+          </>
+        ) : (
+          <div className="preview">Drop an svg file here</div>
+        )}
+      </Dropzone>
+    );
   }
 
   onDrop = (acceptedFiles, rejectedFiles) => {
@@ -121,7 +194,7 @@ class MapPicker extends React.PureComponent<Props & DerivedProps> {
       reader.onload = () => {
         const text = reader.result;
         mapDefs.custom.svg = text;
-        this.props.startPlayingPinball({ mapName: "custom" });
+        this.setState({ mapName: "custom", customMapSvg: text });
       };
       reader.onabort = () => console.log("file reading was aborted");
       reader.onerror = () => console.log("file reading has failed");
@@ -133,6 +206,12 @@ class MapPicker extends React.PureComponent<Props & DerivedProps> {
   onCancel = () => {
     this.props.cancelPlayingPinball({});
   };
+}
+
+interface State {
+  gameMode: GameMode;
+  mapName: MapName;
+  customMapSvg?: string;
 }
 
 interface Props {}

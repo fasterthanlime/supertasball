@@ -6,7 +6,7 @@ import { unlocks } from "../unlocks";
 import { isCheating } from "../is-cheating";
 
 const initialState: ResourcesState = {
-  money: 5,
+  money: 1200,
   codeSize: 10,
   freq: 2,
   unlocked: {

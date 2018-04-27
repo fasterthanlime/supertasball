@@ -9,6 +9,7 @@ import {
   OpCodeType,
   Results,
   Track,
+  GameMode,
 } from "./types";
 import { MapName } from "./map-defs";
 import { UnlockName } from "./unlocks";
@@ -42,7 +43,7 @@ export const actions = wireActions({
 
   playPinball: action<{}>(),
   cancelPlayingPinball: action<{}>(),
-  startPlayingPinball: action<{ mapName: MapName }>(),
+  startPlayingPinball: action<{ mapName: MapName; gameMode: GameMode }>(),
   moneyDelta: action<{ delta: number }>(),
   doExpense: action<{ expense: Expense; clientX: number; clientY: number }>(),
   doActivity: action<{

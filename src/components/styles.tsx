@@ -44,12 +44,14 @@ export const colors = {
   error: baseColors.flushMahogany,
   warning: baseColors.mintJulep,
   success: baseColors.gossip,
+
+  paper: "#ffffb9",
 };
 
 export const fontSizes = {
   baseText: "16px",
   larger: "20px",
-  enormous: "32px",
+  enormous: "28px",
 };
 
 export const theme = {

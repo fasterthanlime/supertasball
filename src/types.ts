@@ -83,11 +83,30 @@ export interface Results {
   dirty: boolean;
 }
 
+export type GameMode = "score" | "time" | "gold";
+
 export interface SimulationParams {
   freq: number;
   codeSize: number;
   mapName: MapName;
+  gameMode: GameMode;
 }
+
+export const gameModeDefs = {
+  score: {
+    name: "High score",
+    description: "Make the game last as long as you can and get a high score.",
+  },
+  time: {
+    name: "Speedrun",
+    description: "Finish as soon as you can while still hitting all targets.",
+  },
+  golf: {
+    name: "Code golf",
+    description:
+      "Use the fewest instructions possible while still hitting all target",
+  },
+};
 
 export interface Activity {
   // e.g. "Play dice"

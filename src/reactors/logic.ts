@@ -58,12 +58,13 @@ export default function(w: Watcher) {
   });
 
   w.on(actions.startPlayingPinball, (store, action) => {
-    const { mapName } = action.payload;
+    const { mapName, gameMode } = action.payload;
     const resources = store.getState().resources;
     const params: SimulationParams = {
       codeSize: resources.codeSize,
       freq: resources.freq,
       mapName,
+      gameMode,
     };
     store.dispatch(actions.newSimulation({ params }));
   });
