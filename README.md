@@ -2,7 +2,12 @@
 
 [![Build Status](https://travis-ci.org/supertasball/supertasball.svg?branch=master)](https://travis-ci.org/supertasball/supertasball)
 [![Quality gate](https://sonarcloud.io/api/project_badges/measure?project=supertasball&metric=alert_status)](https://sonarcloud.io/dashboard?id=supertasball)
-![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Maintainability rating](https://sonarcloud.io/api/project_badges/measure?project=supertasball&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=supertasball)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=supertasball&metric=coverage)](https://sonarcloud.io/component_measures?id=supertasball&metric=coverage)
+[![Lines of code](https://sonarcloud.io/api/project_badges/measure?project=supertasball&metric=ncloc)](https://sonarcloud.io/dashboard?id=supertasball)
+[![Technical debt](https://sonarcloud.io/api/project_badges/measure?project=supertasball&metric=sqale_index)](https://sonarcloud.io/dashboard?id=supertasball)
 
 An open-source, tool-assisted pinball idle game.
 
