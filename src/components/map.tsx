@@ -19,7 +19,7 @@ const tinycolor = require("tinycolor2");
 import { parseSVG, makeAbsolute } from "svg-path-parser";
 import store from "../store";
 import { actions } from "../actions";
-import { mapDefs, MapName } from "../map-defs";
+import { MapDef } from "../map-defs";
 import { physx } from "../physics-constants";
 
 const gravityY = 150;
@@ -45,9 +45,7 @@ export interface Map {
   groups: Groups;
 }
 
-export function loadMap(mapName: MapName): Map {
-  const mapDef = mapDefs[mapName];
-
+export function loadMap(mapDef: MapDef): Map {
   const m: Map = {
     leftJoints: [],
     rightJoints: [],

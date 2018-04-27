@@ -9,8 +9,9 @@ node_js:
   - "9.11.1"
 
 script:
-  - npm i
-  - npm t
+  - npm install
+  - npm test
+  - npm run ts-check
   - sonar-scanner
 
 

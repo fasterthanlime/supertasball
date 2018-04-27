@@ -1,7 +1,26 @@
-// require("./flod/bundle.js");
-require("jsxm/xm.js");
-require("jsxm/xmeffects.js");
-declare var XMPlayer;
+if (typeof window !== "undefined") {
+  require("jsxm/xm.js");
+  require("jsxm/xmeffects.js");
+}
+
+interface XMPlayerInterface {
+  init();
+  stop();
+  load(data: ArrayBuffer);
+  play();
+}
+
+declare var XMPlayer: XMPlayerInterface;
+if (typeof XMPlayer === "undefined") {
+  // stub for tests
+  global["XMPlayer"] = {
+    init: () => {},
+    play: () => {},
+    stop: () => {},
+    load: data => {},
+  };
+}
+
 XMPlayer.init();
 
 import { sample } from "underscore";

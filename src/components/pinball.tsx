@@ -61,7 +61,7 @@ class Game extends React.PureComponent<Props & DerivedProps> {
   map: Map;
 
   createWorld() {
-    this.map = loadMap(this.props.mapName);
+    this.map = loadMap(mapDefs[this.props.mapName]);
 
     this.bindings = [];
     this.container.removeChildren();

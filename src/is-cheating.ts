@@ -1,3 +1,6 @@
 export function isCheating(): boolean {
-  return document.location.search.startsWith("?cheat");
+  if (typeof document !== "undefined") {
+    return document.location.search.startsWith("?cheat");
+  }
+  return false;
 }

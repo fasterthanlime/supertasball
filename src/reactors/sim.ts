@@ -25,7 +25,7 @@ export default function(w: Watcher) {
   });
 }
 
-function cpuStep(store: Store, oldState: SimulationState) {
+export function cpuStep(store: Store, oldState: SimulationState) {
   let state = { ...oldState };
 
   const { code } = state;

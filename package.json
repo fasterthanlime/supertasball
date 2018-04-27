@@ -4,10 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc --noEmit",
+    "test": "mocha -r ts-node/register ./src/**/*.spec.ts",
+    "ts-check": "tsc --noEmit",
     "start": "node fuse",
     "deploy": "ansible-playbook ./playbook/playbook.yml",
-    "set-version": "node dump-version.js > src/version.ts"
+    "set-version": "node dump-version.js > src/version.ts",
+    "precommit": "lint-staged && npm test"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "prettier --trailing-comma all --write",
+      "git add"
+    ]
   },
   "author": "",
   "license": "MIT",
@@ -32,16 +40,27 @@
     "underscore": "^1.9.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.3",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/classnames": "^2.2.3",
+    "@types/mocha": "^5.2.0",
     "@types/node": "^9.6.6",
     "@types/pixi.js": "^4.7.3",
     "@types/react": "^16.3.12",
     "@types/react-redux": "^5.0.16",
     "@types/redux": "^3.6.0",
     "@types/underscore": "^1.8.8",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "cross-env": "^5.1.4",
     "fuse-box": "^3.2.2",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.5",
+    "mocha": "^5.1.1",
+    "prettier": "^1.12.1",
+    "ts-node": "^6.0.1",
     "typescript": "^2.8.3",
-    "uglify-es": "^3.3.9"
+    "uglify-es": "^3.3.9",
+    "xmldom-qsa": "^1.0.3"
   }
 }
