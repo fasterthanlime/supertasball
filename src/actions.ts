@@ -62,6 +62,7 @@ export const actions = wireActions({
   reset: action<{ play?: boolean }>(),
   stepForward: action<{}>(),
   execute: action<{ op: OpCode }>(),
+  flipper: action<{ side: string; pressed: boolean }>(),
   commitSimulationState: action<{ state: SimulationState }>(),
   exitSimulation: action<{}>(),
 
