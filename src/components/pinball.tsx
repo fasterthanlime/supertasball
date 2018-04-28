@@ -42,6 +42,14 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       this.createWorld();
     });
 
+    w.on(actions.flipper, (state, action) => {
+      if (action.payload.side == "left") {
+        this.manualLeft = action.payload.pressed;
+      } else if (action.payload.side == "right") {
+        this.manualRight = action.payload.pressed;
+      }
+    });
+
     w.on(actions.execute, (store, action) => {
       const { op } = action.payload;
 
@@ -80,6 +88,8 @@ class Game extends React.PureComponent<Props & DerivedProps> {
 
   left = false;
   right = false;
+  manualLeft = false;
+  manualRight = false;
 
   step = () => {
     if (!this.running) {
@@ -92,10 +102,10 @@ class Game extends React.PureComponent<Props & DerivedProps> {
       this.map.ticks++;
 
       for (const j of this.map.rightJoints) {
-        physx.setRightEnabled(j, this.right);
+        physx.setRightEnabled(j, this.right || this.manualRight);
       }
       for (const j of this.map.leftJoints) {
-        physx.setLeftEnabled(j, this.left);
+        physx.setLeftEnabled(j, this.left || this.manualLeft);
       }
     }
 

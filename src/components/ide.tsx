@@ -2,6 +2,7 @@ import React = require("react");
 import { connect, Dispatchers, actionCreatorsList } from "./connect";
 import { RootState, OpCode, CellSelection, OpCodeTypes } from "../types";
 import styled from "./styles";
+import { isCheating } from "../is-cheating";
 
 import { ContextMenu, MenuItem } from "react-contextmenu";
 
@@ -56,6 +57,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
     return (
       <IDEDiv
         tabIndex={0}
+        onKeyUp={this.onKeyUp}
         onKeyDown={this.onKeyDown}
         innerRef={this.onDiv}
         onContextMenu={this.onContextMenu}
@@ -147,6 +149,27 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
     }
   };
 
+  onKeyUp = (ev: React.KeyboardEvent<HTMLElement>) => {
+    let preventDefault = true;
+
+    if (ev.key == ",") {
+      if (isCheating()) {
+        this.props.flipper({ side: "left", pressed: false });
+      }
+    } else if (ev.key == ".") {
+      if (isCheating()) {
+        this.props.flipper({ side: "right", pressed: false });
+      }
+    } else {
+      preventDefault = false;
+      console.log(`key = ${ev.key}`);
+    }
+
+    if (preventDefault) {
+      ev.preventDefault();
+    }
+  };
+
   onKeyDown = (ev: React.KeyboardEvent<HTMLElement>) => {
     if (this.props.showHelp) {
       return;
@@ -204,6 +227,14 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       this.props.cellSetType({ type: "motor" });
     } else if (ev.key == "F") {
       this.props.cellSetType({ type: "freq" });
+    } else if (ev.key == ",") {
+      if (isCheating()) {
+        this.props.flipper({ side: "left", pressed: true });
+      }
+    } else if (ev.key == ".") {
+      if (isCheating()) {
+        this.props.flipper({ side: "right", pressed: true });
+      }
     } else {
       preventDefault = false;
       console.log(`key = ${ev.key}`);
@@ -233,6 +264,7 @@ const actionCreators = actionCreatorsList(
   "stepForward",
   "reset",
   "hideHelp",
+  "flipper",
 );
 
 type DerivedProps = {
