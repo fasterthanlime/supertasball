@@ -1,7 +1,14 @@
 import reducer from "./reducer";
-import { SimulationState, OpCode, SimulationParams, CPUState } from "../types";
+import {
+  SimulationState,
+  OpCode,
+  SimulationParams,
+  MachineState,
+} from "../types";
 import { actions } from "../actions";
 import store from "../store";
+import { loadMap } from "../course";
+import { mapDefs } from "../map-defs";
 
 function freshSimulationState(
   params: SimulationParams,
@@ -16,11 +23,15 @@ function freshSimulationState(
     }
   }
 
-  const cpuState: CPUState = {
+  const machineState: MachineState = {
     pc: 0,
     ticks: 0,
     lastUpdateTicks: 0,
     freq: params.freq,
+
+    course: loadMap(mapDefs[params.mapName]),
+    flipperL: false,
+    flipperR: false,
   };
 
   return {
@@ -31,7 +42,7 @@ function freshSimulationState(
     results: null,
     undoStack: oldState ? oldState.undoStack : [],
     dirty: false,
-    cpuState,
+    machineState,
   };
 }
 
@@ -55,10 +66,10 @@ export default reducer<SimulationState>(null, on => {
     };
   });
 
-  on(actions.commitCPUState, (state, action) => {
+  on(actions.commitMachineState, (state, action) => {
     return {
       ...state,
-      cpuState: action.payload.state,
+      machineState: action.payload.state,
     };
   });
 
@@ -128,6 +139,27 @@ export default reducer<SimulationState>(null, on => {
       ...state,
       code,
       undoStack,
+    };
+  });
+
+  on(actions.flipper, (state, action) => {
+    const { side, pressed } = action.payload;
+    let machineState = state.machineState;
+    if (side === "left") {
+      machineState = {
+        ...machineState,
+        flipperL: pressed,
+      };
+    } else if (side === "right") {
+      machineState = {
+        ...machineState,
+        flipperR: pressed,
+      };
+    }
+
+    return {
+      ...state,
+      machineState,
     };
   });
 });

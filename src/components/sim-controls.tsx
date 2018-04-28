@@ -142,9 +142,9 @@ export default connect<Props>(SimControls, {
     gameMode: rs.simulation.params.gameMode,
     mapName: rs.simulation.params.mapName,
     paused: rs.simulation.paused,
-    pc: rs.simulation.cpuState.pc,
-    freq: rs.simulation.cpuState.freq,
-    ticks: rs.simulation.cpuState.ticks,
+    pc: rs.simulation.machineState.pc,
+    freq: rs.simulation.machineState.freq,
+    ticks: rs.simulation.machineState.ticks,
     showCode: rs.ui.showCode,
   }),
 });

@@ -17,11 +17,11 @@ import {
 } from "planck-js";
 const tinycolor = require("tinycolor2");
 import { parseSVG, makeAbsolute } from "svg-path-parser";
-import store from "../store";
-import { actions } from "../actions";
-import { MapDef } from "../map-defs";
-import { physx } from "../physics-constants";
-import { computeResults } from "../score-utils";
+import store from "./store";
+import { actions } from "./actions";
+import { MapDef } from "./map-defs";
+import { physx } from "./physics-constants";
+import { computeResults } from "./score-utils";
 
 const gravityY = 150;
 const bigAngle = 20;
@@ -38,7 +38,7 @@ export interface Groups {
   [key: string]: Group;
 }
 
-export interface Map {
+export interface Course {
   leftJoints: Joint[];
   rightJoints: Joint[];
   world: World;
@@ -46,8 +46,8 @@ export interface Map {
   groups: Groups;
 }
 
-export function loadMap(mapDef: MapDef): Map {
-  const m: Map = {
+export function loadMap(mapDef: MapDef): Course {
+  const m: Course = {
     leftJoints: [],
     rightJoints: [],
     world: new World(Vec2(0, gravityY)),

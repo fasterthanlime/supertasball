@@ -1,11 +1,11 @@
 import { describe, it, assert, FakeStore } from "../test";
 import { readFileSync } from "fs";
-import { cpuStep } from "./sim";
+import { machineStep } from "./sim";
 import {
   SimulationState,
   Action,
   SimulationParams,
-  CPUState,
+  MachineState,
   Code,
 } from "../types";
 
@@ -16,33 +16,34 @@ const params: SimulationParams = {
   mapName: "custom",
 };
 
+const defaultMachineState: MachineState = {
+  pc: 0,
+  freq: 1,
+  ticks: 0,
+  lastUpdateTicks: 0,
+  flipperL: false,
+  flipperR: false,
+  course: null,
+};
+
 describe("sim", () => {
   describe("nop", () => {
     it("interprets NOP", () => {
       const code: Code = [{ type: "nop" }, { type: "nop" }];
-      const cpuState: CPUState = {
-        pc: 0,
-        freq: 1,
-        lastUpdateTicks: 0,
-        ticks: 0,
+      const machineState: MachineState = {
+        ...defaultMachineState,
       };
-      const fakeStore = new FakeStore();
-      const newState = cpuStep(fakeStore, code, params, cpuState);
-      assert.deepEqual(fakeStore.dispatched, ["execute"]);
+      const newState = machineStep(code, params, machineState);
       assert.equal(newState.pc, 1);
     });
 
     it("wraps around", () => {
       const code: Code = [{ type: "nop" }, { type: "nop" }];
-      const cpuState: CPUState = {
+      const machineState: MachineState = {
+        ...defaultMachineState,
         pc: 1,
-        freq: 1,
-        lastUpdateTicks: 0,
-        ticks: 0,
       };
-      const fakeStore = new FakeStore();
-      const newState = cpuStep(fakeStore, code, params, cpuState);
-      assert.deepEqual(fakeStore.dispatched, ["execute"]);
+      const newState = machineStep(code, params, machineState);
       assert.equal(newState.pc, 0);
     });
   });
@@ -54,15 +55,11 @@ describe("sim", () => {
         { type: "nop" },
         { type: "nop", label: "wee" },
       ];
-      const cpuState: CPUState = {
-        pc: 0,
-        freq: 1,
-        lastUpdateTicks: 0,
-        ticks: 0,
+      const machineState: MachineState = {
+        ...defaultMachineState,
       };
       const fakeStore = new FakeStore();
-      const newState = cpuStep(fakeStore, code, params, cpuState);
-      assert.deepEqual(fakeStore.dispatched, ["execute"]);
+      const newState = machineStep(code, params, machineState);
       assert.equal(newState.pc, 2);
     });
 
@@ -72,15 +69,11 @@ describe("sim", () => {
         { type: "nop" },
         { type: "nop", label: "wee" },
       ];
-      const cpuState: CPUState = {
-        pc: 0,
-        freq: 1,
-        lastUpdateTicks: 0,
-        ticks: 0,
+      const machineState: MachineState = {
+        ...defaultMachineState,
       };
       const fakeStore = new FakeStore();
-      const newState = cpuStep(fakeStore, code, params, cpuState);
-      assert.deepEqual(fakeStore.dispatched, ["execute"]);
+      const newState = machineStep(code, params, machineState);
       assert.equal(newState.pc, 1);
     });
   });
@@ -92,29 +85,21 @@ describe("sim", () => {
         ...params,
         freq: 4,
       };
-      const cpuState: CPUState = {
-        pc: 0,
-        freq: 1,
-        lastUpdateTicks: 0,
-        ticks: 0,
+      const machineState: MachineState = {
+        ...defaultMachineState,
       };
       const fakeStore = new FakeStore();
-      const newState = cpuStep(fakeStore, code, params, cpuState);
-      assert.deepEqual(fakeStore.dispatched, ["execute"]);
+      const newState = machineStep(code, params, machineState);
       assert.equal(newState.freq, 4);
     });
 
     it("ignores too-low frequency", () => {
-      const cpuState: CPUState = {
-        pc: 0,
-        freq: 1,
-        lastUpdateTicks: 0,
-        ticks: 0,
+      const machineState: MachineState = {
+        ...defaultMachineState,
       };
       const code: Code = [{ type: "freq", numberValue: -1 }, { type: "nop" }];
       const fakeStore = new FakeStore();
-      const newState = cpuStep(fakeStore, code, params, cpuState);
-      assert.deepEqual(fakeStore.dispatched, ["execute"]);
+      const newState = machineStep(code, params, machineState);
       assert.equal(newState.freq, 1);
     });
   });

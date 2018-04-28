@@ -68,21 +68,24 @@ export interface SimulationState {
   code: Code;
   dirty: boolean;
 
-  cpuState: CPUState;
+  machineState: MachineState;
 
   undoStack: OpCode[][];
 }
 
-export interface CPUState {
+export interface MachineState {
   freq: number;
   pc: number;
   ticks: number;
   lastUpdateTicks: number;
-}
 
-export interface SaveState {
-  cpuState: CPUState;
-  worldSnapshot: World;
+  course: Course;
+
+  // whether "left" flippers are active
+  flipperL: boolean;
+
+  // whether "right" flippers are active
+  flipperR: boolean;
 }
 
 export interface Results {
@@ -139,9 +142,9 @@ export interface Activity {
 
 import { expenses } from "./expenses";
 import { MapName } from "./map-defs";
-import { Groups } from "./components/map";
 import { UnlockName } from "./unlocks";
 import { World } from "planck-js";
+import { Groups, Course } from "./course";
 
 interface Choice {
   label: string;

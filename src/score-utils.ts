@@ -1,5 +1,5 @@
 import { Results, SimulationState } from "./types";
-import { Map } from "./components/map";
+import { Course } from "./course";
 import store from "./store";
 import simulation from "./reducers/simulation";
 
@@ -12,11 +12,11 @@ export function getCashReward(results: Results): number {
 }
 
 export function computeResults(
-  map: Map,
+  map: Course,
   simulationState: SimulationState,
 ): Results {
   let score = 0;
-  let time = map.ticks * 1 / 60;
+  let time = simulationState.machineState.ticks * 1 / 60;
 
   let timeScorePenalty = 0;
   if (simulationState.params.gameMode == "time") {
