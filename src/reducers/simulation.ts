@@ -1,5 +1,5 @@
 import reducer from "./reducer";
-import { SimulationState, OpCode, SimulationParams } from "../types";
+import { SimulationState, OpCode, SimulationParams, CPUState } from "../types";
 import { actions } from "../actions";
 import store from "../store";
 
@@ -16,18 +16,22 @@ function freshSimulationState(
     }
   }
 
+  const cpuState: CPUState = {
+    pc: 0,
+    ticks: 0,
+    lastUpdateTicks: 0,
+    freq: params.freq,
+  };
+
   return {
     params: params,
     paused: true,
-    ticks: 0,
-    lastUpdateTicks: 0,
-    pc: 0,
     stepping: false,
     code,
-    freq: params.freq,
     results: null,
     undoStack: oldState ? oldState.undoStack : [],
     dirty: false,
+    cpuState,
   };
 }
 
@@ -44,8 +48,18 @@ export default reducer<SimulationState>(null, on => {
     };
   });
 
-  on(actions.commitSimulationState, (state, action) => {
-    return action.payload.state;
+  on(actions.setStepping, (state, action) => {
+    return {
+      ...state,
+      stepping: action.payload.stepping,
+    };
+  });
+
+  on(actions.commitCPUState, (state, action) => {
+    return {
+      ...state,
+      cpuState: action.payload.state,
+    };
   });
 
   on(actions.exitSimulation, (state, action) => {

@@ -10,6 +10,7 @@ import {
   Results,
   Track,
   GameMode,
+  CPUState,
 } from "./types";
 import { MapName } from "./map-defs";
 import { UnlockName } from "./unlocks";
@@ -58,12 +59,13 @@ export const actions = wireActions({
   validateStage: action<{ results: Results }>(),
 
   setPaused: action<{ paused: boolean }>(),
+  setStepping: action<{ stepping: boolean }>(),
   tick: action<{}>(),
   reset: action<{ play?: boolean }>(),
   stepForward: action<{}>(),
   execute: action<{ op: OpCode }>(),
   flipper: action<{ side: string; pressed: boolean }>(),
-  commitSimulationState: action<{ state: SimulationState }>(),
+  commitCPUState: action<{ state: CPUState }>(),
   exitSimulation: action<{}>(),
 
   showAchievements: action<{}>(),

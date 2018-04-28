@@ -12,13 +12,27 @@
     "precommit": "lint-staged && npm test"
   },
   "nyc": {
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
-    "extension": [".ts", ".tsx"],
-    "require": ["ts-node/register"],
-    "reporter": ["text-summary", "lcov"]
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "lcov"
+    ]
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": ["prettier --trailing-comma all --write", "git add"]
+    "src/**/*.{ts,tsx}": [
+      "prettier --trailing-comma all --write",
+      "git add"
+    ]
   },
   "author": "",
   "license": "MIT",

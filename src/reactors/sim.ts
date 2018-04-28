@@ -1,11 +1,13 @@
 import { actions } from "../actions";
 import { Watcher } from "../watcher";
-import { SimulationState } from "../types";
+import { SimulationState, CPUState, Code, SimulationParams } from "../types";
 import { Store } from "../store";
 
 export default function(w: Watcher) {
   w.on(actions.tick, (store, action) => {
-    const oldState = store.getState().simulation;
+    const { cpuState, code, params, stepping } = store.getState().simulation;
+
+    const oldState = cpuState;
     let state = {
       ...oldState,
       ticks: oldState.ticks + 1,
@@ -14,21 +16,25 @@ export default function(w: Watcher) {
     let freqTicks = 60 / state.freq;
     let ticksDelta = state.ticks - state.lastUpdateTicks;
     if (ticksDelta > freqTicks) {
-      state = cpuStep(store, state);
-      if (state.stepping) {
-        state.stepping = false;
-        state.paused = true;
+      state = cpuStep(store, code, params, state);
+      if (stepping) {
+        store.dispatch(actions.setPaused({ paused: true }));
+        store.dispatch(actions.setStepping({ stepping: false }));
       }
     }
 
-    store.dispatch(actions.commitSimulationState({ state: state }));
+    store.dispatch(actions.commitCPUState({ state }));
   });
 }
 
-export function cpuStep(store: Store, oldState: SimulationState) {
+export function cpuStep(
+  store: Store,
+  code: Code,
+  params: SimulationParams,
+  oldState: CPUState,
+): CPUState {
   let state = { ...oldState };
 
-  const { code } = state;
   const op = code[state.pc];
   let nextPc = state.pc + 1;
 
@@ -43,7 +49,7 @@ export function cpuStep(store: Store, oldState: SimulationState) {
       break;
     }
     case "freq": {
-      if (op.numberValue > 0 && op.numberValue <= state.params.freq) {
+      if (op.numberValue > 0 && op.numberValue <= params.freq) {
         state.freq = op.numberValue;
       }
       break;

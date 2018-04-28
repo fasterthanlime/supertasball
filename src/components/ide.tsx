@@ -280,7 +280,7 @@ type DerivedProps = {
 export default connect<Props>(IDE, {
   actionCreators,
   state: (rs: RootState) => ({
-    pc: rs.simulation.pc,
+    pc: rs.simulation.cpuState.pc,
     code: rs.simulation.code,
     paused: rs.simulation.paused,
     showCode: rs.ui.showCode,

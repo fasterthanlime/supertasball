@@ -56,22 +56,33 @@ export interface Floaty {
   text: string;
 }
 
+export type Code = OpCode[];
+
 export interface SimulationState {
   params: SimulationParams;
 
   paused: boolean;
   stepping: boolean;
-  ticks: number;
-  lastUpdateTicks: number;
   results: Results | null;
 
-  freq: number;
-  code: OpCode[];
-  pc: number;
-
+  code: Code;
   dirty: boolean;
 
+  cpuState: CPUState;
+
   undoStack: OpCode[][];
+}
+
+export interface CPUState {
+  freq: number;
+  pc: number;
+  ticks: number;
+  lastUpdateTicks: number;
+}
+
+export interface SaveState {
+  cpuState: CPUState;
+  worldSnapshot: World;
 }
 
 export interface Results {
@@ -130,6 +141,7 @@ import { expenses } from "./expenses";
 import { MapName } from "./map-defs";
 import { Groups } from "./components/map";
 import { UnlockName } from "./unlocks";
+import { World } from "planck-js";
 
 interface Choice {
   label: string;
