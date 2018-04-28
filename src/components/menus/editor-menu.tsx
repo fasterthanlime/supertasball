@@ -32,7 +32,7 @@ class EditorMenu extends React.Component<Props & DerivedProps> {
             this.props.exitSimulation({});
           }}
         >
-          <Icon icon="x" /> Exit pinball
+          <Icon icon="power" /> Exit pinball
         </MenuItem>
       </>
     );

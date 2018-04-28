@@ -1,4 +1,4 @@
-declare module "planck-js" {
+declare module "clonable-planck-js" {
   // custom addition
   interface Tags {
     type: string;

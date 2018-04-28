@@ -1,4 +1,4 @@
-import { Body } from "planck-js";
+import { Body } from "clonable-planck-js";
 
 export function drawBody(body: Body, gfx: PIXI.Graphics) {
   let lineWidth = 1;

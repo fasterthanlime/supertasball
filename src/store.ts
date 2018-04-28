@@ -22,4 +22,8 @@ store.dispatch = function(action: Action<any>) {
 };
 store.watcher = watcher;
 
+if (typeof window !== undefined) {
+  (window as any).ReduxStore = store;
+}
+
 export default store;

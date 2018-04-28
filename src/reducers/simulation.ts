@@ -9,6 +9,7 @@ import { actions } from "../actions";
 import store from "../store";
 import { loadMap } from "../course";
 import { mapDefs } from "../map-defs";
+const clone = require("clone");
 
 function freshSimulationState(
   params: SimulationParams,
@@ -40,9 +41,13 @@ function freshSimulationState(
     stepping: false,
     code,
     results: null,
-    undoStack: oldState ? oldState.undoStack : [],
     dirty: false,
     machineState,
+
+    // N.B: having to check for these is probably a sign
+    // they don't belong at that level of the state in the first place.
+    savedMachinedState: oldState ? oldState.savedMachinedState : null,
+    undoStack: oldState ? oldState.undoStack : [],
   };
 }
 
@@ -160,6 +165,24 @@ export default reducer<SimulationState>(null, on => {
     return {
       ...state,
       machineState,
+    };
+  });
+
+  on(actions.loadState, (state, action) => {
+    if (state.savedMachinedState) {
+      return {
+        ...state,
+        machineState: clone(state.savedMachinedState),
+      };
+    }
+
+    return state;
+  });
+
+  on(actions.saveState, (state, action) => {
+    return {
+      ...state,
+      savedMachinedState: clone(state.machineState),
     };
   });
 });

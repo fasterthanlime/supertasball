@@ -69,6 +69,7 @@ export interface SimulationState {
   dirty: boolean;
 
   machineState: MachineState;
+  savedMachinedState: MachineState | null;
 
   undoStack: OpCode[][];
 }
@@ -143,7 +144,7 @@ export interface Activity {
 import { expenses } from "./expenses";
 import { MapName } from "./map-defs";
 import { UnlockName } from "./unlocks";
-import { World } from "planck-js";
+import { World } from "clonable-planck-js";
 import { Groups, Course } from "./course";
 
 interface Choice {

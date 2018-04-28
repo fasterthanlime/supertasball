@@ -209,6 +209,10 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
       if (ev.ctrlKey) {
         this.props.undo({});
       }
+    } else if (ev.key == "F7") {
+      this.props.saveState({});
+    } else if (ev.key == "F8") {
+      this.props.loadState({});
     } else if (ev.key == "Home") {
       this.props.reset({});
     } else if (ev.key == "Insert") {
@@ -265,6 +269,8 @@ const actionCreators = actionCreatorsList(
   "reset",
   "hideHelp",
   "flipper",
+  "saveState",
+  "loadState",
 );
 
 type DerivedProps = {

@@ -14,7 +14,7 @@ import {
   BodyType,
   Tags,
   BodyDef,
-} from "planck-js";
+} from "clonable-planck-js";
 const tinycolor = require("tinycolor2");
 import { parseSVG, makeAbsolute } from "svg-path-parser";
 import store from "./store";

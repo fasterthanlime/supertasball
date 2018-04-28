@@ -67,6 +67,9 @@ export const actions = wireActions({
   commitMachineState: action<{ state: MachineState }>(),
   exitSimulation: action<{}>(),
 
+  saveState: action<{}>(),
+  loadState: action<{}>(),
+
   showAchievements: action<{}>(),
   hideAchievements: action<{}>(),
 

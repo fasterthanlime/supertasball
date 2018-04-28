@@ -38,10 +38,11 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
+    "clonable-planck-js": "^0.1.44",
+    "clone": "^2.1.1",
     "jsxm": "^1.0.0",
     "pixi-pause": "^1.0.3",
     "pixi.js": "^4.7.3",
-    "planck-js": "^0.1.44",
     "polished": "^1.9.2",
     "react": "^16.3.2",
     "react-contextmenu": "^2.9.2",

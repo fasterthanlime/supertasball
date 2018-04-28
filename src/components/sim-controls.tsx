@@ -41,6 +41,25 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
           <Button icon="refresh-cw" onClick={this.onReset} />
           <Button icon="chevron-right" onClick={this.onStepForward} />
           {this.renderPlayPause()}
+          &nbsp; &nbsp; &nbsp; &nbsp;
+          <Label>
+            <Icon icon="save" />{" "}
+            <code>
+              {this.props.saveStateTicks === null
+                ? "No save"
+                : this.formatTicks(this.props.saveStateTicks)}
+            </code>
+          </Label>
+          <Button
+            icon="book"
+            data-rh="Save state (F7)"
+            onClick={this.onSaveState}
+          />
+          <Button
+            icon="book-open"
+            data-rh="Load state (F8)"
+            onClick={this.onLoadState}
+          />
           <Filler />
           <ContextMenuTrigger id="editor-menu" holdToDisplay={0}>
             <Button icon="menu">Menu</Button>
@@ -100,6 +119,13 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
     this.props.stepForward({});
   };
 
+  onSaveState = () => {
+    this.props.saveState({});
+  };
+  onLoadState = () => {
+    this.props.loadState({});
+  };
+
   renderPlayPause(): JSX.Element {
     if (this.props.paused) {
       return <Button icon="play" onClick={this.onPlay} />;
@@ -124,6 +150,8 @@ const actionCreators = actionCreatorsList(
   "reset",
   "stepForward",
   "setShowCode",
+  "saveState",
+  "loadState",
 );
 
 type DerivedProps = {
@@ -134,6 +162,7 @@ type DerivedProps = {
   showCode: boolean;
   gameMode: GameMode;
   mapName: MapName;
+  saveStateTicks: number;
 } & Dispatchers<typeof actionCreators>;
 
 export default connect<Props>(SimControls, {
@@ -146,5 +175,8 @@ export default connect<Props>(SimControls, {
     freq: rs.simulation.machineState.freq,
     ticks: rs.simulation.machineState.ticks,
     showCode: rs.ui.showCode,
+    saveStateTicks: rs.simulation.savedMachinedState
+      ? rs.simulation.savedMachinedState.ticks
+      : null,
   }),
 });

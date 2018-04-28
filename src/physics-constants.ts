@@ -1,4 +1,4 @@
-import { Joint, World } from "planck-js";
+import { Joint, World } from "clonable-planck-js";
 
 export const physx = {
   activeSpeed: 40,
