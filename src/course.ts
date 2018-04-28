@@ -46,8 +46,8 @@ export interface Course {
   groups: Groups;
 }
 
-export function loadMap(mapDef: MapDef): Course {
-  const m: Course = {
+export function loadCourse(mapDef: MapDef): Course {
+  const course: Course = {
     leftJoints: [],
     rightJoints: [],
     world: new World(Vec2(0, gravityY)),
@@ -55,7 +55,7 @@ export function loadMap(mapDef: MapDef): Course {
     groups: {},
   };
 
-  const fixed = m.world.createBody();
+  const fixed = course.world.createBody();
   fixed.createFixture({
     shape: Box(0, 0),
     density: 0.0,
@@ -139,7 +139,7 @@ export function loadMap(mapDef: MapDef): Course {
 
         offsetX = -pos.x;
         offsetY = -pos.y;
-        body = m.world.createBody({
+        body = course.world.createBody({
           position: pos,
           type: "dynamic",
           bullet: true,
@@ -155,11 +155,11 @@ export function loadMap(mapDef: MapDef): Course {
         if (tags.side === "left") {
           jd.lowerAngle = toRadians(-bigAngle);
           jd.upperAngle = toRadians(lowAngle);
-          jointList = m.leftJoints;
+          jointList = course.leftJoints;
         } else if (tags.side === "right") {
           jd.lowerAngle = toRadians(-lowAngle);
           jd.upperAngle = toRadians(bigAngle);
-          jointList = m.rightJoints;
+          jointList = course.rightJoints;
         } else {
           throw new Error(
             `${
@@ -170,7 +170,7 @@ export function loadMap(mapDef: MapDef): Course {
           );
         }
       } else {
-        body = m.world.createBody();
+        body = course.world.createBody();
       }
       body.tags = tags;
       parseStyle(path, body);
@@ -190,7 +190,7 @@ export function loadMap(mapDef: MapDef): Course {
 
       if (jd) {
         const joint = RevoluteJoint(jd, fixed, body, pos);
-        m.world.createJoint(joint);
+        course.world.createJoint(joint);
         jointList.push(joint);
       }
     }
@@ -230,7 +230,7 @@ export function loadMap(mapDef: MapDef): Course {
           console.error("collectible without group: ", ellipse);
           throw new Error("collectible without group");
         }
-        let g: Group = m.groups[tags.group];
+        let g: Group = course.groups[tags.group];
         if (!g) {
           g = {
             hit: 0,
@@ -238,7 +238,7 @@ export function loadMap(mapDef: MapDef): Course {
             singlePoints: 10,
             comboPoints: 50,
           };
-          m.groups[tags.group] = g;
+          course.groups[tags.group] = g;
         }
 
         if (tags.singlePoints) {
@@ -253,7 +253,7 @@ export function loadMap(mapDef: MapDef): Course {
         def.filterGroupIndex = -1;
       }
 
-      const body = m.world.createBody({
+      const body = course.world.createBody({
         position,
         type,
         bullet,
@@ -271,10 +271,10 @@ export function loadMap(mapDef: MapDef): Course {
   }
 
   // stabilize flippers
-  for (const j of m.rightJoints) {
+  for (const j of course.rightJoints) {
     physx.setRightEnabled(j, false);
   }
-  for (const j of m.leftJoints) {
+  for (const j of course.leftJoints) {
     physx.setLeftEnabled(j, false);
   }
 
@@ -284,15 +284,22 @@ export function loadMap(mapDef: MapDef): Course {
     }
 
     for (let j = 0; j < 60; j++) {
-      physx.step(m.world);
+      physx.step(course.world);
     }
 
     for (let ball of balls) {
       ball.setDynamic();
     }
   }
+  hookCourse(course);
+  return course;
+}
 
-  m.world.on("begin-contact", contact => {
+export function hookCourse(course: Course) {
+  // ooh hacky hack.
+  (course.world as any)._listeners = {};
+
+  course.world.on("begin-contact", contact => {
     let bodyA = contact.getFixtureA().getBody();
     let bodyB = contact.getFixtureB().getBody();
 
@@ -308,7 +315,7 @@ export function loadMap(mapDef: MapDef): Course {
           bodyB.fillColor = bodyB.strokeColor;
           bodyB.dirty = true;
 
-          const g = m.groups[bodyB.tags.group];
+          const g = course.groups[bodyB.tags.group];
           if (g) {
             g.hit++;
           }
@@ -316,14 +323,12 @@ export function loadMap(mapDef: MapDef): Course {
         break;
       }
       case "goal": {
-        const results = computeResults(m, store.getState().simulation);
+        const results = computeResults(course, store.getState().simulation);
         store.dispatch(actions.reachedGoal({ results }));
         break;
       }
     }
   });
-
-  return m;
 }
 
 export function toRadians(degrees: number): number {

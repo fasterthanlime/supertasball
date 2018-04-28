@@ -7,7 +7,7 @@ import {
 } from "../types";
 import { actions } from "../actions";
 import store from "../store";
-import { loadMap } from "../course";
+import { loadCourse, hookCourse } from "../course";
 import { mapDefs } from "../map-defs";
 const clone = require("clone");
 
@@ -30,7 +30,7 @@ function freshSimulationState(
     lastUpdateTicks: 0,
     freq: params.freq,
 
-    course: loadMap(mapDefs[params.mapName]),
+    course: loadCourse(mapDefs[params.mapName]),
     flipperL: false,
     flipperR: false,
   };
@@ -170,9 +170,11 @@ export default reducer<SimulationState>(null, on => {
 
   on(actions.loadState, (state, action) => {
     if (state.savedMachinedState) {
+      let machineState = clone(state.savedMachinedState);
+      hookCourse(machineState.course);
       return {
         ...state,
-        machineState: clone(state.savedMachinedState),
+        machineState,
       };
     }
 
