@@ -81,7 +81,7 @@
 
 /* surprise! there's scrollbar styles too! */
 .ops::-webkit-scrollbar {
-  width: 20px;
+  width: 14px;
 }
 
 .ops::-webkit-scrollbar-track {

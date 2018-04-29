@@ -10,7 +10,7 @@ import FloatiesContainer from "./floaties-container";
 import styled from "./styles";
 
 const AppDiv = styled.div`
-  max-width: 1200px;
+  max-width: 1400px;
   min-height: 600px;
 
   margin: 0 auto;

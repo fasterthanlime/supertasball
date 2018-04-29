@@ -45,36 +45,6 @@ class CellTypeMenu extends React.Component<Props & DerivedProps> {
             </MenuItem>
           );
         })}
-        <MenuItem divider />
-        <MenuItem
-          onClick={() => {
-            const label = window.prompt("Label name", op.label);
-            if (label !== null) {
-              this.props.cellSetLabel({ addr, label });
-            }
-          }}
-        >
-          <Icon icon="tag" /> Set label...
-        </MenuItem>
-        {op.label ? (
-          <MenuItem
-            onClick={() => this.props.cellSetLabel({ addr, label: null })}
-          >
-            <Icon icon="delete" /> Clear label
-          </MenuItem>
-        ) : null}
-        {cb.ops.length > 1 ? (
-          <MenuItem onClick={() => this.props.cellPasteInsert({})}>
-            <Icon icon="corner-left-down" /> Insert {cb.ops.length} copied items
-            before
-          </MenuItem>
-        ) : null}
-        {cb.ops.length > 1 ? (
-          <MenuItem onClick={() => this.props.cellPaste({})}>
-            <Icon icon="corner-down-right" /> Paste {cb.ops.length} copied items
-            by replacing
-          </MenuItem>
-        ) : null}
       </>
     );
   }

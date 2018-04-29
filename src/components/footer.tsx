@@ -15,7 +15,7 @@ const FootersDiv = styled.div`
 
   border-top: 1px solid #777;
   margin-top: 30px;
-  padding: 30px 0;
+  padding: 20px 0;
 
   a,
   a:visited {

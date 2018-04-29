@@ -38,8 +38,8 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
     return (
       <SimControlsDiv>
         <Row>
-          <Button icon="refresh-cw" onClick={this.onReset} />
-          <Button icon="chevron-right" onClick={this.onStepForward} />
+          <Button icon="arrow-up-circle" onClick={this.onReset} />
+          <Button icon="chevron-down" onClick={this.onStepForward} />
           {this.renderPlayPause()}
           &nbsp; &nbsp; &nbsp; &nbsp;
           <Label>
@@ -74,7 +74,7 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
             <Icon icon="film" /> <code>Frame {this.props.ticks}</code>
           </Label>
           <Label>
-            <Icon icon="cpu" /> <code>{this.formatAddress(this.props.pc)}</code>
+            <Icon icon="cpu" /> <code>{formatAddress(this.props.pc)}</code>
           </Label>
           <Label>
             <Icon icon="activity" /> <code>{this.props.freq} Hz</code>
@@ -103,11 +103,6 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
     this._date.setUTCSeconds(0);
     this._date.setUTCMilliseconds(ticks * 1000 / 60);
     return this._date.toISOString().substr(11, 11);
-  }
-
-  formatAddress(addr: number): JSX.Element {
-    let s = "0000000" + addr.toString(16);
-    return <>0x{s.substr(s.length - 4)}</>;
   }
 
   onToggleShowCode = () => {
@@ -183,3 +178,8 @@ export default connect<Props>(SimControls, {
       : null,
   }),
 });
+
+export function formatAddress(addr: number): JSX.Element {
+  let s = "0000000" + addr.toString(16);
+  return <>0x{s.substr(s.length - 4)}</>;
+}

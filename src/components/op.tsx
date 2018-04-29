@@ -2,83 +2,71 @@ import * as React from "react";
 import { OpCode, OpCodeTypes } from "../types";
 import styled from "./styles";
 import { actionCreatorsList, Dispatchers, connect } from "./connect";
-let opSide = 80;
+let opHeight = 32;
 
 import { ContextMenuTrigger, ContextMenu } from "react-contextmenu";
-
-const Filler = styled.div`
-  flex-grow: 1;
-`;
+import { formatAddress } from "./sim-controls";
+import classNames = require("classnames");
 
 const OpDiv = styled.div`
-  width: ${opSide}px;
-  height: ${opSide}px;
-  color: black;
+  height: ${opHeight}px;
+  line-height: ${opHeight}px;
+  font-size: 16px;
   background-color: white;
-  position: relative;
-  border-bottom: 6px solid #777;
+  border: 1px solid transparent;
   user-select: none;
-  transition: transform 0.2s;
-  margin: 2px;
 
-  &.active {
+  background-color: #444;
+  color: white;
+
+  &:hover {
     background-color: #333;
-    color: white;
   }
 
-  &.edited {
-    border-color: rgb(240, 180, 180);
+  & > div {
+    display: inline-block;
+    margin: 0 2px;
   }
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  div.addr,
+  div.label,
+  div.instruction,
+  div.number-value,
+  div.bool-value,
+  div.name {
+    width: 120px;
+    padding: 0 0.2em;
+
+    &,
+    * {
+      font-family: monospace;
+    }
+
+    i {
+      font-style: normal;
+      color: #999;
+    }
+  }
+
+  div.addr {
+    width: 100px;
+    text-align: right;
+
+    &.active {
+      color: rgb(240, 100, 100);
+    }
+  }
+
+  div.bool-value {
+    width: auto;
+  }
 
   .icon {
-    font-size: 30px;
+    font-size: 18px;
 
     &:hover {
       cursor: pointer;
     }
-  }
-
-  .top-left,
-  .top-right,
-  .bottom-left,
-  .bottom-right {
-    position: absolute;
-    font-size: 13px;
-
-    &.icon,
-    .icon {
-      font-size: 24px;
-    }
-  }
-
-  .label {
-    position: absolute;
-    bottom: -14px;
-    left: 0;
-    right: 0;
-  }
-
-  .top-left {
-    left: 2px;
-    top: 2px;
-  }
-  .top-right {
-    right: 2px;
-    top: 2px;
-  }
-  .bottom-left {
-    left: 2px;
-    bottom: 2px;
-  }
-  .bottom-right {
-    right: 2px;
-    bottom: 2px;
   }
 `;
 
@@ -86,23 +74,15 @@ class Op extends React.PureComponent<Props & DerivedProps> {
   render() {
     const { op, addr, active, edited, selected } = this.props;
     return (
-      <ContextMenuTrigger
-        id="cell-type-menu"
-        collect={props => {
-          this.props.setCellSelection({ start: addr, size: 1 });
-          return { ...props, addr, op };
-        }}
+      <OpDiv
+        innerRef={this.onEl}
+        className={`cell ${active && "active"} ${edited &&
+          "edited"} ${selected && "selected"}`}
+        data-addr={addr}
+        onClick={this.props.onClick}
       >
-        <OpDiv
-          innerRef={this.onEl}
-          className={`cell ${active && "active"} ${edited &&
-            "edited"} ${selected && "selected"}`}
-          data-addr={addr}
-          onClick={this.props.onClick}
-        >
-          {this.renderOpIcon(op)}
-        </OpDiv>
-      </ContextMenuTrigger>
+        {this.renderContents(op)}
+      </OpDiv>
     );
   }
 
@@ -112,26 +92,52 @@ class Op extends React.PureComponent<Props & DerivedProps> {
     this.handleScroll();
   };
 
-  renderOpIcon(op: OpCode): JSX.Element {
-    const { addr } = this.props;
+  renderContents(op: OpCode): JSX.Element {
+    const { addr, active } = this.props;
     const { type, label } = op;
     const def = OpCodeTypes[type];
     const fields = def.relevantFields;
 
     return (
       <>
-        <Filler />
-        {label ? <span className="top-left">{label}</span> : null}
-
-        <span className={`icon icon-${def.icon}`} data-rh={def.label} />
+        <div className={classNames("addr")}>
+          {active ? (
+            <>
+              <span className="icon icon-cpu" />{" "}
+            </>
+          ) : null}
+          <code>{formatAddress(addr)}</code>
+        </div>
+        <div
+          className="label"
+          onClick={() => {
+            const label = window.prompt("Label name", op.label);
+            if (label !== null) {
+              this.props.cellSetLabel({ addr, label });
+            }
+          }}
+        >
+          {label ? label : <i>no label</i>}
+        </div>
+        <div className="instruction">
+          <ContextMenuTrigger
+            id="cell-type-menu"
+            holdToDisplay={0}
+            collect={props => {
+              this.props.setCellSelection({ start: addr, size: 1 });
+              return { ...props, addr, op };
+            }}
+          >
+            <span className={`icon icon-${def.icon}`} data-rh={def.label} />{" "}
+            {type}
+          </ContextMenuTrigger>
+        </div>
 
         {fields.numberValue ? (
-          <span
-            className="top-right"
+          <div
+            className="number-value"
             data-rh={fields.numberValue.label}
-            onContextMenu={ev => {
-              ev.preventDefault();
-              ev.stopPropagation();
+            onClick={ev => {
               const input = window.prompt(
                 fields.numberValue.label + ` ${fields.numberValue.unit}`,
                 "" + op.numberValue,
@@ -145,13 +151,14 @@ class Op extends React.PureComponent<Props & DerivedProps> {
             }}
           >
             {op.numberValue} {fields.numberValue.unit}
-          </span>
+          </div>
         ) : null}
+        {fields.boolValue ? (
+          this.renderBoolValue(op.boolValue, fields.boolValue)
+        ) : (
+          <div className="bool-value" />
+        )}
         {this.renderName(op)}
-        {fields.boolValue
-          ? this.renderBoolValue("bottom-left", op.boolValue, fields.boolValue)
-          : null}
-        <Filler />
       </>
     );
   }
@@ -162,7 +169,7 @@ class Op extends React.PureComponent<Props & DerivedProps> {
     const def = OpCodeTypes[type];
     const fields = def.relevantFields;
     if (!fields.name) {
-      return null;
+      return <div className="name" />;
     }
 
     let label = op.name;
@@ -174,25 +181,26 @@ class Op extends React.PureComponent<Props & DerivedProps> {
       }
     }
 
-    let inner = (
-      <span className="bottom-right" data-rh={fields.name.label}>
-        {label || "∅"}
-      </span>
-    );
+    let inner = <div className="name">{label || "∅"}</div>;
+
+    const attrs = { className: "name", ["data-rh"]: fields.name.label };
 
     if (fields.name.choices) {
       return (
         <ContextMenuTrigger
           id="name-menu"
+          attributes={attrs}
+          holdToDisplay={0}
           collect={props => ({ ...props, def, addr })}
         >
-          {inner}
+          {label}
         </ContextMenuTrigger>
       );
     } else {
       return (
-        <span
-          onContextMenu={ev => {
+        <div
+          {...attrs}
+          onClick={ev => {
             ev.preventDefault();
             ev.stopPropagation();
             let name = window.prompt(fields.name.label, op.name);
@@ -202,18 +210,18 @@ class Op extends React.PureComponent<Props & DerivedProps> {
           }}
         >
           {inner}
-        </span>
+        </div>
       );
     }
   }
 
-  renderBoolValue(pos: string, bv: boolean, title: string) {
+  renderBoolValue(bv: boolean, title: string) {
     return (
-      <span
+      <div
         data-rh={title}
         style={{ color: bv ? "#5cbf5c" : "#de9494" }}
-        className={`${pos} icon icon-${bv ? "check" : "x"}`}
-        onContextMenu={this.onFlipBool}
+        className={`bool-value icon icon-${bv ? "check" : "x"}`}
+        onClick={this.onFlipBool}
       />
     );
   }
@@ -256,6 +264,7 @@ const actionCreators = actionCreatorsList(
   "cellSetName",
   "cellSetNumberValue",
   "cellSetBoolValue",
+  "cellSetLabel",
   "setCellSelection",
 );
 

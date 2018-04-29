@@ -12,6 +12,10 @@ const MusicPlayerDiv = styled.div`
   flex-direction: row;
 
   align-items: center;
+
+  .icon {
+    margin: 0 4px;
+  }
 `;
 
 const Spacer = styled.div`
@@ -36,14 +40,14 @@ class MusicPlayer extends React.PureComponent<Props & DerivedProps> {
             <Spacer />by<Spacer />
             <strong>{activeTrack.artist}</strong>
             <Spacer />
-            <Button icon="volume-x" onClick={this.onMute} />
-            <Button icon="skip-forward" onClick={this.onNextTrack} />
+            <Icon icon="volume-x" onClick={this.onMute} />
+            <Icon icon="skip-forward" onClick={this.onNextTrack} />
           </>
         ) : (
           <>
             No music
             <Spacer />
-            <Button icon="volume-2" onClick={this.onNextTrack} />
+            <Icon icon="volume-2" onClick={this.onNextTrack} />
           </>
         )}
       </>

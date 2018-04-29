@@ -49,8 +49,8 @@ export const colors = {
 };
 
 export const fontSizes = {
-  baseText: "16px",
-  larger: "20px",
+  baseText: "14px",
+  larger: "18px",
   enormous: "28px",
 };
 

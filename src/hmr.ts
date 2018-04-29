@@ -4,7 +4,7 @@ const customizedHMRPlugin = {
   hmrUpdate: ({ type, path, content, dependants }) => {
     if (type === "js") {
       FuseBox.flush(file => {
-        if (/(music|store|tracks)/.test(file)) {
+        if (/(music|store|tracks|reactors)/.test(file)) {
           return false;
         }
         return true;

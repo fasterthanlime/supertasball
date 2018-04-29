@@ -19,8 +19,6 @@ import NameMenu from "./menus/name-menu";
 import watching, { Watcher } from "./watching";
 import { actions } from "../actions";
 
-const glowColor = "rgb(140, 240, 140)";
-
 const IDEDiv = styled.div`
   width: 100%;
   position: relative;
@@ -28,19 +26,13 @@ const IDEDiv = styled.div`
   &:focus {
     outline: none;
 
-    .cell {
-      &.selected {
-        border-color: ${glowColor};
-      }
+    .cell.selected {
+      background-color: #222;
     }
   }
 `;
 
 const Ops = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: start;
   max-height: 600px;
   overflow-y: auto;
 `;
@@ -171,7 +163,7 @@ class IDE extends React.PureComponent<Props & DerivedProps> {
   };
 
   onKeyDown = (ev: React.KeyboardEvent<HTMLElement>) => {
-    if (this.props.showHelp) {
+    if (this.props.showHelp || this.props.hasResults) {
       return;
     }
 

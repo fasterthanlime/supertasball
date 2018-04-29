@@ -12,11 +12,11 @@ const ControlsDiv = styled.div`
   flex-direction: row;
 
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 
   border-bottom: 1px solid #777;
-  margin-bottom: 20px;
-  padding: 30px 0;
+  margin-bottom: 10px;
+  padding: 10px 0;
 
   a,
   a:visited {
@@ -30,8 +30,6 @@ export const Label = styled.div`
   margin: 0 8px;
   font-weight: bold;
   width: 120px;
-
-  font-size: ${props => props.theme.fontSizes.larger};
 
   &.achievements {
     cursor: pointer;
