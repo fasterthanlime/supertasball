@@ -71,6 +71,9 @@ class SimControls extends React.PureComponent<Props & DerivedProps> {
             <code>{this.formatTicks(this.props.ticks)}</code>
           </Label>
           <Label>
+            <Icon icon="film" /> <code>Frame {this.props.ticks}</code>
+          </Label>
+          <Label>
             <Icon icon="cpu" /> <code>{this.formatAddress(this.props.pc)}</code>
           </Label>
           <Label>

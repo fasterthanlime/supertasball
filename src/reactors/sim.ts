@@ -38,7 +38,7 @@ function tick(store: Store) {
 
   let freqTicks = 60 / state.freq;
   let ticksDelta = state.ticks - state.lastUpdateTicks;
-  if (ticksDelta > freqTicks) {
+  if (ticksDelta >= freqTicks) {
     state = machineStep(code, params, state);
     if (stepping) {
       store.dispatch(actions.setPaused({ paused: true }));
